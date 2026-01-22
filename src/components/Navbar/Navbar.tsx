@@ -1,0 +1,304 @@
+import { Link, NavLink } from 'react-router-dom';
+import { Heart, Menu, Moon, ShoppingCart, Sun, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { categories } from '../../data/mockProducts';
+import { categorySectionId } from '../../lib/slug';
+import { scrollToId } from '../../lib/scroll';
+import { useTheme } from '../providers/ThemeProvider';
+import { cn } from '../../lib/utils';
+import { useCatalogStore } from '../../stores/catalogStore';
+import { cartCount, useCartStore } from '../../stores/cartStore';
+import { useUiStore } from '../../stores/uiStore';
+
+export default function Navbar() {
+  const { theme, toggleTheme } = useTheme();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const categoryRef = useRef<HTMLDivElement | null>(null);
+  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
+
+  const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
+  const cartItems = useCartStore((s) => s.items);
+  const wishlistCount = useCartStore((s) => s.wishlist.length);
+  const openCart = useUiStore((s) => s.openCart);
+  const openWishlist = useUiStore((s) => s.openWishlist);
+
+  const cartItemsCount = useMemo(() => cartCount(cartItems), [cartItems]);
+
+  const closeAll = () => {
+    setIsCategoryOpen(false);
+    setIsMobileOpen(false);
+  };
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeAll();
+    };
+
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (categoryRef.current && !categoryRef.current.contains(target)) {
+        setIsCategoryOpen(false);
+      }
+      if (isMobileOpen && mobilePanelRef.current && !mobilePanelRef.current.contains(target)) {
+        setIsMobileOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown, { passive: true });
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+    };
+  }, [isMobileOpen]);
+
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      mobilePanelRef.current?.querySelector<HTMLElement>('button, a')?.focus();
+    });
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isMobileOpen]);
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4">
+        <Link to="/" className="flex items-center gap-2 font-bold tracking-tight">
+          <span className="text-lg">PopKart</span>
+        </Link>
+
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              cn(
+                'rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground',
+                isActive && 'text-foreground'
+              )
+            }
+          >
+            Home
+          </NavLink>
+
+          <div className="relative" ref={categoryRef}>
+            <button
+              type="button"
+              onClick={() => setIsCategoryOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={isCategoryOpen}
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            >
+              Categories
+            </button>
+
+            <div
+              role="menu"
+              className={cn(
+                'absolute left-0 top-full mt-2 w-56 overflow-hidden rounded-xl border bg-popover p-1 shadow-lg',
+                !isCategoryOpen && 'hidden'
+              )}
+            >
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  role="menuitem"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-popover-foreground hover:bg-accent"
+                  onClick={() => {
+                    setCurrentCategory(category);
+                    setIsCategoryOpen(false);
+                    scrollToId(categorySectionId(category));
+                  }}
+                >
+                  <span>{category}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            onClick={() => scrollToId('shop')}
+          >
+            Shop
+          </button>
+          <button
+            type="button"
+            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            onClick={() => scrollToId('categories')}
+          >
+            Categories
+          </button>
+          <button
+            type="button"
+            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            onClick={() => scrollToId('contact')}
+          >
+            Contact
+          </button>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              openWishlist();
+            }}
+            className="relative hidden h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:inline-flex"
+            aria-label="Open wishlist"
+          >
+            <Heart className="h-4 w-4" />
+            {wishlistCount > 0 && (
+              <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                {wishlistCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              openCart();
+            }}
+            className="relative hidden h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:inline-flex"
+            aria-label="Open cart"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            {cartItemsCount > 0 && (
+              <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                {cartItemsCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:hidden"
+            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileOpen}
+            onClick={() => {
+              setIsMobileOpen((v) => !v);
+              setIsCategoryOpen(false);
+            }}
+          >
+            {isMobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
+      </div>
+
+      {isMobileOpen && (
+        <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
+          <div className="fixed inset-0 z-40 bg-black/40" />
+          <div
+            ref={mobilePanelRef}
+            className="fixed right-0 top-0 z-50 h-dvh w-[88%] max-w-sm border-l bg-background p-4 shadow-xl"
+          >
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold">Menu</div>
+              <button
+                type="button"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card"
+                onClick={() => setIsMobileOpen(false)}
+                aria-label="Close menu"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-4 grid gap-2">
+              <button
+                type="button"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                onClick={() => {
+                  closeAll();
+                  scrollToId('categories');
+                }}
+              >
+                Categories
+              </button>
+              <button
+                type="button"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                onClick={() => {
+                  closeAll();
+                  scrollToId('shop');
+                }}
+              >
+                Shop
+              </button>
+              <button
+                type="button"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                onClick={() => {
+                  closeAll();
+                  scrollToId('contact');
+                }}
+              >
+                Contact
+              </button>
+
+              <div className="mt-2 grid gap-2">
+                <button
+                  type="button"
+                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                  onClick={() => {
+                    openCart();
+                    closeAll();
+                  }}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingCart className="h-4 w-4" />
+                    Cart
+                  </span>
+                  {cartItemsCount > 0 && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                  onClick={() => {
+                    openWishlist();
+                    closeAll();
+                  }}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Heart className="h-4 w-4" />
+                    Wishlist
+                  </span>
+                  {wishlistCount > 0 && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              <div className="mt-2 text-xs text-muted-foreground">Tip: swipe back or tap outside to close.</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
