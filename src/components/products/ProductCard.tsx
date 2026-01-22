@@ -1,3 +1,4 @@
+import type { SyntheticEvent } from 'react';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatPriceINR } from '../../lib/format';
@@ -12,14 +13,49 @@ export default function ProductCard({ product }: { product: Product }) {
 
   const isWishlisted = wishlist.includes(product.id);
 
+  const badge = (() => {
+    if (!product.inStock) return { text: 'Out of Stock', className: 'bg-destructive text-destructive-foreground' };
+    if (product.rating >= 4.8 && product.reviews >= 500)
+      return { text: 'Best Seller', className: 'bg-primary text-primary-foreground' };
+    if (product.rating >= 4.7 && product.reviews >= 100)
+      return { text: 'New', className: 'bg-emerald-500 text-white' };
+    return null;
+  })();
+
+  const handleImgError = (e: SyntheticEvent<HTMLImageElement>) => {
+    const target = e.currentTarget;
+    const fallbacks = [
+      'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=800&q=80',
+      'https://via.placeholder.com/800x600/111827/ffffff?text=Product+Image',
+    ];
+
+    const currentSrc = target.currentSrc || target.src;
+    const idx = fallbacks.findIndex((u) => currentSrc.includes(u));
+    const next = idx >= 0 ? fallbacks[idx + 1] : fallbacks[0];
+    if (next) target.src = next;
+  };
+
+  const srcSet = `${product.image}&w=400 400w, ${product.image}&w=800 800w, ${product.image}&w=1200 1200w`;
+  const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
+
   return (
     <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:shadow-md">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
+        {badge && (
+          <div className="absolute left-3 top-3 z-10">
+            <span className={cn('inline-flex items-center rounded-full px-2 py-1 text-[11px] font-semibold', badge.className)}>
+              {badge.text}
+            </span>
+          </div>
+        )}
         <img
           src={product.image}
+          srcSet={srcSet}
+          sizes={sizes}
           alt={product.name}
           loading="lazy"
           decoding="async"
+          onError={handleImgError}
           className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
         />
         <button

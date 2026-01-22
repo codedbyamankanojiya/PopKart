@@ -47,6 +47,13 @@ export default function Home() {
     return map;
   }, [filteredSorted]);
 
+  const featuredProducts = useMemo(() => {
+    return [...products]
+      .filter((p) => p.inStock)
+      .sort((a, b) => b.rating + b.reviews / 1000 - (a.rating + a.reviews / 1000))
+      .slice(0, 6);
+  }, [products]);
+
   return (
     <div className="pb-16">
       <section className="relative overflow-hidden border-b">
@@ -102,6 +109,37 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden border-b">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -right-32 top-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
+        </div>
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-10">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Top-rated items customers love right now.</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentCategory('All');
+                scrollToId('shop');
+              }}
+              className="hidden h-9 items-center justify-center rounded-xl border bg-card px-3 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+            >
+              Browse all
+            </button>
+          </div>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </section>
@@ -271,6 +309,67 @@ export default function Home() {
           <div className="mt-10 text-xs text-muted-foreground">© {new Date().getFullYear()} PopKart</div>
         </div>
       </footer>
+
+      <section className="border-t">
+        <div className="mx-auto w-full max-w-7xl px-4 py-10">
+          <div className="grid gap-6 rounded-2xl border bg-card/80 p-6 shadow-sm backdrop-blur md:grid-cols-[220px_1fr]">
+            <div className="relative">
+              <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80"
+                  alt="Developer"
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-semibold text-primary">About the developer</div>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Passionate front-end developer focused on crafting fast, polished, mobile-first experiences.
+                PopKart is rebuilt with a clean architecture, persisted state, and modern UX.
+              </p>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <a
+                  href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://github.com/codedbyamankanojiya"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  X
+                </a>
+                <a
+                  href="https://www.instagram.com/lostwithamann?igsh=MnoydWo2YWxjdnZu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Instagram
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
