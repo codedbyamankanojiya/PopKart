@@ -205,16 +205,16 @@ export default function Navbar() {
 
       {isMobileOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-40 bg-black/40" />
+          <div className="fixed inset-0 z-40 bg-black/40 pk-fade-in" />
           <div
             ref={mobilePanelRef}
-            className="fixed right-0 top-0 z-50 h-dvh w-[88%] max-w-sm border-l bg-background p-4 shadow-xl"
+            className="fixed right-0 top-0 z-50 h-dvh w-[88%] max-w-sm border-l bg-background pk-slide-in-right"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b pb-3">
               <div className="text-sm font-semibold">Menu</div>
               <button
                 type="button"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card transition hover:bg-accent"
                 onClick={() => setIsMobileOpen(false)}
                 aria-label="Close menu"
               >
@@ -225,7 +225,7 @@ export default function Navbar() {
             <div className="mt-4 grid gap-2">
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
                   closeAll();
                   scrollToId('categories');
@@ -235,7 +235,7 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
                   closeAll();
                   scrollToId('shop');
@@ -245,7 +245,7 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
                   closeAll();
                   scrollToId('contact');
@@ -257,7 +257,7 @@ export default function Navbar() {
               <div className="mt-2 grid gap-2">
                 <button
                   type="button"
-                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                   onClick={() => {
                     openCart();
                     closeAll();
@@ -276,7 +276,7 @@ export default function Navbar() {
 
                 <button
                   type="button"
-                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold"
+                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                   onClick={() => {
                     openWishlist();
                     closeAll();
@@ -294,7 +294,7 @@ export default function Navbar() {
                 </button>
               </div>
 
-              <div className="mt-2 text-xs text-muted-foreground">Tip: swipe back or tap outside to close.</div>
+              <div className="mt-2 text-xs text-muted-foreground">Tip: tap outside or press Esc to close.</div>
             </div>
           </div>
         </div>

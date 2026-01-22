@@ -55,7 +55,7 @@ export default function Home() {
   }, [products]);
 
   return (
-    <div className="pb-16">
+    <div className="pb-16 pk-surface">
       <section className="relative overflow-hidden border-b">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
@@ -63,7 +63,7 @@ export default function Home() {
           <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-10 pk-fade-in">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
               <p className="text-sm font-semibold text-primary">India’s modern megastore</p>
@@ -93,7 +93,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur">
+            <div className="rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur pk-pop">
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
                   <div className="text-sm font-semibold">Flash Sale</div>

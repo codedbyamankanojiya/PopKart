@@ -47,6 +47,88 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .pk-fade-in {
+    animation: pk-fade-in 240ms ease-out both;
+  }
+
+  .pk-slide-in-right {
+    animation: pk-slide-in-right 260ms ease-out both;
+  }
+
+  .pk-pop {
+    animation: pk-pop 180ms ease-out both;
+  }
+
+  .pk-surface {
+    background-image:
+      radial-gradient(1200px 600px at 10% 0%, hsl(var(--primary) / 0.08), transparent 55%),
+      radial-gradient(1200px 600px at 90% 20%, hsl(142 76% 36% / 0.06), transparent 55%),
+      radial-gradient(900px 500px at 50% 100%, hsl(199 89% 48% / 0.06), transparent 55%);
+  }
+
+  .pk-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted) / 0.55) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: pk-shimmer 1200ms ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pk-fade-in,
+    .pk-slide-in-right,
+    .pk-pop,
+    .pk-shimmer {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@keyframes pk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pk-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translate3d(12px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pk-pop {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes pk-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
