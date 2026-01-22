@@ -661,12 +661,14 @@ const baseProducts: Product[] = [
   },
 ];
 
-const categoryImagePool: Record<string, string[]> = {
+const categoryImagePool: Record<Category, string[]> = {
   Smartphone: [
     'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1200&q=80',
-    'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1512499617640-c2f999098c01?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=80',
   ],
   'Gaming PC Gears': [
     'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1200&q=80',
@@ -769,8 +771,9 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
 
     for (let i = 0; i < needed; i++) {
       const suffix = names[(current + i) % names.length];
-      const img = images[(current + i) % Math.max(1, images.length)] ??
-        'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1200&q=80';
+      const img =
+        images[(current + i) % Math.max(1, images.length)] ??
+        categoryImages[category];
 
       const rawPrice = range.min + ((range.max - range.min) * ((current + i + 3) % 19)) / 18;
       const price = Math.round(rawPrice / 10) * 10 + 0.99;
