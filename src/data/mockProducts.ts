@@ -56,7 +56,7 @@ export const mockProducts: Product[] = [
     price: 44999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1512499617640-c2f999098c01?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1000&q=80',
     description: 'Signature Glyph design, smooth OLED, premium build, clean UI with great battery life.',
     rating: 4.4,
     reviews: 640,
@@ -68,10 +68,46 @@ export const mockProducts: Product[] = [
     price: 99999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=80',
     description: 'Pro camera system, bright LTPO display, flagship performance for creators and gamers.',
     rating: 4.6,
     reviews: 418,
+    inStock: true,
+  },
+  {
+    id: 328,
+    name: 'iPhone 15 Pro',
+    price: 134900.0,
+    category: 'Smartphone',
+    image:
+      'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=80',
+    description: 'A17 Pro chip, titanium design, advanced camera system, Action Button.',
+    rating: 4.8,
+    reviews: 1234,
+    inStock: true,
+  },
+  {
+    id: 329,
+    name: 'Samsung Galaxy Z Fold 5',
+    price: 154999.99,
+    category: 'Smartphone',
+    image:
+      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=80',
+    description: 'Foldable design, big display, multitasking powerhouse, premium build.',
+    rating: 4.5,
+    reviews: 678,
+    inStock: true,
+  },
+  {
+    id: 330,
+    name: 'Realme GT 6',
+    price: 40999.99,
+    category: 'Smartphone',
+    image:
+      'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1000&q=80',
+    description: 'Fast performance, smooth AMOLED, reliable camera for daily use, quick charging.',
+    rating: 4.5,
+    reviews: 734,
     inStock: true,
   },
 
@@ -135,6 +171,30 @@ export const mockProducts: Product[] = [
     reviews: 932,
     inStock: true,
   },
+  {
+    id: 331,
+    name: 'AMD Ryzen 9 7950X3D',
+    price: 69999.99,
+    category: 'Gaming PC Gears',
+    image:
+      'https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=1000&q=80',
+    description: 'Top-tier CPU for gaming and creation with 3D V-Cache for strong performance.',
+    rating: 4.7,
+    reviews: 654,
+    inStock: true,
+  },
+  {
+    id: 332,
+    name: 'NVIDIA RTX 4080 Super',
+    price: 104999.99,
+    category: 'Gaming PC Gears',
+    image:
+      'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1000&q=80',
+    description: 'High-end graphics card with excellent 1440p/4K performance and modern features.',
+    rating: 4.6,
+    reviews: 445,
+    inStock: true,
+  },
 
   {
     id: 24,
@@ -196,6 +256,30 @@ export const mockProducts: Product[] = [
     reviews: 520,
     inStock: true,
   },
+  {
+    id: 333,
+    name: 'MacBook Air 15-inch (M3)',
+    price: 134900.0,
+    category: 'Laptop',
+    image:
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=80',
+    description: 'Thin and light laptop with excellent battery life and smooth performance for everyday work.',
+    rating: 4.8,
+    reviews: 567,
+    inStock: true,
+  },
+  {
+    id: 334,
+    name: 'Lenovo ThinkPad X1 Carbon',
+    price: 159999.99,
+    category: 'Laptop',
+    image:
+      'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1000&q=80',
+    description: 'Business-grade premium laptop with great keyboard, durability, and reliable performance.',
+    rating: 4.8,
+    reviews: 98,
+    inStock: true,
+  },
 
   {
     id: 34,
@@ -239,10 +323,34 @@ export const mockProducts: Product[] = [
     price: 1999.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1520974735194-6a0a5fa2bb1c?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1000&q=80',
     description: 'Soft stretch chinos built for all-day comfort. Dress up or down, always looks sharp.',
     rating: 4.4,
     reviews: 534,
+    inStock: true,
+  },
+  {
+    id: 335,
+    name: 'Designer Polo T-Shirt',
+    price: 1499.99,
+    category: "Men's Fashion",
+    image:
+      'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=1000&q=80',
+    description: 'Premium cotton blend, breathable fabric, classic fit for daily wear.',
+    rating: 4.3,
+    reviews: 89,
+    inStock: true,
+  },
+  {
+    id: 336,
+    name: "Men's Classic Hoodie",
+    price: 1899.99,
+    category: "Men's Fashion",
+    image:
+      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=80',
+    description: 'Soft cotton blend, comfortable and stylish, built for daily layering.',
+    rating: 4.5,
+    reviews: 180,
     inStock: true,
   },
   {
@@ -287,10 +395,34 @@ export const mockProducts: Product[] = [
     price: 1299.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1520975751320-7ccda6fd7c6c?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=1000&q=80',
     description: 'Everyday minimal earrings with a soft shine, comfortable for all-day wear.',
     rating: 4.4,
     reviews: 315,
+    inStock: true,
+  },
+  {
+    id: 337,
+    name: 'Designer Cotton Saree',
+    price: 3999.99,
+    category: "Women's Fashion",
+    image:
+      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1000&q=80',
+    description: 'Soft cotton with beautiful prints. Comfortable for daily wear with a premium feel.',
+    rating: 4.5,
+    reviews: 445,
+    inStock: true,
+  },
+  {
+    id: 338,
+    name: 'Party Wear Georgette Saree',
+    price: 6999.99,
+    category: "Women's Fashion",
+    image:
+      'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=1000&q=80',
+    description: 'Flowing georgette with party-ready styling. Light weight and easy to drape.',
+    rating: 4.6,
+    reviews: 189,
     inStock: true,
   },
 

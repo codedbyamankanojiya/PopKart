@@ -35,7 +35,12 @@ export default function ProductCard({ product }: { product: Product }) {
     if (next) target.src = next;
   };
 
-  const srcSet = `${product.image}&w=400 400w, ${product.image}&w=800 800w, ${product.image}&w=1200 1200w`;
+  const withWidth = (url: string, w: number) => {
+    const joiner = url.includes('?') ? '&' : '?';
+    return `${url}${joiner}w=${w}`;
+  };
+
+  const srcSet = `${withWidth(product.image, 400)} 400w, ${withWidth(product.image, 800)} 800w, ${withWidth(product.image, 1200)} 1200w`;
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
