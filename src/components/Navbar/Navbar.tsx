@@ -71,6 +71,13 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4">
         <Link to="/" className="flex items-center gap-2 font-bold tracking-tight">
+          <img
+            src="/PopKart Logo.png"
+            alt="PopKart"
+            className="h-8 w-8 rounded-lg border bg-card object-contain"
+            loading="lazy"
+            decoding="async"
+          />
           <span className="text-lg">PopKart</span>
         </Link>
 

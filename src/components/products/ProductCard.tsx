@@ -39,8 +39,9 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:shadow-md">
+    <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
         {badge && (
           <div className="absolute left-3 top-3 z-10">
             <span className={cn('inline-flex items-center rounded-full px-2 py-1 text-[11px] font-semibold', badge.className)}>
@@ -56,7 +57,7 @@ export default function ProductCard({ product }: { product: Product }) {
           loading="lazy"
           decoding="async"
           onError={handleImgError}
-          className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
         />
         <button
           type="button"
@@ -66,7 +67,7 @@ export default function ProductCard({ product }: { product: Product }) {
           }}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           className={cn(
-            'absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background/80 backdrop-blur transition hover:bg-background',
+            'absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background/80 backdrop-blur transition hover:bg-background active:scale-[0.98]',
             isWishlisted && 'border-primary text-primary'
           )}
         >

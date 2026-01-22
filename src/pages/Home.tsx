@@ -312,59 +312,66 @@ export default function Home() {
 
       <section className="border-t">
         <div className="mx-auto w-full max-w-7xl px-4 py-10">
-          <div className="grid gap-6 rounded-2xl border bg-card/80 p-6 shadow-sm backdrop-blur md:grid-cols-[220px_1fr]">
-            <div className="relative">
-              <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted">
-                <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80"
-                  alt="Developer"
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+          <div className="relative overflow-hidden rounded-2xl border bg-card/80 p-6 shadow-sm backdrop-blur">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+              <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
             </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold text-primary">About the developer</div>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Passionate front-end developer focused on crafting fast, polished, mobile-first experiences.
-                PopKart is rebuilt with a clean architecture, persisted state, and modern UX.
-              </p>
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                <a
-                  href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="https://github.com/codedbyamankanojiya"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  X
-                </a>
-                <a
-                  href="https://www.instagram.com/lostwithamann?igsh=MnoydWo2YWxjdnZu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  Instagram
-                </a>
+            <div className="relative grid gap-6 md:grid-cols-[220px_1fr]">
+              <div className="relative">
+                <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted">
+                  <img
+                    src="/AmanKanojiya.png"
+                    alt="Aman Kanojiya"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition duration-500 hover:scale-[1.02]"
+                  />
+                </div>
+              </div>
+
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-primary">About the developer</div>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Front-end developer focused on fast, accessible, and polished web experiences.
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <a
+                    href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://github.com/codedbyamankanojiya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    X
+                  </a>
+                  <a
+                    href="https://www.instagram.com/lostwithamann?igsh=MnoydWo2YWxjdnZu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Instagram
+                  </a>
+                </div>
               </div>
             </div>
           </div>
