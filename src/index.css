@@ -87,6 +87,24 @@
     animation: pk-aurora 14s ease-in-out infinite alternate;
   }
 
+  .pk-noise {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .pk-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.06;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 4px);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
   .pk-shimmer {
     background: linear-gradient(
       90deg,

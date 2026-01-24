@@ -1,4 +1,4 @@
-import type { SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatPriceINR } from '../../lib/format';
@@ -10,6 +10,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((s) => s.addToCart);
   const wishlist = useCartStore((s) => s.wishlist);
   const toggleWishlist = useCartStore((s) => s.toggleWishlist);
+
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const isWishlisted = wishlist.includes(product.id);
 
@@ -47,6 +49,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
+        {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
         {badge && (
           <div className="absolute left-3 top-3 z-10">
             <span className={cn('inline-flex items-center rounded-full px-2 py-1 text-[11px] font-semibold', badge.className)}>
@@ -62,7 +65,12 @@ export default function ProductCard({ product }: { product: Product }) {
           loading="lazy"
           decoding="async"
           onError={handleImgError}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+          onLoad={() => setIsImgLoaded(true)}
+          className={cn(
+            'h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]',
+            !isImgLoaded && 'opacity-0',
+            isImgLoaded && 'opacity-100'
+          )}
         />
         <button
           type="button"
@@ -104,7 +112,7 @@ export default function ProductCard({ product }: { product: Product }) {
             toast('Added to cart');
           }}
           className={cn(
-            'mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60',
+            'mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-95 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60',
           )}
         >
           <ShoppingCart className="h-4 w-4" />

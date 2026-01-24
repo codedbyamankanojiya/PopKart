@@ -55,7 +55,7 @@ export default function Home() {
   }, [products]);
 
   return (
-    <div className="pb-16 pk-surface pk-aurora">
+    <div className="pb-16 pk-surface pk-aurora pk-noise">
       <section className="relative overflow-hidden border-b">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />

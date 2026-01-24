@@ -25,22 +25,6 @@ export const categoryImages: Record<Category, string> = {
 
 export const categories = Object.keys(categoryImages) as Category[];
 
-const categoryKeywords: Record<Category, string> = {
-  Smartphone: 'smartphone,phone,mobile',
-  'Gaming PC Gears': 'gaming-pc,graphics-card,pc-hardware',
-  Laptop: 'laptop,notebook,computer',
-  "Men's Fashion": 'mens-fashion,shirt,streetwear',
-  "Women's Fashion": 'womens-fashion,dress,outfit',
-  'Gaming Console': 'gaming-console,controller,playstation',
-  Television: 'television,tv,living-room',
-  'PC Accessories': 'keyboard,mouse,headset,computer-accessories',
-  Gadgets: 'earbuds,smartwatch,gadgets,tech',
-  Glasses: 'sunglasses,glasses,eyewear',
-};
-
-const keywordImage = (category: Category, seed: number) =>
-  `https://source.unsplash.com/1200x1200/?${encodeURIComponent(categoryKeywords[category])}&sig=${seed}`;
-
 const baseProducts: Product[] = [
   {
     id: 11,
@@ -84,7 +68,8 @@ const baseProducts: Product[] = [
     name: 'OnePlus 12R 5G',
     price: 39999.99,
     category: 'Smartphone',
-    image: keywordImage('Smartphone', 301),
+    image:
+      'https://images.unsplash.com/photo-1512499617640-c2f999098c01?auto=format&fit=crop&w=1000&q=80',
     description: '120Hz AMOLED, Snapdragon performance, fast charging, clean feel for daily power users.',
     rating: 4.5,
     reviews: 892,
@@ -95,7 +80,8 @@ const baseProducts: Product[] = [
     name: 'Nothing Phone (2)',
     price: 44999.99,
     category: 'Smartphone',
-    image: keywordImage('Smartphone', 302),
+    image:
+      'https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1000&q=80',
     description: 'Signature Glyph design, smooth OLED, premium build, clean UI with great battery life.',
     rating: 4.4,
     reviews: 640,
@@ -142,7 +128,8 @@ const baseProducts: Product[] = [
     name: 'Realme GT 6',
     price: 40999.99,
     category: 'Smartphone',
-    image: keywordImage('Smartphone', 330),
+    image:
+      'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1000&q=80',
     description: 'Fast performance, smooth AMOLED, reliable camera for daily use, quick charging.',
     rating: 4.5,
     reviews: 734,
@@ -682,7 +669,7 @@ const dedupeCuratedImages = (products: Product[]): Product[] => {
 
     const img = p.image?.trim() || '';
     if (!img || bucket.has(img)) {
-      const next = keywordImage(p.category, p.id);
+      const next = pickImageFor(p.category, p.id, bucket);
       bucket.add(next);
       return { ...p, image: next };
     }
@@ -700,18 +687,30 @@ const categoryImagePool: Record<Category, string[]> = {
     'https://images.unsplash.com/photo-1512499617640-c2f999098c01?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1510557880182-3b39d8afbc41?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520166012956-add9ba0835cb?auto=format&fit=crop&w=1200&q=80',
   ],
   'Gaming PC Gears': [
     'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1587202372775-e6a36f82f7f8?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1612810436541-336b3d0f7657?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
   ],
   Laptop: [
     'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1200&q=80',
   ],
   "Men's Fashion": [
     'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=80',
@@ -719,6 +718,9 @@ const categoryImagePool: Record<Category, string[]> = {
     'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1520975958225-9d2cce5501bd?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520975693411-bf58780d45ea?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80',
   ],
   "Women's Fashion": [
     'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80',
@@ -726,34 +728,61 @@ const categoryImagePool: Record<Category, string[]> = {
     'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520975682031-ae40b4f4f1ab?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520975745909-91e88f10f1bd?auto=format&fit=crop&w=1200&q=80',
   ],
   'Gaming Console': [
     'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1621259182978-fbf93132d53d?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1603481588273-2f908a9a7a1a?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1606144042614-28f8e1a1f3a9?auto=format&fit=crop&w=1200&q=80',
   ],
   Television: [
     'https://images.unsplash.com/photo-1567690187548-f07b1d7bf5a9?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1520092352425-9699926a9d33?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1601944179066-aca3d9a4d6a1?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1200&q=80',
   ],
   'PC Accessories': [
     'https://images.unsplash.com/photo-1541140134513-85a161dc4a00?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1200&q=80',
   ],
   Gadgets: [
     'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1576243345690-4e4b79b63227?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1518443895471-1c417f7c44b3?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1517420879524-86d64ac2f339?auto=format&fit=crop&w=1200&q=80',
   ],
   Glasses: [
     'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1516912481808-3406841bd33c?auto=format&fit=crop&w=1200&q=80',
     'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1520975867597-0f0b0f5c2f2e?auto=format&fit=crop&w=1200&q=80',
   ],
+};
+
+const pickImageFor = (category: Category, seed: number, used?: Set<string>) => {
+  const pool = categoryImagePool[category];
+  if (!pool || pool.length === 0) return categoryImages[category];
+
+  const start = Math.abs(seed) % pool.length;
+  for (let step = 0; step < pool.length; step++) {
+    const candidate = pool[(start + step) % pool.length];
+    if (!used || !used.has(candidate)) return candidate;
+  }
+  return categoryImages[category];
 };
 
 const categoryNamePool: Record<string, string[]> = {
@@ -805,7 +834,10 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
     for (let i = 0; i < needed; i++) {
       const suffix = names[(current + i) % names.length];
       const poolPick = images[(current + i) % Math.max(1, images.length)] ?? '';
-      const img = poolPick && !usedImages.has(poolPick) ? poolPick : keywordImage(category, nextId + i);
+      const img =
+        poolPick && !usedImages.has(poolPick)
+          ? poolPick
+          : pickImageFor(category, nextId + i, usedImages);
       usedImages.add(img);
 
       const rawPrice = range.min + ((range.max - range.min) * ((current + i + 3) % 19)) / 18;
