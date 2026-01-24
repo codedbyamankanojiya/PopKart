@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Heart, Menu, Moon, ShoppingCart, Sun, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { categories } from '../../data/mockProducts';
@@ -12,6 +12,8 @@ import { useUiStore } from '../../stores/uiStore';
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const categoryRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +30,28 @@ export default function Navbar() {
   const closeAll = () => {
     setIsCategoryOpen(false);
     setIsMobileOpen(false);
+  };
+
+  const goHomeTop = () => {
+    closeAll();
+    if (location.pathname !== '/') {
+      navigate('/');
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToSection = (id: string) => {
+    closeAll();
+    if (location.pathname !== '/') {
+      navigate('/');
+      requestAnimationFrame(() => scrollToId(id));
+      return;
+    }
+    scrollToId(id);
   };
 
   useEffect(() => {
@@ -70,13 +94,14 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4">
-        <Link to="/" className="flex items-center gap-2 font-bold tracking-tight">
+        <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-bold tracking-tight">
           <span className="text-lg">PopKart</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
           <NavLink
             to="/"
+            onClick={goHomeTop}
             className={({ isActive }) =>
               cn(
                 'rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground',
@@ -114,7 +139,7 @@ export default function Navbar() {
                   onClick={() => {
                     setCurrentCategory(category);
                     setIsCategoryOpen(false);
-                    scrollToId(categorySectionId(category));
+                    goToSection(categorySectionId(category));
                   }}
                 >
                   <span>{category}</span>
@@ -126,21 +151,21 @@ export default function Navbar() {
           <button
             type="button"
             className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-            onClick={() => scrollToId('shop')}
+            onClick={() => goToSection('shop')}
           >
             Shop
           </button>
           <button
             type="button"
             className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-            onClick={() => scrollToId('categories')}
+            onClick={() => goToSection('categories')}
           >
             Categories
           </button>
           <button
             type="button"
             className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-            onClick={() => scrollToId('contact')}
+            onClick={() => goToSection('contact')}
           >
             Contact
           </button>
@@ -227,8 +252,7 @@ export default function Navbar() {
                 type="button"
                 className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
-                  closeAll();
-                  scrollToId('categories');
+                  goToSection('categories');
                 }}
               >
                 Categories
@@ -237,8 +261,7 @@ export default function Navbar() {
                 type="button"
                 className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
-                  closeAll();
-                  scrollToId('shop');
+                  goToSection('shop');
                 }}
               >
                 Shop
@@ -247,8 +270,7 @@ export default function Navbar() {
                 type="button"
                 className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
                 onClick={() => {
-                  closeAll();
-                  scrollToId('contact');
+                  goToSection('contact');
                 }}
               >
                 Contact

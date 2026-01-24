@@ -5,6 +5,7 @@ import { formatPriceINR } from '../../lib/format';
 import { cn } from '../../lib/utils';
 import { useCartStore } from '../../stores/cartStore';
 import type { Product } from '../../types/product';
+import { categoryImages } from '../../data/mockProducts';
 
 export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((s) => s.addToCart);
@@ -27,6 +28,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const handleImgError = (e: SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
     const fallbacks = [
+      categoryImages[product.category],
       'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=800&q=80',
       'https://via.placeholder.com/800x600/111827/ffffff?text=Product+Image',
     ];
@@ -34,12 +36,23 @@ export default function ProductCard({ product }: { product: Product }) {
     const currentSrc = target.currentSrc || target.src;
     const idx = fallbacks.findIndex((u) => currentSrc.includes(u));
     const next = idx >= 0 ? fallbacks[idx + 1] : fallbacks[0];
-    if (next) target.src = next;
+    if (next) {
+      target.srcset = '';
+      target.src = next;
+    }
   };
 
   const withWidth = (url: string, w: number) => {
-    const joiner = url.includes('?') ? '&' : '?';
-    return `${url}${joiner}w=${w}`;
+    try {
+      const u = new URL(url);
+      u.searchParams.set('w', String(w));
+      return u.toString();
+    } catch {
+      const hasW = /([?&])w=\d+/i.test(url);
+      if (hasW) return url.replace(/([?&])w=\d+/i, `$1w=${w}`);
+      const joiner = url.includes('?') ? '&' : '?';
+      return `${url}${joiner}w=${w}`;
+    }
   };
 
   const srcSet = `${withWidth(product.image, 400)} 400w, ${withWidth(product.image, 800)} 800w, ${withWidth(product.image, 1200)} 1200w`;
