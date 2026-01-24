@@ -25,6 +25,22 @@ export const categoryImages: Record<Category, string> = {
 
 export const categories = Object.keys(categoryImages) as Category[];
 
+const categoryKeywords: Record<Category, string> = {
+  Smartphone: 'smartphone,phone,mobile',
+  'Gaming PC Gears': 'gaming-pc,graphics-card,pc-hardware',
+  Laptop: 'laptop,notebook,computer',
+  "Men's Fashion": 'mens-fashion,shirt,streetwear',
+  "Women's Fashion": 'womens-fashion,dress,outfit',
+  'Gaming Console': 'gaming-console,controller,playstation',
+  Television: 'television,tv,living-room',
+  'PC Accessories': 'keyboard,mouse,headset,computer-accessories',
+  Gadgets: 'earbuds,smartwatch,gadgets,tech',
+  Glasses: 'sunglasses,glasses,eyewear',
+};
+
+const keywordImage = (category: Category, seed: number) =>
+  `https://source.unsplash.com/1200x1200/?${encodeURIComponent(categoryKeywords[category])}&sig=${seed}`;
+
 const baseProducts: Product[] = [
   {
     id: 11,
@@ -68,8 +84,7 @@ const baseProducts: Product[] = [
     name: 'OnePlus 12R 5G',
     price: 39999.99,
     category: 'Smartphone',
-    image:
-      'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1000&q=80',
+    image: keywordImage('Smartphone', 301),
     description: '120Hz AMOLED, Snapdragon performance, fast charging, clean feel for daily power users.',
     rating: 4.5,
     reviews: 892,
@@ -80,8 +95,7 @@ const baseProducts: Product[] = [
     name: 'Nothing Phone (2)',
     price: 44999.99,
     category: 'Smartphone',
-    image:
-      'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1000&q=80',
+    image: keywordImage('Smartphone', 302),
     description: 'Signature Glyph design, smooth OLED, premium build, clean UI with great battery life.',
     rating: 4.4,
     reviews: 640,
@@ -128,8 +142,7 @@ const baseProducts: Product[] = [
     name: 'Realme GT 6',
     price: 40999.99,
     category: 'Smartphone',
-    image:
-      'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=1000&q=80',
+    image: keywordImage('Smartphone', 330),
     description: 'Fast performance, smooth AMOLED, reliable camera for daily use, quick charging.',
     rating: 4.5,
     reviews: 734,
@@ -661,6 +674,24 @@ const baseProducts: Product[] = [
   },
 ];
 
+const dedupeCuratedImages = (products: Product[]): Product[] => {
+  const used = new Map<Category, Set<string>>();
+  return products.map((p) => {
+    const bucket = used.get(p.category) ?? new Set<string>();
+    used.set(p.category, bucket);
+
+    const img = p.image?.trim() || '';
+    if (!img || bucket.has(img)) {
+      const next = keywordImage(p.category, p.id);
+      bucket.add(next);
+      return { ...p, image: next };
+    }
+
+    bucket.add(img);
+    return p;
+  });
+};
+
 const categoryImagePool: Record<Category, string[]> = {
   Smartphone: [
     'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1200&q=80',
@@ -755,7 +786,8 @@ const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(ma
 
 const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
   const counts: Record<string, number> = {};
-  for (const p of baseProducts) counts[p.category] = (counts[p.category] ?? 0) + 1;
+  const curated = dedupeCuratedImages(baseProducts);
+  for (const p of curated) counts[p.category] = (counts[p.category] ?? 0) + 1;
 
   const categories = Object.keys(categoryImages) as Category[];
   const maxId = baseProducts.reduce((acc, p) => Math.max(acc, p.id), 0);
@@ -766,14 +798,15 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
     const current = counts[category] ?? 0;
     const needed = Math.max(0, targetPerCategory - current);
     const images = categoryImagePool[category] ?? [];
+    const usedImages = new Set<string>();
     const names = categoryNamePool[category] ?? ['Pro'];
     const range = categoryPriceRange[category] ?? { min: 999, max: 99999 };
 
     for (let i = 0; i < needed; i++) {
       const suffix = names[(current + i) % names.length];
-      const img =
-        images[(current + i) % Math.max(1, images.length)] ??
-        categoryImages[category];
+      const poolPick = images[(current + i) % Math.max(1, images.length)] ?? '';
+      const img = poolPick && !usedImages.has(poolPick) ? poolPick : keywordImage(category, nextId + i);
+      usedImages.add(img);
 
       const rawPrice = range.min + ((range.max - range.min) * ((current + i + 3) % 19)) / 18;
       const price = Math.round(rawPrice / 10) * 10 + 0.99;
@@ -796,4 +829,4 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
   return out;
 };
 
-export const mockProducts: Product[] = [...baseProducts, ...buildGeneratedProducts(20)];
+export const mockProducts: Product[] = [...dedupeCuratedImages(baseProducts), ...buildGeneratedProducts(20)];
