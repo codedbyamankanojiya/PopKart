@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { categories, categoryImages, mockProducts } from '../data/mockProducts';
 import { categorySectionId } from '../lib/slug';
 import { scrollToId } from '../lib/scroll';
@@ -6,6 +7,9 @@ import ProductCard from '../components/products/ProductCard';
 import { useCatalogStore } from '../stores/catalogStore';
 
 export default function Home() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const currentCategory = useCatalogStore((s) => s.currentCategory);
   const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
   const searchTerm = useCatalogStore((s) => s.searchTerm);
@@ -14,6 +18,50 @@ export default function Home() {
   const setSortBy = useCatalogStore((s) => s.setSortBy);
 
   const products = mockProducts;
+
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    const target = state?.scrollTo;
+    if (!target) return;
+
+    let cancelled = false;
+
+    const waitForElement = async (id: string, timeoutMs: number) => {
+      const started = Date.now();
+      while (!cancelled && Date.now() - started < timeoutMs) {
+        const el = document.getElementById(id);
+        if (el) return el;
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      return null;
+    };
+
+    const doScroll = () => {
+      if (target === '__top__') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        scrollToId(target);
+      }
+    };
+
+    (async () => {
+      requestAnimationFrame(() => {
+        setTimeout(async () => {
+          if (cancelled) return;
+          if (target !== '__top__') {
+            await waitForElement(target, 1200);
+          }
+          if (cancelled) return;
+          doScroll();
+          navigate('.', { replace: true, state: null });
+        }, 0);
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location.state, navigate]);
 
   const filteredSorted = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -56,7 +104,7 @@ export default function Home() {
 
   return (
     <div className="pb-16 pk-surface pk-aurora pk-noise">
-      <section className="relative overflow-hidden border-b">
+      <section className="relative overflow-hidden border-b pk-hero-bg">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
           <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />

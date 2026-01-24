@@ -20,6 +20,8 @@ export default function Navbar() {
   const mobilePanelRef = useRef<HTMLDivElement | null>(null);
 
   const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
+  const searchTerm = useCatalogStore((s) => s.searchTerm);
+  const setSearchTerm = useCatalogStore((s) => s.setSearchTerm);
   const cartItems = useCartStore((s) => s.items);
   const wishlistCount = useCartStore((s) => s.wishlist.length);
   const openCart = useUiStore((s) => s.openCart);
@@ -35,10 +37,7 @@ export default function Navbar() {
   const goHomeTop = () => {
     closeAll();
     if (location.pathname !== '/') {
-      navigate('/');
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      navigate('/', { state: { scrollTo: '__top__' } });
       return;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -47,11 +46,19 @@ export default function Navbar() {
   const goToSection = (id: string) => {
     closeAll();
     if (location.pathname !== '/') {
-      navigate('/');
-      requestAnimationFrame(() => scrollToId(id));
+      navigate('/', { state: { scrollTo: id } });
       return;
     }
     scrollToId(id);
+  };
+
+  const submitSearch = () => {
+    const q = searchTerm.trim();
+    if (!q) {
+      goToSection('shop');
+      return;
+    }
+    goToSection('shop');
   };
 
   useEffect(() => {
@@ -104,8 +111,8 @@ export default function Navbar() {
             onClick={goHomeTop}
             className={({ isActive }) =>
               cn(
-                'rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground',
-                isActive && 'text-foreground'
+                'rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground',
+                isActive && 'bg-accent text-foreground'
               )
             }
           >
@@ -118,7 +125,7 @@ export default function Navbar() {
               onClick={() => setIsCategoryOpen((v) => !v)}
               aria-haspopup="menu"
               aria-expanded={isCategoryOpen}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+              className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
             >
               Categories
             </button>
@@ -150,26 +157,43 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
             onClick={() => goToSection('shop')}
           >
             Shop
           </button>
           <button
             type="button"
-            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-            onClick={() => goToSection('categories')}
-          >
-            Categories
-          </button>
-          <button
-            type="button"
-            className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+            className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
             onClick={() => goToSection('contact')}
           >
             Contact
           </button>
         </nav>
+
+        <div className="hidden flex-1 items-center justify-center px-2 md:flex">
+          <div className="w-full max-w-md">
+            <div className="flex h-10 items-center gap-2 rounded-2xl border bg-card/80 px-3 shadow-sm backdrop-blur">
+              <input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') submitSearch();
+                }}
+                placeholder="Search products..."
+                className="h-full w-full bg-transparent text-sm outline-none"
+                aria-label="Search products"
+              />
+              <button
+                type="button"
+                onClick={submitSearch}
+                className="inline-flex h-7 items-center justify-center rounded-xl bg-primary px-3 text-xs font-semibold text-primary-foreground transition hover:opacity-95"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div className="flex items-center gap-2">
           <button

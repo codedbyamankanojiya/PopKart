@@ -10,6 +10,8 @@ interface CartState {
   setQty: (productId: number, quantity: number) => void;
   clearCart: () => void;
   toggleWishlist: (productId: number) => void;
+  removeFromWishlist: (productId: number) => void;
+  clearWishlist: () => void;
 }
 
 function clampQty(qty: number) {
@@ -42,6 +44,10 @@ export const useCartStore = create<CartState>()(
         const w = get().wishlist;
         set({ wishlist: w.includes(productId) ? w.filter((id) => id !== productId) : [...w, productId] });
       },
+      removeFromWishlist: (productId) => {
+        set({ wishlist: get().wishlist.filter((id) => id !== productId) });
+      },
+      clearWishlist: () => set({ wishlist: [] }),
     }),
     {
       name: 'popkart-store',
