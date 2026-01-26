@@ -100,7 +100,7 @@ export default function Navbar() {
   }, [isMobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/75 backdrop-blur">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-4 px-4">
         <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="text-lg font-semibold tracking-tight text-transparent bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text">
@@ -177,7 +177,7 @@ export default function Navbar() {
 
         <div className="hidden flex-1 items-center justify-center px-2 md:flex">
           <div className="w-full max-w-md">
-            <div className="flex h-10 items-center gap-2 rounded-2xl border bg-card/80 px-3 shadow-sm backdrop-blur">
+            <div className="flex h-11 items-center gap-2 rounded-2xl border bg-card/90 px-3 shadow-sm backdrop-blur pk-glass">
               <input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -256,9 +256,9 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="border-b bg-background/85 backdrop-blur md:hidden">
+      <div className="border-b bg-background/90 backdrop-blur md:hidden">
         <div className="mx-auto w-full max-w-7xl px-4 py-3">
-          <div className="flex flex-col gap-2 rounded-2xl border bg-card/80 p-3 shadow-sm">
+          <div className="flex flex-col gap-2 rounded-2xl border bg-card/90 p-3 shadow-sm pk-glass">
             <div className="flex items-center gap-2">
               <select
                 value={currentCategory}

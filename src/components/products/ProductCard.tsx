@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-transparent bg-card/70 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0 pk-glass">
+    <div className="group relative overflow-hidden rounded-2xl border border-transparent bg-card/80 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0 pk-glass">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
         {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
@@ -104,7 +104,9 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
           <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{product.name}</h3>
-          <div className="shrink-0 text-sm font-semibold text-primary">{formatPriceINR(product.price)}</div>
+          <div className="shrink-0 rounded-full bg-primary/10 px-2 py-1 text-sm font-semibold text-primary">
+            {formatPriceINR(product.price)}
+          </div>
         </div>
 
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
