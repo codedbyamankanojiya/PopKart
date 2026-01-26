@@ -19,6 +19,7 @@ export default function Navbar() {
   const categoryRef = useRef<HTMLDivElement | null>(null);
   const mobilePanelRef = useRef<HTMLDivElement | null>(null);
 
+  const currentCategory = useCatalogStore((s) => s.currentCategory);
   const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
   const searchTerm = useCatalogStore((s) => s.searchTerm);
   const setSearchTerm = useCatalogStore((s) => s.setSearchTerm);
@@ -204,7 +205,7 @@ export default function Navbar() {
             onClick={() => {
               openWishlist();
             }}
-            className="pk-btn pk-btn-outline relative hidden h-9 w-9 hover:bg-accent/70 md:inline-flex"
+            className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open wishlist"
           >
             <Heart className="h-4 w-4" />
@@ -220,7 +221,7 @@ export default function Navbar() {
             onClick={() => {
               openCart();
             }}
-            className="pk-btn pk-btn-outline relative hidden h-9 w-9 hover:bg-accent/70 md:inline-flex"
+            className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open cart"
           >
             <ShoppingCart className="h-4 w-4" />
@@ -252,6 +253,45 @@ export default function Navbar() {
           >
             {isMobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
+        </div>
+      </div>
+
+      <div className="border-b bg-background/85 backdrop-blur md:hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 py-3">
+          <div className="flex flex-col gap-2 rounded-2xl border bg-card/80 p-3 shadow-sm">
+            <div className="flex items-center gap-2">
+              <select
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value as any)}
+                className="h-10 min-w-[96px] rounded-xl border bg-background/80 px-2 text-xs font-semibold outline-none"
+                aria-label="Select category"
+              >
+                <option value="All">All</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              <input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') submitSearch();
+                }}
+                placeholder="Search products, brands, deals..."
+                className="h-10 w-full rounded-xl border bg-background/80 px-3 text-sm outline-none"
+                aria-label="Search products"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={submitSearch}
+              className="pk-btn pk-btn-primary pk-btn-shine h-10 w-full text-sm"
+            >
+              Search
+            </button>
+          </div>
         </div>
       </div>
 

@@ -231,6 +231,15 @@
     backdrop-filter: blur(18px);
   }
 
+  .pk-section {
+    position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--radius) + 0.4rem);
+    border: 1px solid hsl(var(--border) / 0.7);
+    background: linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--card) / 0.7));
+    box-shadow: 0 28px 70px -60px hsl(var(--foreground) / 0.5);
+  }
+
   .pk-page {
     animation: pk-page-in 360ms ease-out both;
   }

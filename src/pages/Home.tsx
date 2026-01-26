@@ -211,38 +211,40 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                className="group relative overflow-hidden rounded-2xl border bg-card/70 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring pk-glass"
-                onClick={() => {
-                  setCurrentCategory(category);
-                  scrollToId(categorySectionId(category));
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
-                <div className="aspect-[16/9] overflow-hidden bg-muted">
-                  <img
-                    src={categoryImages[category]}
-                    alt={category}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-                  />
-                </div>
-                <div className="p-4">
-                  <div className="text-sm font-semibold">{category}</div>
-                  <div className="mt-1 flex items-center justify-between gap-2">
-                    <div className="text-sm text-muted-foreground">Tap to view</div>
-                    <div className="rounded-full border bg-background/80 px-2 py-1 text-[11px] font-semibold text-foreground backdrop-blur">
-                      {(categorizedProducts[category]?.length ?? 0).toString()} items
+          <div className="mt-6 pk-section p-4 sm:p-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  className="group relative overflow-hidden rounded-2xl border bg-card/70 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring pk-glass"
+                  onClick={() => {
+                    setCurrentCategory(category);
+                    scrollToId(categorySectionId(category));
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="aspect-[16/9] overflow-hidden bg-muted">
+                    <img
+                      src={categoryImages[category]}
+                      alt={category}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <div className="text-sm font-semibold">{category}</div>
+                    <div className="mt-1 flex items-center justify-between gap-2">
+                      <div className="text-sm text-muted-foreground">Tap to view</div>
+                      <div className="rounded-full border bg-background/80 px-2 py-1 text-[11px] font-semibold text-foreground backdrop-blur">
+                        {(categorizedProducts[category]?.length ?? 0).toString()} items
+                      </div>
                     </div>
                   </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -279,44 +281,46 @@ export default function Home() {
         </div>
 
         <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-4">
-          {categories
-            .filter((c) => currentCategory === 'All' || c === currentCategory)
-            .map((category) => {
-              const list = categorizedProducts[category] ?? [];
-              if (list.length === 0) return null;
-              return (
-                <section
-                  key={category}
-                  id={categorySectionId(category)}
-                  className="scroll-mt-24 border-b pb-10 pt-8 last:border-b-0"
-                >
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <h3 className="text-xl font-semibold tracking-tight">{category}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{list.length} items</p>
+          <div className="pk-section p-4 sm:p-6">
+            {categories
+              .filter((c) => currentCategory === 'All' || c === currentCategory)
+              .map((category) => {
+                const list = categorizedProducts[category] ?? [];
+                if (list.length === 0) return null;
+                return (
+                  <section
+                    key={category}
+                    id={categorySectionId(category)}
+                    className="scroll-mt-24 border-b pb-10 pt-8 last:border-b-0"
+                  >
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-semibold tracking-tight">{category}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{list.length} items</p>
+                      </div>
+                      {currentCategory !== 'All' && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCurrentCategory('All');
+                            scrollToId('shop');
+                          }}
+                          className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+                        >
+                          Show all
+                        </button>
+                      )}
                     </div>
-                    {currentCategory !== 'All' && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCurrentCategory('All');
-                          scrollToId('shop');
-                        }}
-                        className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
-                      >
-                        Show all
-                      </button>
-                    )}
-                  </div>
 
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {list.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {list.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+          </div>
         </div>
       </section>
 
