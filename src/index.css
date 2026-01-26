@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
@@ -19,6 +21,14 @@
   --input: 214.3 31.8% 91.4%;
   --ring: 221.2 83.2% 53.3%;
   --radius: 0.75rem;
+  --font-body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --brand-1: 221 83% 53%;
+  --brand-2: 159 64% 42%;
+  --brand-3: 28 95% 58%;
+  --brand-4: 196 90% 45%;
+  --surface-1: 210 40% 98%;
+  --surface-2: 210 36% 96%;
 }
 
 .dark {
@@ -41,11 +51,74 @@
   --border: 0 0% 16%;
   --input: 0 0% 16%;
   --ring: 217.2 91.2% 59.8%;
+  --font-body: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --brand-1: 217 92% 60%;
+  --brand-2: 158 62% 48%;
+  --brand-3: 32 92% 60%;
+  --brand-4: 196 92% 52%;
+  --surface-1: 0 0% 4%;
+  --surface-2: 0 0% 8%;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .pk-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: calc(var(--radius) + 0.1rem);
+    font-weight: 600;
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background 180ms ease;
+    transform: translateZ(0);
+    overflow: hidden;
+  }
+
+  .pk-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px -20px hsl(var(--primary) / 0.45);
+  }
+
+  .pk-btn:active {
+    transform: translateY(0);
+  }
+
+  .pk-btn-primary {
+    color: hsl(var(--primary-foreground));
+    background-image: linear-gradient(130deg, hsl(var(--primary)) 0%, hsl(var(--brand-4)) 100%);
+    box-shadow: 0 14px 28px -22px hsl(var(--primary) / 0.7);
+  }
+
+  .pk-btn-outline {
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card) / 0.85);
+  }
+
+  .pk-btn-ghost {
+    color: hsl(var(--muted-foreground));
+    background-color: transparent;
+  }
+
+  .pk-btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: -40% 0;
+    background: linear-gradient(115deg, transparent 0%, hsl(var(--primary-foreground) / 0.5) 45%, transparent 70%);
+    opacity: 0;
+    transform: translateX(-120%);
+  }
+
+  .pk-btn-shine:hover::after {
+    opacity: 0.7;
+    animation: pk-shine 700ms ease-out;
+  }
+}
 
 @layer utilities {
   .pk-fade-in {
@@ -62,9 +135,23 @@
 
   .pk-surface {
     background-image:
-      radial-gradient(1200px 600px at 10% 0%, hsl(var(--primary) / 0.08), transparent 55%),
-      radial-gradient(1200px 600px at 90% 20%, hsl(142 76% 36% / 0.06), transparent 55%),
-      radial-gradient(900px 500px at 50% 100%, hsl(199 89% 48% / 0.06), transparent 55%);
+      radial-gradient(1200px 600px at 10% 0%, hsl(var(--brand-1) / 0.12), transparent 55%),
+      radial-gradient(1200px 600px at 90% 20%, hsl(var(--brand-2) / 0.12), transparent 55%),
+      radial-gradient(900px 500px at 50% 100%, hsl(var(--brand-4) / 0.12), transparent 55%);
+  }
+
+  .pk-mesh {
+    background-image:
+      radial-gradient(900px 500px at 5% 10%, hsl(var(--brand-1) / 0.12), transparent 55%),
+      radial-gradient(1000px 600px at 80% 20%, hsl(var(--brand-3) / 0.12), transparent 55%),
+      radial-gradient(1000px 600px at 60% 90%, hsl(var(--brand-2) / 0.1), transparent 55%);
+  }
+
+  .pk-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.35) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.35) 1px, transparent 1px);
+    background-size: 72px 72px;
   }
 
   .pk-aurora {
@@ -79,9 +166,9 @@
     z-index: -1;
     opacity: 0.75;
     background:
-      radial-gradient(900px 600px at 10% 10%, hsl(var(--primary) / 0.10), transparent 55%),
-      radial-gradient(900px 600px at 90% 20%, hsl(142 76% 36% / 0.08), transparent 55%),
-      radial-gradient(900px 600px at 50% 90%, hsl(199 89% 48% / 0.08), transparent 55%);
+      radial-gradient(900px 600px at 10% 10%, hsl(var(--brand-1) / 0.14), transparent 55%),
+      radial-gradient(900px 600px at 90% 20%, hsl(var(--brand-2) / 0.12), transparent 55%),
+      radial-gradient(900px 600px at 50% 90%, hsl(var(--brand-4) / 0.12), transparent 55%);
     filter: blur(22px);
     transform: translate3d(0, 0, 0);
     animation: pk-aurora 14s ease-in-out infinite alternate;
@@ -116,7 +203,7 @@
     inset: 0;
     z-index: -1;
     background-image:
-      linear-gradient(to bottom, hsl(var(--background) / 0.35), hsl(var(--background) / 0.95)),
+      linear-gradient(to bottom, hsl(var(--background) / 0.2), hsl(var(--background) / 0.95)),
       url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2400&q=80');
     background-size: cover;
     background-position: center;
@@ -137,15 +224,28 @@
     animation: pk-shimmer 1200ms ease-in-out infinite;
   }
 
+  .pk-page {
+    animation: pk-page-in 360ms ease-out both;
+  }
+
+  .pk-float {
+    animation: pk-float 7s ease-in-out infinite;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pk-fade-in,
     .pk-slide-in-right,
     .pk-pop,
     .pk-shimmer,
-    .pk-aurora::before {
+    .pk-aurora::before,
+    .pk-page,
+    .pk-float {
       animation: none !important;
     }
     .pk-hero-bg::before {
+      animation: none !important;
+    }
+    .pk-btn-shine::after {
       animation: none !important;
     }
     html {
@@ -210,6 +310,41 @@
   }
 }
 
+@keyframes pk-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  60% {
+    transform: translateX(120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes pk-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pk-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -219,5 +354,15 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    letter-spacing: 0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
   }
 }

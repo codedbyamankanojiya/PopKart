@@ -1,10 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import CartDrawer from '../cart/CartDrawer';
 import WishlistDrawer from '../wishlist/WishlistDrawer';
 import { useUiStore } from '../../stores/uiStore';
 
 export default function AppLayout() {
+  const location = useLocation();
   const isCartOpen = useUiStore((s) => s.isCartOpen);
   const openCart = useUiStore((s) => s.openCart);
   const closeCart = useUiStore((s) => s.closeCart);
@@ -13,9 +14,9 @@ export default function AppLayout() {
   const closeWishlist = useUiStore((s) => s.closeWishlist);
 
   return (
-    <div className="min-h-dvh bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground pk-grid">
       <Navbar />
-      <main>
+      <main key={location.pathname} className="pk-page">
         <Outlet />
       </main>
 

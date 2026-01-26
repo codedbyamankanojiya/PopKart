@@ -1,4 +1,5 @@
 import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { formatPriceINR } from '../../lib/format';
 import { cn } from '../../lib/utils';
@@ -7,8 +8,11 @@ import Sheet from '../overlays/Sheet';
 import type { SyntheticEvent } from 'react';
 import { categoryImages } from '../../data/mockProducts';
 import type { Category } from '../../types/product';
+import { scrollToId } from '../../lib/scroll';
 
 export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const items = useCartStore((s) => s.items);
   const removeFromCart = useCartStore((s) => s.removeFromCart);
   const setQty = useCartStore((s) => s.setQty);
@@ -29,6 +33,15 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
     img.src = fallback;
   };
 
+  const goToShop = () => {
+    onOpenChange(false);
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: 'shop' } });
+      return;
+    }
+    scrollToId('shop');
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title="Your cart" description="Review items and checkout.">
       {items.length === 0 ? (
@@ -40,8 +53,8 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
           <div className="text-sm text-muted-foreground">Add products to see them here.</div>
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
-            className="mt-2 inline-flex h-10 items-center justify-center rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"
+            onClick={goToShop}
+            className="pk-btn pk-btn-primary pk-btn-shine mt-2 h-10 px-4 text-sm"
           >
             Continue shopping
           </button>
@@ -71,7 +84,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
                       </div>
                       <button
                         type="button"
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border bg-background text-destructive"
+                        className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
                         onClick={() => {
                           removeFromCart(item.id);
                           toast('Removed from cart');
@@ -147,7 +160,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
 
               <button
                 type="button"
-                className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground"
+                className="pk-btn pk-btn-primary pk-btn-shine mt-4 h-11 w-full text-sm"
                 onClick={() => {
                   toast('Checkout is a mock flow for now');
                 }}
@@ -156,7 +169,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
               </button>
               <button
                 type="button"
-                className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl border bg-background text-sm font-semibold"
+                className="pk-btn pk-btn-outline mt-2 h-11 w-full text-sm"
                 onClick={() => {
                   clearCart();
                   toast('Cart cleared');

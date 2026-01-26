@@ -101,8 +101,10 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4">
-        <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-bold tracking-tight">
-          <span className="text-lg">PopKart</span>
+        <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight">
+          <span className="text-lg font-semibold tracking-tight text-transparent bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text">
+            PopKart
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
@@ -111,8 +113,8 @@ export default function Navbar() {
             onClick={goHomeTop}
             className={({ isActive }) =>
               cn(
-                'rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground',
-                isActive && 'bg-accent text-foreground'
+                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
+                isActive && 'bg-accent/80 text-foreground shadow-sm'
               )
             }
           >
@@ -125,7 +127,7 @@ export default function Navbar() {
               onClick={() => setIsCategoryOpen((v) => !v)}
               aria-haspopup="menu"
               aria-expanded={isCategoryOpen}
-              className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
+              className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             >
               Categories
             </button>
@@ -134,7 +136,8 @@ export default function Navbar() {
               role="menu"
               className={cn(
                 'absolute left-0 top-full mt-2 w-56 overflow-hidden rounded-xl border bg-popover p-1 shadow-lg',
-                !isCategoryOpen && 'hidden'
+                !isCategoryOpen && 'hidden',
+                isCategoryOpen && 'pk-pop'
               )}
             >
               {categories.map((category) => (
@@ -142,7 +145,7 @@ export default function Navbar() {
                   key={category}
                   type="button"
                   role="menuitem"
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-popover-foreground hover:bg-accent"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-popover-foreground transition hover:bg-accent/80"
                   onClick={() => {
                     setCurrentCategory(category);
                     setIsCategoryOpen(false);
@@ -157,14 +160,14 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
+            className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             onClick={() => goToSection('shop')}
           >
             Shop
           </button>
           <button
             type="button"
-            className="rounded-xl px-3 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-accent hover:text-foreground"
+            className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             onClick={() => goToSection('contact')}
           >
             Contact
@@ -187,7 +190,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={submitSearch}
-                className="inline-flex h-7 items-center justify-center rounded-xl bg-primary px-3 text-xs font-semibold text-primary-foreground transition hover:opacity-95"
+                className="pk-btn pk-btn-primary pk-btn-shine h-7 px-3 text-xs"
               >
                 Search
               </button>
@@ -201,7 +204,7 @@ export default function Navbar() {
             onClick={() => {
               openWishlist();
             }}
-            className="relative hidden h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:inline-flex"
+            className="pk-btn pk-btn-outline relative hidden h-9 w-9 hover:bg-accent/70 md:inline-flex"
             aria-label="Open wishlist"
           >
             <Heart className="h-4 w-4" />
@@ -217,7 +220,7 @@ export default function Navbar() {
             onClick={() => {
               openCart();
             }}
-            className="relative hidden h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:inline-flex"
+            className="pk-btn pk-btn-outline relative hidden h-9 w-9 hover:bg-accent/70 md:inline-flex"
             aria-label="Open cart"
           >
             <ShoppingCart className="h-4 w-4" />
@@ -231,7 +234,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent"
+            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70"
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -239,7 +242,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card text-foreground transition hover:bg-accent md:hidden"
+            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
             aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileOpen}
             onClick={() => {
@@ -263,7 +266,7 @@ export default function Navbar() {
               <div className="text-sm font-semibold">Menu</div>
               <button
                 type="button"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card transition hover:bg-accent"
+                className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70"
                 onClick={() => setIsMobileOpen(false)}
                 aria-label="Close menu"
               >
@@ -274,7 +277,7 @@ export default function Navbar() {
             <div className="mt-4 grid gap-2">
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('categories');
                 }}
@@ -283,7 +286,7 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('shop');
                 }}
@@ -292,7 +295,7 @@ export default function Navbar() {
               </button>
               <button
                 type="button"
-                className="h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('contact');
                 }}
@@ -303,7 +306,7 @@ export default function Navbar() {
               <div className="mt-2 grid gap-2">
                 <button
                   type="button"
-                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
+                  className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                   onClick={() => {
                     openCart();
                     closeAll();
@@ -322,7 +325,7 @@ export default function Navbar() {
 
                 <button
                   type="button"
-                  className="relative h-11 rounded-xl border bg-card px-4 text-left text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99]"
+                  className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                   onClick={() => {
                     openWishlist();
                     closeAll();

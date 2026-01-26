@@ -103,12 +103,12 @@ export default function Home() {
   }, [products]);
 
   return (
-    <div className="pb-16 pk-surface pk-aurora pk-noise">
+    <div className="pb-16 pk-mesh pk-aurora pk-noise">
       <section className="relative overflow-hidden border-b pk-hero-bg">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
+          <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl pk-float" />
           <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
-          <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
+          <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl pk-float" />
         </div>
 
         <div className="relative mx-auto w-full max-w-7xl px-4 py-10 pk-fade-in">
@@ -127,21 +127,21 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => scrollToId('shop')}
-                  className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-sm transition active:scale-[0.99] hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="pk-btn pk-btn-primary pk-btn-shine h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Shop now
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToId('categories')}
-                  className="inline-flex h-11 items-center justify-center rounded-xl border bg-card px-5 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="pk-btn pk-btn-outline h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Explore categories
                 </button>
               </div>
             </div>
 
-            <div className="rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur pk-pop">
+            <div className="rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur pk-pop pk-float">
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
                   <div className="text-sm font-semibold">Flash Sale</div>
@@ -178,7 +178,7 @@ export default function Home() {
                 setCurrentCategory('All');
                 scrollToId('shop');
               }}
-              className="hidden h-9 items-center justify-center rounded-xl border bg-card px-3 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+              className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
             >
               Browse all
             </button>
@@ -205,7 +205,7 @@ export default function Home() {
                 setCurrentCategory('All');
                 scrollToId('shop');
               }}
-              className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Show all products
             </button>
@@ -302,7 +302,7 @@ export default function Home() {
                           setCurrentCategory('All');
                           scrollToId('shop');
                         }}
-                        className="hidden h-9 items-center justify-center rounded-xl border bg-card px-3 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+                        className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
                       >
                         Show all
                       </button>
@@ -391,7 +391,7 @@ export default function Home() {
                     href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     LinkedIn
                   </a>
@@ -399,7 +399,7 @@ export default function Home() {
                     href="https://github.com/codedbyamankanojiya"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     GitHub
                   </a>
@@ -407,7 +407,7 @@ export default function Home() {
                     href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     X
                   </a>
@@ -415,7 +415,7 @@ export default function Home() {
                     href="https://www.instagram.com/lostwithamann?igsh=MnoydWo2YWxjdnZu"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex h-10 items-center justify-center rounded-xl border bg-card px-4 text-sm font-semibold shadow-sm transition hover:bg-accent active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Instagram
                   </a>

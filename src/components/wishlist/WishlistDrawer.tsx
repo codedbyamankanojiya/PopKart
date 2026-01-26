@@ -1,4 +1,5 @@
 import { HeartOff, ShoppingCart, Trash2 } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mockProducts } from '../../data/mockProducts';
 import { formatPriceINR } from '../../lib/format';
@@ -7,6 +8,7 @@ import Sheet from '../overlays/Sheet';
 import type { SyntheticEvent } from 'react';
 import { categoryImages } from '../../data/mockProducts';
 import type { Category } from '../../types/product';
+import { scrollToId } from '../../lib/scroll';
 
 export default function WishlistDrawer({
   open,
@@ -15,6 +17,8 @@ export default function WishlistDrawer({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const wishlist = useCartStore((s) => s.wishlist);
   const removeFromWishlist = useCartStore((s) => s.removeFromWishlist);
   const clearWishlist = useCartStore((s) => s.clearWishlist);
@@ -32,6 +36,15 @@ export default function WishlistDrawer({
     img.src = fallback;
   };
 
+  const goToShop = () => {
+    onOpenChange(false);
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: 'shop' } });
+      return;
+    }
+    scrollToId('shop');
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title="Wishlist" description="Save items for later.">
       {items.length === 0 ? (
@@ -43,8 +56,8 @@ export default function WishlistDrawer({
           <div className="text-sm text-muted-foreground">Tap the heart icon on a product to save it.</div>
           <button
             type="button"
-            onClick={() => onOpenChange(false)}
-            className="mt-2 inline-flex h-10 items-center justify-center rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground"
+            onClick={goToShop}
+            className="pk-btn pk-btn-primary pk-btn-shine mt-2 h-10 px-4 text-sm"
           >
             Browse products
           </button>
@@ -56,7 +69,7 @@ export default function WishlistDrawer({
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                className="inline-flex h-9 items-center justify-center rounded-xl bg-primary px-3 text-sm font-semibold text-primary-foreground"
+                className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm"
                 onClick={() => {
                   const moveable = items.filter((i) => i.inStock);
                   moveable.forEach((i) => addToCart(i));
@@ -68,7 +81,7 @@ export default function WishlistDrawer({
               </button>
               <button
                 type="button"
-                className="inline-flex h-9 items-center justify-center rounded-xl border bg-background px-3 text-sm font-semibold text-destructive"
+                className="pk-btn pk-btn-outline h-9 px-3 text-sm text-destructive"
                 onClick={() => {
                   clearWishlist();
                   toast('Wishlist cleared');
@@ -114,7 +127,7 @@ export default function WishlistDrawer({
                       </div>
                       <button
                         type="button"
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border bg-background text-destructive"
+                        className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
                         onClick={() => {
                           removeFromWishlist(item.id);
                           toast('Removed from wishlist');
@@ -129,7 +142,7 @@ export default function WishlistDrawer({
                       <button
                         type="button"
                         disabled={!item.inStock}
-                        className="inline-flex h-9 items-center justify-center rounded-xl bg-primary px-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                        className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm disabled:opacity-60"
                         onClick={() => {
                           if (!item.inStock) return;
                           addToCart(item);
@@ -142,7 +155,7 @@ export default function WishlistDrawer({
                       </button>
                       <button
                         type="button"
-                        className="inline-flex h-9 items-center justify-center rounded-xl border bg-background px-3 text-sm font-semibold"
+                        className="pk-btn pk-btn-outline h-9 px-3 text-sm"
                         onClick={() => {
                           removeFromWishlist(item.id);
                           toast('Removed from wishlist');

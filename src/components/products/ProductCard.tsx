@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0">
+    <div className="group relative overflow-hidden rounded-2xl border bg-card/80 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
         {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
@@ -93,7 +93,7 @@ export default function ProductCard({ product }: { product: Product }) {
           }}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           className={cn(
-            'absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background/80 backdrop-blur transition hover:bg-background active:scale-[0.98]',
+            'pk-btn pk-btn-outline pk-btn-shine absolute right-3 top-3 h-9 w-9 rounded-full bg-background/80 backdrop-blur',
             isWishlisted && 'border-primary text-primary'
           )}
         >
@@ -125,7 +125,7 @@ export default function ProductCard({ product }: { product: Product }) {
             toast('Added to cart');
           }}
           className={cn(
-            'mt-2 inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-95 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60',
+            'pk-btn pk-btn-primary pk-btn-shine mt-2 h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60',
           )}
         >
           <ShoppingCart className="h-4 w-4" />
