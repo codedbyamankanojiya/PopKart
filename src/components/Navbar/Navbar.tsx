@@ -99,8 +99,8 @@ export default function Navbar() {
   }, [isMobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/75 backdrop-blur">
+      <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-4 px-4">
         <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="text-lg font-semibold tracking-tight text-transparent bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text">
             PopKart

@@ -111,11 +111,11 @@ export default function Home() {
           <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl pk-float" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-10 pk-fade-in">
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-12 pk-fade-in">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold text-primary">India’s modern megastore</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
+              <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
                 Everything you love.
                 <span className="block text-muted-foreground">Delivered fast.</span>
               </h1>
@@ -141,7 +141,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur pk-pop pk-float">
+            <div className="rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-pop pk-float pk-glass">
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
                   <div className="text-sm font-semibold">Flash Sale</div>
@@ -166,7 +166,7 @@ export default function Home() {
           <div className="absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute -right-32 top-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
         </div>
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="relative mx-auto w-full max-w-7xl px-4 py-12">
           <div className="flex items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
@@ -193,7 +193,7 @@ export default function Home() {
       </section>
 
       <section id="categories" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="mx-auto w-full max-w-7xl px-4 py-12">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight">Explore categories</h2>
@@ -216,7 +216,7 @@ export default function Home() {
               <button
                 key={category}
                 type="button"
-                className="group relative overflow-hidden rounded-2xl border bg-card text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group relative overflow-hidden rounded-2xl border bg-card/70 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring pk-glass"
                 onClick={() => {
                   setCurrentCategory(category);
                   scrollToId(categorySectionId(category));
@@ -248,8 +248,8 @@ export default function Home() {
       </section>
 
       <section id="shop" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-4 pt-2">
-          <div className="flex flex-col gap-3 rounded-2xl border bg-card/80 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-4 pt-4">
+          <div className="flex flex-col gap-3 rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between pk-glass">
             <div className="min-w-0">
               <div className="text-sm font-semibold">Shop</div>
               <div className="text-sm text-muted-foreground">Search and sort products instantly.</div>
@@ -360,7 +360,7 @@ export default function Home() {
 
       <section className="border-t">
         <div className="mx-auto w-full max-w-7xl px-4 py-10">
-          <div className="relative overflow-hidden rounded-2xl border bg-card/80 p-6 shadow-sm backdrop-blur">
+          <div className="relative overflow-hidden rounded-2xl border bg-card/70 p-6 shadow-sm backdrop-blur pk-glass">
             <div className="pointer-events-none absolute inset-0">
               <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
               <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />

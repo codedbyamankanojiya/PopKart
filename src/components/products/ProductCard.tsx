@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border bg-card/80 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0">
+    <div className="group relative overflow-hidden rounded-2xl border border-transparent bg-card/70 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0 pk-glass">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
         {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
