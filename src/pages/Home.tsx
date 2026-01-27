@@ -416,7 +416,7 @@ export default function Home() {
                     X
                   </a>
                   <a
-                    href="https://www.instagram.com/lostwithamann?igsh=MnoydWo2YWxjdnZu"
+                    href="https://www.instagram.com/alw4ys.ammy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
