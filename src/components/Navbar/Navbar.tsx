@@ -26,7 +26,6 @@ export default function Navbar() {
   const cartItems = useCartStore((s) => s.items);
   const wishlistCount = useCartStore((s) => s.wishlist.length);
   const openCart = useUiStore((s) => s.openCart);
-  const openWishlist = useUiStore((s) => s.openWishlist);
 
   const cartItemsCount = useMemo(() => cartCount(cartItems), [cartItems]);
 
@@ -166,6 +165,32 @@ export default function Navbar() {
           >
             Shop
           </button>
+
+          <NavLink
+            to="/wishlist"
+            onClick={closeAll}
+            className={({ isActive }) =>
+              cn(
+                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
+                isActive && 'bg-accent/80 text-foreground shadow-sm'
+              )
+            }
+          >
+            Wishlist
+          </NavLink>
+
+          <NavLink
+            to="/orders"
+            onClick={closeAll}
+            className={({ isActive }) =>
+              cn(
+                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
+                isActive && 'bg-accent/80 text-foreground shadow-sm'
+              )
+            }
+          >
+            Orders
+          </NavLink>
           <button
             type="button"
             className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
@@ -203,7 +228,8 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => {
-              openWishlist();
+              navigate('/wishlist');
+              closeAll();
             }}
             className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open wishlist"
@@ -324,6 +350,7 @@ export default function Navbar() {
               >
                 Categories
               </button>
+
               <button
                 type="button"
                 className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
@@ -333,6 +360,37 @@ export default function Navbar() {
               >
                 Shop
               </button>
+
+              <button
+                type="button"
+                className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
+                onClick={() => {
+                  navigate('/wishlist');
+                  closeAll();
+                }}
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Heart className="h-4 w-4" />
+                  Wishlist
+                </span>
+                {wishlistCount > 0 && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
+                    {wishlistCount}
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
+                onClick={() => {
+                  navigate('/orders');
+                  closeAll();
+                }}
+              >
+                Orders
+              </button>
+
               <button
                 type="button"
                 className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
@@ -367,7 +425,7 @@ export default function Navbar() {
                   type="button"
                   className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                   onClick={() => {
-                    openWishlist();
+                    navigate('/wishlist');
                     closeAll();
                   }}
                 >

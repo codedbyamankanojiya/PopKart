@@ -60,7 +60,7 @@ export default function AppLayout() {
           </button>
           <button
             type="button"
-            onClick={() => openWishlist()}
+            onClick={() => navigate('/wishlist')}
             className="pk-btn pk-btn-outline h-11 w-full flex-col gap-1 text-[11px]"
             aria-label="Open wishlist"
           >

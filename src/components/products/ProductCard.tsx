@@ -1,4 +1,5 @@
 import { useState, type SyntheticEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { formatPriceINR } from '../../lib/format';
@@ -60,7 +61,11 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-transparent bg-card/80 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0 pk-glass">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
+      <Link
+        to={`/product/${product.id}`}
+        aria-label={`View details for ${product.name}`}
+        className="relative block aspect-[4/3] w-full overflow-hidden bg-muted"
+      >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
         {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
         {badge && (
@@ -85,6 +90,7 @@ export default function ProductCard({ product }: { product: Product }) {
             isImgLoaded && 'opacity-100'
           )}
         />
+      </Link>
         <button
           type="button"
           onClick={() => {
@@ -99,11 +105,16 @@ export default function ProductCard({ product }: { product: Product }) {
         >
           <Heart className={cn('h-4 w-4', isWishlisted && 'fill-current')} />
         </button>
-      </div>
 
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{product.name}</h3>
+          <Link
+            to={`/product/${product.id}`}
+            className="line-clamp-2 text-sm font-semibold leading-snug hover:underline"
+            aria-label={`Open ${product.name}`}
+          >
+            {product.name}
+          </Link>
           <div className="shrink-0 rounded-full bg-primary/10 px-2 py-1 text-sm font-semibold text-primary">
             {formatPriceINR(product.price)}
           </div>

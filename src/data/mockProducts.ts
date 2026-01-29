@@ -81,7 +81,7 @@ const baseProducts: Product[] = [
     price: 44999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1510557880182-3b39d8afbc41?auto=format&fit=crop&w=1000&q=80',
     description: 'Signature Glyph design, smooth OLED, premium build, clean UI with great battery life.',
     rating: 4.4,
     reviews: 640,
@@ -129,7 +129,7 @@ const baseProducts: Product[] = [
     price: 40999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1000&q=80',
     description: 'Fast performance, smooth AMOLED, reliable camera for daily use, quick charging.',
     rating: 4.5,
     reviews: 734,
