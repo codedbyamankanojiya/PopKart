@@ -57,7 +57,7 @@ const baseProducts: Product[] = [
     price: 106999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=1000&q=80',
     description: '6.7-inch LTPO OLED display, Google Tensor G3 chip, advanced AI photography.',
     rating: 4.6,
     reviews: 1245,
@@ -69,7 +69,7 @@ const baseProducts: Product[] = [
     price: 39999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1512499617640-c2f999098c01?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1510557880182-3b39d8afbc41?auto=format&fit=crop&w=1000&q=80',
     description: '120Hz AMOLED, Snapdragon performance, fast charging, clean feel for daily power users.',
     rating: 4.5,
     reviews: 892,
@@ -93,7 +93,7 @@ const baseProducts: Product[] = [
     price: 99999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1520166012956-add9ba0835cb?auto=format&fit=crop&w=1000&q=80',
     description: 'Pro camera system, bright LTPO display, flagship performance for creators and gamers.',
     rating: 4.6,
     reviews: 418,
@@ -105,7 +105,7 @@ const baseProducts: Product[] = [
     price: 134900.0,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=1000&q=80',
     description: 'A17 Pro chip, titanium design, advanced camera system, Action Button.',
     rating: 4.8,
     reviews: 1234,
@@ -786,7 +786,7 @@ const pickImageFor = (category: Category, seed: number, used?: Set<string>) => {
 };
 
 const categoryNamePool: Record<string, string[]> = {
-  Smartphone: ['Pro', 'Ultra', 'Plus', 'Max', 'SE', '5G'],
+  Smartphone: ['5G', 'Pro', 'Ultra', 'Plus', 'Max'],
   'Gaming PC Gears': ['Pro', 'Elite', 'RGB', 'X', 'Super', 'XT'],
   Laptop: ['Air', 'Pro', 'Plus', 'Slim', 'Ultra', 'Creator'],
   "Men's Fashion": ['Classic', 'Premium', 'Street', 'Essential', 'Signature', 'Everyday'],
@@ -796,6 +796,35 @@ const categoryNamePool: Record<string, string[]> = {
   'PC Accessories': ['Wireless', 'Mechanical', 'Ergonomic', 'Pro', 'USB-C', 'RGB'],
   Gadgets: ['Smart', 'Pro', 'Mini', 'Max', 'Lite'],
   Glasses: ['Classic', 'Round', 'Aviator', 'Blue Light', 'Premium'],
+};
+
+const categoryProductNamePool: Record<Category, string[]> = {
+  Smartphone: [
+    'Google Pixel 8',
+    'Samsung Galaxy A55',
+    'OnePlus Nord',
+    'Xiaomi Redmi Note',
+    'Motorola Edge',
+    'Nothing Phone',
+    'iQOO Neo',
+    'Realme Narzo',
+  ],
+  'Gaming PC Gears': [
+    'NVIDIA GeForce RTX',
+    'AMD Ryzen',
+    'Intel Core',
+    'Corsair Vengeance',
+    'Samsung NVMe SSD',
+    'Logitech Pro',
+  ],
+  Laptop: ['ASUS ZenBook', 'Lenovo ThinkPad', 'Dell Inspiron', 'HP Pavilion', 'Acer Swift', 'MSI Creator'],
+  "Men's Fashion": ['Cotton Shirt', 'Denim Jacket', 'Leather Sneakers', 'Casual Hoodie', 'Chinos', 'Polo T-Shirt'],
+  "Women's Fashion": ['Silk Saree', 'Kurti Set', 'Handbag', 'Earrings', 'Designer Saree', 'Georgette Saree'],
+  'Gaming Console': ['PlayStation', 'Xbox', 'Nintendo Switch'],
+  Television: ['Sony Bravia', 'Samsung QLED', 'LG OLED', 'Mi Android TV'],
+  'PC Accessories': ['Mechanical Keyboard', 'Wireless Mouse', '1080p Webcam', 'USB-C Hub', 'Gaming Headset'],
+  Gadgets: ['Noise Cancelling Earbuds', 'Smart Speaker', 'Fitness Band', 'Power Bank', 'Smartwatch'],
+  Glasses: ['Blue Light Glasses', 'Aviator Sunglasses', 'Round Frame Sunglasses', 'Wayfarer Sunglasses'],
 };
 
 const categoryPriceRange: Record<string, { min: number; max: number }> = {
@@ -827,11 +856,13 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
     const current = counts[category] ?? 0;
     const needed = Math.max(0, targetPerCategory - current);
     const images = categoryImagePool[category] ?? [];
-    const usedImages = new Set<string>();
+    const usedImages = new Set<string>(curated.filter((p) => p.category === category).map((p) => p.image));
     const names = categoryNamePool[category] ?? ['Pro'];
+    const baseNames = categoryProductNamePool[category] ?? [category];
     const range = categoryPriceRange[category] ?? { min: 999, max: 99999 };
 
     for (let i = 0; i < needed; i++) {
+      const baseName = baseNames[(current + i) % baseNames.length];
       const suffix = names[(current + i) % names.length];
       const poolPick = images[(current + i) % Math.max(1, images.length)] ?? '';
       const img =
@@ -847,7 +878,7 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
 
       out.push({
         id: nextId++,
-        name: `${category} ${suffix} ${i + 1}`,
+        name: `${baseName} ${suffix}`,
         price,
         category,
         image: img,
@@ -861,4 +892,4 @@ const buildGeneratedProducts = (targetPerCategory: number): Product[] => {
   return out;
 };
 
-export const mockProducts: Product[] = [...dedupeCuratedImages(baseProducts), ...buildGeneratedProducts(20)];
+export const mockProducts: Product[] = [...dedupeCuratedImages(baseProducts), ...buildGeneratedProducts(12)];
