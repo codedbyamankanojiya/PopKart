@@ -48,8 +48,8 @@ export default function WishlistDrawer({
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title="Wishlist" description="Save items for later.">
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card p-8 text-center">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card/70 p-8 text-center pk-glass">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted/70">
             <HeartOff className="h-6 w-6" />
           </div>
           <div className="text-base font-semibold">Your wishlist is empty</div>
@@ -64,110 +64,114 @@ export default function WishlistDrawer({
         </div>
       ) : (
         <div className="grid gap-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border bg-card p-3">
-            <div className="text-sm font-semibold">{items.length} saved</div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm"
-                onClick={() => {
-                  const moveable = items.filter((i) => i.inStock);
-                  moveable.forEach((i) => addToCart(i));
-                  toast(moveable.length > 0 ? 'Moved available items to cart' : 'No in-stock items to move');
-                }}
-              >
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Move all to cart
-              </button>
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-9 px-3 text-sm text-destructive"
-                onClick={() => {
-                  clearWishlist();
-                  toast('Wishlist cleared');
-                }}
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Clear all
-              </button>
+          <div className="pk-section p-3 sm:p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border bg-card/70 p-3 pk-glass">
+              <div className="text-sm font-semibold">{items.length} saved</div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm"
+                  onClick={() => {
+                    const moveable = items.filter((i) => i.inStock);
+                    moveable.forEach((i) => addToCart(i));
+                    toast(moveable.length > 0 ? 'Moved available items to cart' : 'No in-stock items to move');
+                  }}
+                >
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Move all to cart
+                </button>
+                <button
+                  type="button"
+                  className="pk-btn pk-btn-outline h-9 px-3 text-sm text-destructive"
+                  onClick={() => {
+                    clearWishlist();
+                    toast('Wishlist cleared');
+                  }}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Clear all
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="grid gap-3">
-            {items.map((item) => (
-              <div key={item.id} className="rounded-2xl border bg-card p-3">
-                <div className="flex gap-3">
-                  <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-muted">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => handleImgError(e, item.category)}
-                    />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="line-clamp-2 text-sm font-semibold">{item.name}</div>
-                        <div className="mt-1 flex flex-wrap items-center gap-2">
-                          <div className="text-sm font-semibold text-primary">{formatPriceINR(item.price)}</div>
-                          {!item.inStock ? (
-                            <span className="rounded-full bg-destructive/10 px-2 py-1 text-[11px] font-semibold text-destructive">
-                              Out of stock
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[11px] font-semibold text-emerald-600">
-                              In stock
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
-                        onClick={() => {
-                          removeFromWishlist(item.id);
-                          toast('Removed from wishlist');
-                        }}
-                        aria-label="Remove from wishlist"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+            <div className="mt-3 grid gap-3">
+              {items.map((item) => (
+                <div key={item.id} className="rounded-2xl border bg-card/70 p-3 pk-glass">
+                  <div className="flex gap-3">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-muted">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => handleImgError(e, item.category)}
+                      />
                     </div>
 
-                    <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        disabled={!item.inStock}
-                        className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm disabled:opacity-60"
-                        onClick={() => {
-                          if (!item.inStock) return;
-                          addToCart(item);
-                          removeFromWishlist(item.id);
-                          toast('Moved to cart');
-                        }}
-                      >
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Move to cart
-                      </button>
-                      <button
-                        type="button"
-                        className="pk-btn pk-btn-outline h-9 px-3 text-sm"
-                        onClick={() => {
-                          removeFromWishlist(item.id);
-                          toast('Removed from wishlist');
-                        }}
-                      >
-                        Remove
-                      </button>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="line-clamp-2 text-sm font-semibold">{item.name}</div>
+                          <div className="mt-1 flex flex-wrap items-center gap-2">
+                            <div className="inline-flex rounded-full bg-primary/10 px-2 py-1 text-sm font-semibold text-primary">
+                              {formatPriceINR(item.price)}
+                            </div>
+                            {!item.inStock ? (
+                              <span className="rounded-full bg-destructive/10 px-2 py-1 text-[11px] font-semibold text-destructive">
+                                Out of stock
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[11px] font-semibold text-emerald-600">
+                                In stock
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
+                          onClick={() => {
+                            removeFromWishlist(item.id);
+                            toast('Removed from wishlist');
+                          }}
+                          aria-label="Remove from wishlist"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <button
+                          type="button"
+                          disabled={!item.inStock}
+                          className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm disabled:opacity-60"
+                          onClick={() => {
+                            if (!item.inStock) return;
+                            addToCart(item);
+                            removeFromWishlist(item.id);
+                            toast('Moved to cart');
+                          }}
+                        >
+                          <ShoppingCart className="mr-2 h-4 w-4" />
+                          Move to cart
+                        </button>
+                        <button
+                          type="button"
+                          className="pk-btn pk-btn-outline h-9 px-3 text-sm"
+                          onClick={() => {
+                            removeFromWishlist(item.id);
+                            toast('Removed from wishlist');
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}

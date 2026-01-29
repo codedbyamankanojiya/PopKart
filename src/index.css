@@ -184,7 +184,7 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.06;
+    opacity: 0.045;
     background-image:
       repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px),
       repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 4px);
@@ -238,6 +238,16 @@
     border: 1px solid hsl(var(--border) / 0.7);
     background: linear-gradient(180deg, hsl(var(--card) / 0.96), hsl(var(--card) / 0.72));
     box-shadow: 0 28px 70px -60px hsl(var(--foreground) / 0.4);
+  }
+
+  .pk-bottom-safe {
+    padding-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .pk-bottom-safe {
+      padding-bottom: 0;
+    }
   }
 
   .pk-page {

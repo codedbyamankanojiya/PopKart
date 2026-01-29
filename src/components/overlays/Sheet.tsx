@@ -58,31 +58,33 @@ export default function Sheet({
 
   return (
     <div role="dialog" aria-modal="true" aria-label={title}>
-      <div className="fixed inset-0 z-40 bg-black/40" />
+      <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" />
       <div
         ref={panelRef}
         className={cn(
-          'fixed top-0 z-50 h-dvh w-[92%] max-w-md bg-background shadow-2xl',
+          'fixed top-0 z-50 h-dvh w-[92%] max-w-md bg-background/85 shadow-2xl backdrop-blur',
           sideClasses,
-          'p-4'
+          'pk-glass p-0'
         )}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <div className="text-base font-semibold leading-tight">{title}</div>
-            {description ? <div className="mt-1 text-sm text-muted-foreground">{description}</div> : null}
+        <div className="sticky top-0 z-10 border-b bg-background/70 px-4 py-4 backdrop-blur">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <div className="text-base font-semibold leading-tight">{title}</div>
+              {description ? <div className="mt-1 text-sm text-muted-foreground">{description}</div> : null}
+            </div>
+            <button
+              type="button"
+              className="pk-btn pk-btn-outline h-9 w-9"
+              onClick={() => onOpenChange(false)}
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
-          <button
-            type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-card"
-            onClick={() => onOpenChange(false)}
-            aria-label="Close"
-          >
-            <X className="h-4 w-4" />
-          </button>
         </div>
 
-        <div className="mt-4 h-[calc(100dvh-84px)] overflow-auto pb-6">{children}</div>
+        <div className="h-[calc(100dvh-92px)] overflow-auto px-4 pb-6 pt-4">{children}</div>
       </div>
     </div>
   );

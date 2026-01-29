@@ -45,8 +45,8 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title="Your cart" description="Review items and checkout.">
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card p-8 text-center">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card/70 p-8 text-center pk-glass">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted/70">
             <ShoppingBag className="h-6 w-6" />
           </div>
           <div className="text-base font-semibold">Your cart is empty</div>
@@ -61,85 +61,89 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
         </div>
       ) : (
         <div className="grid gap-4">
-          <div className="grid gap-3">
-            {items.map((item) => (
-              <div key={item.id} className="rounded-2xl border bg-card p-3">
-                <div className="flex gap-3">
-                  <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-muted">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => handleImgError(e, (item as any).category)}
-                    />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <div className="line-clamp-2 text-sm font-semibold">{item.name}</div>
-                        <div className="mt-1 text-sm font-semibold text-primary">{formatPriceINR(item.price)}</div>
-                      </div>
-                      <button
-                        type="button"
-                        className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
-                        onClick={() => {
-                          removeFromCart(item.id);
-                          toast('Removed from cart');
-                        }}
-                        aria-label="Remove from cart"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+          <div className="pk-section p-3 sm:p-4">
+            <div className="grid gap-3">
+              {items.map((item) => (
+                <div key={item.id} className="rounded-2xl border bg-card/70 p-3 pk-glass">
+                  <div className="flex gap-3">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-muted">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        onError={(e) => handleImgError(e, (item as any).category)}
+                      />
                     </div>
 
-                    <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                      <div className="inline-flex items-center rounded-xl border bg-background">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="line-clamp-2 text-sm font-semibold">{item.name}</div>
+                          <div className="mt-1 inline-flex rounded-full bg-primary/10 px-2 py-1 text-sm font-semibold text-primary">
+                            {formatPriceINR(item.price)}
+                          </div>
+                        </div>
                         <button
                           type="button"
-                          aria-label="Decrease quantity"
-                          className="inline-flex h-9 w-9 items-center justify-center"
-                          onClick={() => setQty(item.id, item.quantity - 1)}
-                          disabled={item.quantity <= 1}
-                        >
-                          <Minus className={cn('h-4 w-4', item.quantity <= 1 && 'opacity-40')} />
-                        </button>
-                        <input
-                          value={item.quantity}
-                          inputMode="numeric"
-                          className="h-9 w-12 bg-transparent text-center text-sm font-semibold outline-none"
-                          aria-label="Quantity"
-                          onChange={(e) => {
-                            const next = Number(e.target.value);
-                            if (Number.isNaN(next)) return;
-                            setQty(item.id, next);
+                          className="pk-btn pk-btn-outline h-9 w-9 text-destructive"
+                          onClick={() => {
+                            removeFromCart(item.id);
+                            toast('Removed from cart');
                           }}
-                        />
-                        <button
-                          type="button"
-                          aria-label="Increase quantity"
-                          className="inline-flex h-9 w-9 items-center justify-center"
-                          onClick={() => setQty(item.id, item.quantity + 1)}
+                          aria-label="Remove from cart"
                         >
-                          <Plus className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
 
-                      <div className="text-sm font-semibold">
-                        {formatPriceINR(item.price * item.quantity)}
-                        <span className="ml-1 text-xs font-medium text-muted-foreground">total</span>
+                      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                        <div className="inline-flex items-center rounded-xl border bg-background/70">
+                          <button
+                            type="button"
+                            aria-label="Decrease quantity"
+                            className="inline-flex h-9 w-9 items-center justify-center"
+                            onClick={() => setQty(item.id, item.quantity - 1)}
+                            disabled={item.quantity <= 1}
+                          >
+                            <Minus className={cn('h-4 w-4', item.quantity <= 1 && 'opacity-40')} />
+                          </button>
+                          <input
+                            value={item.quantity}
+                            inputMode="numeric"
+                            className="h-9 w-12 bg-transparent text-center text-sm font-semibold outline-none"
+                            aria-label="Quantity"
+                            onChange={(e) => {
+                              const next = Number(e.target.value);
+                              if (Number.isNaN(next)) return;
+                              setQty(item.id, next);
+                            }}
+                          />
+                          <button
+                            type="button"
+                            aria-label="Increase quantity"
+                            className="inline-flex h-9 w-9 items-center justify-center"
+                            onClick={() => setQty(item.id, item.quantity + 1)}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </div>
+
+                        <div className="text-sm font-semibold">
+                          {formatPriceINR(item.price * item.quantity)}
+                          <span className="ml-1 text-xs font-medium text-muted-foreground">total</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <div className="sticky bottom-0 -mx-4 mt-2 border-t bg-background/95 px-4 pb-4 pt-3 backdrop-blur">
-            <div className="rounded-2xl border bg-card p-4">
+          <div className="sticky bottom-0 -mx-4 mt-2 border-t bg-background/85 px-4 pb-4 pt-3 backdrop-blur">
+            <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="font-semibold">{formatPriceINR(subtotal)}</span>
