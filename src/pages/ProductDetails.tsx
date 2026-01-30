@@ -23,6 +23,13 @@ export default function ProductDetails() {
 
   const images = details?.images?.length ? details.images : product ? [product.image] : [];
 
+  const relatedProducts = useMemo(() => {
+    if (!product) return [] as typeof mockProducts;
+    return mockProducts
+      .filter((p) => p.category === product.category && p.id !== product.id)
+      .slice(0, 6);
+  }, [product?.category, product?.id]);
+
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
@@ -79,12 +86,6 @@ export default function ProductDetails() {
       : product.rating;
     return { counts, total, avg };
   })();
-
-  const relatedProducts = useMemo(() => {
-    return mockProducts
-      .filter((p) => p.category === product.category && p.id !== product.id)
-      .slice(0, 6);
-  }, [product.category, product.id]);
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-6">
