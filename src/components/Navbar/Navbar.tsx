@@ -288,7 +288,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <select
                 value={currentCategory}
-                onChange={(e) => setCurrentCategory(e.target.value as any)}
+                onChange={(e) => setCurrentCategory(e.target.value)}
                 className="h-10 min-w-[96px] rounded-xl border bg-background/80 px-2 text-xs font-semibold outline-none"
                 aria-label="Select category"
               >

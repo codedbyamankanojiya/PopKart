@@ -19,7 +19,7 @@ function clamp(n: number, min: number, max: number) {
 }
 
 function seededInt(seed: number) {
-  let x = Math.sin(seed) * 10000;
+  const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
 }
 

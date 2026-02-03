@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Search, X } from 'lucide-react';
 import { categories, categoryImages, mockProducts } from '../data/mockProducts';
 import { categorySectionId } from '../lib/slug';
 import { scrollToId } from '../lib/scroll';
 import ProductCard from '../components/products/ProductCard';
-import { useCatalogStore } from '../stores/catalogStore';
+import { type SortBy, useCatalogStore } from '../stores/catalogStore';
 
 export default function Home() {
   const location = useLocation();
@@ -94,6 +95,18 @@ export default function Home() {
     }
     return map;
   }, [filteredSorted]);
+
+  const visibleCategories = useMemo(() => {
+    return categories.filter((c) => currentCategory === 'All' || c === currentCategory);
+  }, [currentCategory]);
+
+  const hasVisibleProducts = useMemo(() => {
+    for (const c of visibleCategories) {
+      const list = categorizedProducts[c] ?? [];
+      if (list.length > 0) return true;
+    }
+    return false;
+  }, [categorizedProducts, visibleCategories]);
 
   const featuredProducts = useMemo(() => {
     return [...products]
@@ -251,23 +264,55 @@ export default function Home() {
 
       <section id="shop" className="scroll-mt-24">
         <div className="mx-auto w-full max-w-7xl px-4 pb-4 pt-4">
-          <div className="flex flex-col gap-3 rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between pk-glass">
-            <div className="min-w-0">
-              <div className="text-sm font-semibold">Shop</div>
-              <div className="text-sm text-muted-foreground">Search and sort products instantly.</div>
+          <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+              <div className="min-w-0">
+                <div className="text-sm font-semibold">Shop</div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  {filteredSorted.length} products · Browse by category, then refine by search & sort.
+                </div>
+              </div>
+
+              {(searchTerm.trim() || currentCategory !== 'All') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setCurrentCategory('All');
+                  }}
+                  className="pk-btn pk-btn-outline h-10 px-4 text-sm"
+                >
+                  Clear filters
+                </button>
+              )}
             </div>
-            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search products..."
-                className="h-10 w-full rounded-xl border bg-background/80 px-3 text-sm outline-none ring-offset-background transition focus-visible:ring-2 focus-visible:ring-ring sm:w-[260px]"
-                aria-label="Search products"
-              />
+
+            <div className="mt-4 grid gap-2 lg:grid-cols-[1fr_220px_220px]">
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search products, brands, deals..."
+                  className="pk-input w-full pl-10 pr-10"
+                  aria-label="Search products"
+                />
+                {searchTerm.trim() && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm('')}
+                    className="pk-btn pk-btn-ghost absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2"
+                    aria-label="Clear search"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                className="h-10 w-full rounded-xl border bg-background/80 px-3 text-sm outline-none ring-offset-background transition focus-visible:ring-2 focus-visible:ring-ring sm:w-[220px]"
+                onChange={(e) => setSortBy(e.target.value as SortBy)}
+                className="pk-select w-full"
                 aria-label="Sort products"
               >
                 <option value="relevance">Sort: Relevance</option>
@@ -276,22 +321,50 @@ export default function Home() {
                 <option value="rating">Rating</option>
                 <option value="name">Name</option>
               </select>
+
+              <select
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value)}
+                className="pk-select w-full"
+                aria-label="Filter by category"
+              >
+                <option value="All">Category: All</option>
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
 
         <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-4">
           <div className="pk-section p-4 sm:p-6">
-            {categories
-              .filter((c) => currentCategory === 'All' || c === currentCategory)
-              .map((category) => {
+            {!hasVisibleProducts ? (
+              <div className="rounded-3xl border bg-card/70 p-6 text-center pk-glass">
+                <div className="text-base font-semibold">No products found</div>
+                <p className="mt-1 text-sm text-muted-foreground">Try clearing filters or searching with a different keyword.</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setCurrentCategory('All');
+                  }}
+                  className="pk-btn pk-btn-primary pk-btn-shine mt-4 h-10 px-4 text-sm"
+                >
+                  Reset filters
+                </button>
+              </div>
+            ) : (
+              visibleCategories.map((category) => {
                 const list = categorizedProducts[category] ?? [];
                 if (list.length === 0) return null;
                 return (
                   <section
                     key={category}
                     id={categorySectionId(category)}
-                    className="scroll-mt-24 border-b pb-10 pt-8 last:border-b-0"
+                    className="scroll-mt-24 border-b pb-10 pt-10 first:pt-2 last:border-b-0"
                   >
                     <div className="flex items-end justify-between gap-4">
                       <div>
@@ -319,7 +392,8 @@ export default function Home() {
                     </div>
                   </section>
                 );
-              })}
+              })
+            )}
           </div>
         </div>
       </section>

@@ -73,7 +73,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
                         className="h-full w-full object-cover"
                         loading="lazy"
                         decoding="async"
-                        onError={(e) => handleImgError(e, (item as any).category)}
+                        onError={(e) => handleImgError(e, item.category)}
                       />
                     </div>
 
