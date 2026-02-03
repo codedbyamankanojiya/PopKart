@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Search, X } from 'lucide-react';
 import { categories, categoryImages, mockProducts } from '../data/mockProducts';
 import { categorySectionId } from '../lib/slug';
 import { scrollToId } from '../lib/scroll';
@@ -287,28 +286,7 @@ export default function Home() {
               )}
             </div>
 
-            <div className="mt-4 grid gap-2 lg:grid-cols-[1fr_220px_220px]">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search products, brands, deals..."
-                  className="pk-input w-full pl-10 pr-10"
-                  aria-label="Search products"
-                />
-                {searchTerm.trim() && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchTerm('')}
-                    className="pk-btn pk-btn-ghost absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2"
-                    aria-label="Clear search"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-
+            <div className="mt-4 grid gap-2 lg:grid-cols-[220px_220px]">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortBy)}
