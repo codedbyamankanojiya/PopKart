@@ -167,19 +167,6 @@ export default function Navbar() {
           </button>
 
           <NavLink
-            to="/wishlist"
-            onClick={closeAll}
-            className={({ isActive }) =>
-              cn(
-                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
-                isActive && 'bg-accent/80 text-foreground shadow-sm'
-              )
-            }
-          >
-            Wishlist
-          </NavLink>
-
-          <NavLink
             to="/orders"
             onClick={closeAll}
             className={({ isActive }) =>
@@ -417,25 +404,6 @@ export default function Navbar() {
                   {cartItemsCount > 0 && (
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
                       {cartItemsCount}
-                    </span>
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                  onClick={() => {
-                    navigate('/wishlist');
-                    closeAll();
-                  }}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <Heart className="h-4 w-4" />
-                    Wishlist
-                  </span>
-                  {wishlistCount > 0 && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
-                      {wishlistCount}
                     </span>
                   )}
                 </button>
