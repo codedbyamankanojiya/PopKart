@@ -1,14 +1,22 @@
 import { useEffect, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { toast } from 'sonner';
 import { categories, categoryImages, mockProducts } from '../data/mockProducts';
+import { formatPriceINR } from '../lib/format';
 import { categorySectionId } from '../lib/slug';
 import { scrollToId } from '../lib/scroll';
 import ProductCard from '../components/products/ProductCard';
 import { type SortBy, useCatalogStore } from '../stores/catalogStore';
+import { useCartStore } from '../stores/cartStore';
 
 export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const addToCart = useCartStore((s) => s.addToCart);
+  const wishlist = useCartStore((s) => s.wishlist);
+  const toggleWishlist = useCartStore((s) => s.toggleWishlist);
 
   const currentCategory = useCatalogStore((s) => s.currentCategory);
   const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
@@ -106,6 +114,8 @@ export default function Home() {
     }
     return false;
   }, [categorizedProducts, visibleCategories]);
+
+  const isSearching = useMemo(() => searchTerm.trim().length > 0, [searchTerm]);
 
   const featuredProducts = useMemo(() => {
     return [...products]
@@ -335,42 +345,147 @@ export default function Home() {
                 </button>
               </div>
             ) : (
-              visibleCategories.map((category) => {
-                const list = categorizedProducts[category] ?? [];
-                if (list.length === 0) return null;
-                return (
-                  <section
-                    key={category}
-                    id={categorySectionId(category)}
-                    className="scroll-mt-24 border-b pb-10 pt-10 first:pt-2 last:border-b-0"
-                  >
+              <>
+                {isSearching ? (
+                  <section className="scroll-mt-24">
                     <div className="flex items-end justify-between gap-4">
                       <div>
-                        <h3 className="text-xl font-semibold tracking-tight">{category}</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">{list.length} items</p>
+                        <h3 className="text-xl font-semibold tracking-tight">Search results</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{filteredSorted.length} items</p>
                       </div>
-                      {currentCategory !== 'All' && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCurrentCategory('All');
-                            scrollToId('shop');
-                          }}
-                          className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
-                        >
-                          Show all
-                        </button>
-                      )}
                     </div>
 
-                    <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {list.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                      ))}
+                    <div className="mt-5 grid gap-3">
+                      {filteredSorted.map((product) => {
+                        const isWishlisted = wishlist.includes(product.id);
+                        return (
+                          <div
+                            key={product.id}
+                            className="rounded-3xl border bg-card/70 p-3 shadow-sm backdrop-blur transition hover:border-primary/30 hover:shadow-md pk-glass"
+                          >
+                            <div className="grid gap-3 sm:grid-cols-[180px_1fr]">
+                              <div className="relative overflow-hidden rounded-2xl border bg-muted">
+                                <Link to={`/product/${product.id}`} className="block" aria-label={`View ${product.name}`}>
+                                  <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    loading="lazy"
+                                    decoding="async"
+                                    onError={(e) => {
+                                      e.currentTarget.src =
+                                        categoryImages[product.category] ??
+                                        'https://via.placeholder.com/800x600/111827/ffffff?text=Product+Image';
+                                    }}
+                                    className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
+                                  />
+                                </Link>
+                              </div>
+
+                              <div className="flex min-w-0 flex-col justify-between gap-3">
+                                <div className="min-w-0">
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <Link
+                                        to={`/product/${product.id}`}
+                                        className="line-clamp-2 text-sm font-semibold leading-snug hover:underline"
+                                      >
+                                        {product.name}
+                                      </Link>
+                                      <div className="mt-1 text-xs text-muted-foreground">{product.category}</div>
+                                    </div>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        toggleWishlist(product.id);
+                                        toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+                                      }}
+                                      aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                                      className={
+                                        'pk-btn pk-btn-outline h-9 w-9 rounded-full bg-background/70 backdrop-blur ' +
+                                        (isWishlisted ? 'border-primary text-primary' : '')
+                                      }
+                                    >
+                                      <Heart className={(isWishlisted ? 'fill-current ' : '') + 'h-4 w-4'} />
+                                    </button>
+                                  </div>
+
+                                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                                    <div className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
+                                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                      <span className="font-semibold text-foreground">{product.rating.toFixed(1)}</span>
+                                      <span>({product.reviews})</span>
+                                    </div>
+                                    {!product.inStock && (
+                                      <span className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive">
+                                        Out of stock
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                  <div className="text-base font-semibold text-primary">{formatPriceINR(product.price)}</div>
+                                  <button
+                                    type="button"
+                                    disabled={!product.inStock}
+                                    onClick={() => {
+                                      if (!product.inStock) return;
+                                      addToCart(product);
+                                      toast('Added to cart');
+                                    }}
+                                    className="pk-btn pk-btn-primary pk-btn-shine h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+                                  >
+                                    <ShoppingCart className="h-4 w-4" />
+                                    Add to cart
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </section>
-                );
-              })
+                ) : (
+                  visibleCategories.map((category) => {
+                    const list = categorizedProducts[category] ?? [];
+                    if (list.length === 0) return null;
+                    return (
+                      <section
+                        key={category}
+                        id={categorySectionId(category)}
+                        className="scroll-mt-24 border-b pb-10 pt-10 first:pt-2 last:border-b-0"
+                      >
+                        <div className="flex items-end justify-between gap-4">
+                          <div>
+                            <h3 className="text-xl font-semibold tracking-tight">{category}</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">{list.length} items</p>
+                          </div>
+                          {currentCategory !== 'All' && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCurrentCategory('All');
+                                scrollToId('shop');
+                              }}
+                              className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+                            >
+                              Show all
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="mt-5 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                          {list.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  })
+                )}
+              </>
             )}
           </div>
         </div>
