@@ -22,6 +22,9 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
   const shipping = subtotal > 999 ? 0 : subtotal > 0 ? 49 : 0;
   const tax = subtotal > 0 ? Math.round(subtotal * 0.18) : 0;
   const total = subtotal + shipping + tax;
+  const freeShipTarget = 999;
+  const freeShipRemaining = Math.max(0, freeShipTarget - subtotal);
+  const freeShipProgress = Math.min(1, subtotal / freeShipTarget);
 
   const isCategory = (v: unknown): v is Category => {
     return typeof v === 'string' && v in categoryImages;
@@ -61,6 +64,40 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
         </div>
       ) : (
         <div className="grid gap-4">
+          <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="text-sm font-semibold">Order summary</div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  {shipping === 0 ? (
+                    <span className="font-medium text-foreground">Free shipping unlocked</span>
+                  ) : (
+                    <span>
+                      Add <span className="font-semibold text-foreground">{formatPriceINR(freeShipRemaining)}</span> more for free shipping
+                    </span>
+                  )}
+                </div>
+              </div>
+              <button
+                type="button"
+                className="pk-btn pk-btn-outline h-9 px-3 text-sm text-destructive"
+                onClick={() => {
+                  clearCart();
+                  toast('Cart cleared');
+                }}
+              >
+                Clear
+              </button>
+            </div>
+
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-primary via-sky-500 to-emerald-500"
+                style={{ width: `${Math.round(freeShipProgress * 100)}%` }}
+              />
+            </div>
+          </div>
+
           <div className="pk-section p-3 sm:p-4">
             <div className="grid gap-3">
               {items.map((item) => (
@@ -103,7 +140,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
                           <button
                             type="button"
                             aria-label="Decrease quantity"
-                            className="inline-flex h-9 w-9 items-center justify-center"
+                            className="inline-flex h-9 w-9 items-center justify-center transition hover:bg-accent/70 disabled:pointer-events-none"
                             onClick={() => setQty(item.id, item.quantity - 1)}
                             disabled={item.quantity <= 1}
                           >
@@ -123,7 +160,7 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
                           <button
                             type="button"
                             aria-label="Increase quantity"
-                            className="inline-flex h-9 w-9 items-center justify-center"
+                            className="inline-flex h-9 w-9 items-center justify-center transition hover:bg-accent/70"
                             onClick={() => setQty(item.id, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
@@ -170,16 +207,6 @@ export default function CartDrawer({ open, onOpenChange }: { open: boolean; onOp
                 }}
               >
                 Checkout
-              </button>
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline mt-2 h-11 w-full text-sm"
-                onClick={() => {
-                  clearCart();
-                  toast('Cart cleared');
-                }}
-              >
-                Clear cart
               </button>
             </div>
           </div>

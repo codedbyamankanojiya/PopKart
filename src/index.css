@@ -445,6 +445,18 @@
   }
 }
 
+@keyframes pk-ambient-sweep {
+  0% {
+    background-position: 0% 0%, 0% 0%, -80% 50%, 0% 0%, 0% 0%;
+  }
+  50% {
+    background-position: 0% 0%, 0% 0%, 120% 50%, 0% 0%, 0% 0%;
+  }
+  100% {
+    background-position: 0% 0%, 0% 0%, -60% 50%, 0% 0%, 0% 0%;
+  }
+}
+
 @keyframes pk-shine {
   0% {
     transform: translateX(-120%);

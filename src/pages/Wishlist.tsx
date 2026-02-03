@@ -19,27 +19,46 @@ export default function Wishlist() {
 
   return (
     <div className="pk-container py-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Wishlist</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Saved items you can buy later.</p>
+      <div className="rounded-3xl border bg-card/70 p-5 shadow-sm backdrop-blur pk-glass">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">Wishlist</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Saved items you can buy later.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link to="/" className="pk-btn pk-btn-outline h-10 px-4 text-sm">
+              Continue shopping
+            </Link>
+            <button
+              type="button"
+              disabled={products.length === 0}
+              onClick={() => {
+                const moveable = products.filter((p) => p.inStock);
+                moveable.forEach((p) => addToCart(p));
+                toast(moveable.length > 0 ? 'Moved available items to cart' : 'No in-stock items to move');
+              }}
+              className="pk-btn pk-btn-primary pk-btn-shine h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Move all to cart
+            </button>
+            <button
+              type="button"
+              disabled={products.length === 0}
+              onClick={() => {
+                clearWishlist();
+                toast('Wishlist cleared');
+              }}
+              className="pk-btn pk-btn-outline h-10 px-4 text-sm text-destructive disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Trash2 className="h-4 w-4" />
+              Clear
+            </button>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link to="/" className="pk-btn pk-btn-outline h-10 px-4 text-sm">
-            Continue shopping
-          </Link>
-          <button
-            type="button"
-            disabled={products.length === 0}
-            onClick={() => {
-              clearWishlist();
-              toast('Wishlist cleared');
-            }}
-            className="pk-btn pk-btn-outline h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <Trash2 className="h-4 w-4" />
-            Clear
-          </button>
+
+        <div className="mt-3 text-sm text-muted-foreground">
+          <span className="font-semibold text-foreground">{products.length}</span> items saved
         </div>
       </div>
 
@@ -82,7 +101,7 @@ export default function Wishlist() {
                       removeFromWishlist(product.id);
                       toast('Removed from wishlist');
                     }}
-                    className="pk-btn pk-btn-outline h-10 px-4 text-sm"
+                    className="pk-btn pk-btn-outline h-10 px-4 text-sm text-destructive"
                     aria-label="Remove from wishlist"
                   >
                     <Trash2 className="h-4 w-4" />
