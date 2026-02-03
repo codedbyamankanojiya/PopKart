@@ -1,4 +1,4 @@
-import { HeartOff, ShoppingCart, Trash2 } from 'lucide-react';
+import { HeartOff, ShoppingCart, Sparkles, Trash2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { mockProducts } from '../../data/mockProducts';
@@ -48,7 +48,7 @@ export default function WishlistDrawer({
   return (
     <Sheet open={open} onOpenChange={onOpenChange} title="Wishlist" description="Save items for later.">
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card/70 p-8 text-center pk-glass">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border bg-card/70 p-8 text-center shadow-sm pk-glass">
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted/70">
             <HeartOff className="h-6 w-6" />
           </div>
@@ -64,37 +64,49 @@ export default function WishlistDrawer({
         </div>
       ) : (
         <div className="grid gap-4">
-          <div className="pk-section p-3 sm:p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border bg-card/70 p-3 pk-glass">
-              <div className="text-sm font-semibold">{items.length} saved</div>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="pk-btn pk-btn-primary pk-btn-shine h-9 px-3 text-sm"
-                  onClick={() => {
-                    const moveable = items.filter((i) => i.inStock);
-                    moveable.forEach((i) => addToCart(i));
-                    toast(moveable.length > 0 ? 'Moved available items to cart' : 'No in-stock items to move');
-                  }}
-                >
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  Move all to cart
-                </button>
-                <button
-                  type="button"
-                  className="pk-btn pk-btn-outline h-9 px-3 text-sm text-destructive"
-                  onClick={() => {
-                    clearWishlist();
-                    toast('Wishlist cleared');
-                  }}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Clear all
-                </button>
+          <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="text-sm font-semibold">Saved for later</div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  Keep track of items. Move what you need to cart when you’re ready.
+                </div>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-semibold">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                {items.length} saved
               </div>
             </div>
 
-            <div className="mt-3 grid gap-3">
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="pk-btn pk-btn-primary pk-btn-shine h-10 flex-1 px-4 text-sm"
+                onClick={() => {
+                  const moveable = items.filter((i) => i.inStock);
+                  moveable.forEach((i) => addToCart(i));
+                  toast(moveable.length > 0 ? 'Moved available items to cart' : 'No in-stock items to move');
+                }}
+              >
+                <ShoppingCart className="h-4 w-4" />
+                Move all to cart
+              </button>
+              <button
+                type="button"
+                className="pk-btn pk-btn-outline h-10 px-4 text-sm text-destructive"
+                onClick={() => {
+                  clearWishlist();
+                  toast('Wishlist cleared');
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <div className="pk-section p-3 sm:p-4">
+            <div className="grid gap-3">
               {items.map((item) => (
                 <div key={item.id} className="rounded-2xl border bg-card/70 p-3 pk-glass">
                   <div className="flex gap-3">
