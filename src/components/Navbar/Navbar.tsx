@@ -100,7 +100,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
-      <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-4 px-4">
+      <div className="pk-container flex h-[68px] items-center justify-between gap-4">
         <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="text-lg font-semibold tracking-tight text-transparent bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text">
             PopKart
@@ -270,7 +270,7 @@ export default function Navbar() {
       </div>
 
       <div className="border-b bg-background/90 backdrop-blur md:hidden">
-        <div className="mx-auto w-full max-w-7xl px-4 py-3">
+        <div className="pk-container py-3">
           <div className="flex flex-col gap-2 rounded-2xl border bg-card/90 p-3 shadow-sm pk-glass">
             <div className="flex items-center gap-2">
               <select

@@ -88,7 +88,7 @@ export default function ProductDetails() {
   })();
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6">
+    <div className="pk-container py-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <button type="button" onClick={() => navigate(-1)} className="pk-btn pk-btn-ghost h-9 px-3 text-sm">
           Back

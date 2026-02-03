@@ -24,7 +24,7 @@ export default function AppLayout() {
       </main>
 
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/85 px-4 py-2 backdrop-blur md:hidden">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-4 gap-2">
+        <div className="mx-auto grid w-full max-w-[92rem] grid-cols-4 gap-2">
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

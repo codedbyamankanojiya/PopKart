@@ -18,7 +18,7 @@ export default function Wishlist() {
   }, [wishlistIds]);
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-6">
+    <div className="pk-container py-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Wishlist</h1>
@@ -60,7 +60,7 @@ export default function Wishlist() {
         </div>
       ) : (
         <div className="mt-6 pk-section p-4 sm:p-6">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products.map((product) => (
               <div key={product.id} className="relative">
                 <ProductCard product={product} />

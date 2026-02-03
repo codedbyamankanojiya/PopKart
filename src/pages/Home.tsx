@@ -127,19 +127,18 @@ export default function Home() {
   return (
     <div className="pb-16 pk-mesh pk-aurora pk-noise">
       <section className="relative overflow-hidden border-b pk-hero-bg">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl pk-float" />
-          <div className="absolute -right-24 top-10 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="absolute inset-0">
+          <div className="absolute -left-40 -top-20 h-80 w-80 rounded-full bg-primary/15 blur-3xl pk-float" />
+          <div className="absolute -right-32 -top-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl pk-float" />
           <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl pk-float" />
         </div>
 
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-12 pk-fade-in">
+        <div className="relative pk-container py-12 pk-fade-in">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
-              <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
-                Everything you love.
-                <span className="block text-muted-foreground">Delivered fast.</span>
+              <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+                Discover tech, fashion & essentials.
               </h1>
               <p className="mt-4 max-w-prose text-muted-foreground">
                 Electronics, fashion, gadgets and more. Smooth browsing, clean checkout flow, and a true black
@@ -184,15 +183,15 @@ export default function Home() {
       </section>
 
       <section className="relative overflow-hidden border-b">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0">
           <div className="absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute -right-32 top-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
         </div>
-        <div className="relative mx-auto w-full max-w-7xl px-4 py-12">
+        <div className="relative pk-container py-12">
           <div className="flex items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Top-rated items customers love right now.</p>
+              <p className="mt-2 text-sm text-muted-foreground">Top rated items loved by customers.</p>
             </div>
             <button
               type="button"
@@ -214,12 +213,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="categories" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-7xl px-4 py-12">
+      <section id="categories" className="scroll-mt-24 pk-backdrop-fashion">
+        <div className="pk-container py-12">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight">Explore categories</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Jump directly to product sections.</p>
+              <p className="mt-2 text-sm text-muted-foreground">Browse by category and find your next favorite product.</p>
             </div>
             <button
               type="button"
@@ -271,8 +270,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="shop" className="scroll-mt-24">
-        <div className="mx-auto w-full max-w-7xl px-4 pb-4 pt-4">
+      <section id="shop" className="scroll-mt-24 pk-backdrop-tech">
+        <div className="pk-container pb-4 pt-4">
           <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0">
@@ -327,7 +326,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-4">
+        <div className="pk-container pb-12 pt-4">
           <div className="pk-section p-4 sm:p-6">
             {!hasVisibleProducts ? (
               <div className="rounded-3xl border bg-card/70 p-6 text-center pk-glass">
@@ -492,7 +491,7 @@ export default function Home() {
       </section>
 
       <footer id="contact" className="border-t">
-        <div className="mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="pk-container py-10">
           <div className="grid gap-8 md:grid-cols-3">
             <div>
               <div className="text-lg font-semibold">About PopKart</div>
@@ -530,7 +529,7 @@ export default function Home() {
       </footer>
 
       <section className="border-t">
-        <div className="mx-auto w-full max-w-7xl px-4 py-10">
+        <div className="pk-container py-10">
           <div className="relative overflow-hidden rounded-2xl border bg-card/70 p-6 shadow-sm backdrop-blur pk-glass">
             <div className="pointer-events-none absolute inset-0">
               <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
