@@ -17,7 +17,7 @@ export default function AppLayout() {
   const closeWishlist = useUiStore((s) => s.closeWishlist);
 
   return (
-    <div className="min-h-dvh bg-background text-foreground pk-grid pk-surface pk-noise">
+    <div className="min-h-dvh bg-background text-foreground pk-ambient pk-grid pk-surface pk-noise">
       <Navbar />
       <main key={location.pathname} className="pk-page pk-bottom-safe">
         <Outlet />
