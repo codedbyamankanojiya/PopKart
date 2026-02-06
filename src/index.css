@@ -32,6 +32,7 @@
   --backdrop-image-opacity: 0.16;
   --ambient-image-opacity: 0.11;
   --ambient-sweep-opacity: 0.22;
+  --ambient-vignette-opacity: 0.72;
 }
 
 .dark {
@@ -65,6 +66,7 @@
   --backdrop-image-opacity: 0.10;
   --ambient-image-opacity: 0.07;
   --ambient-sweep-opacity: 0.16;
+  --ambient-vignette-opacity: 0.84;
 }
 
 @tailwind base;
@@ -234,7 +236,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.9;
+    opacity: var(--ambient-image-opacity);
     background-image:
       radial-gradient(1200px 700px at 12% 12%, hsl(var(--brand-4) / 0.18), transparent 60%),
       radial-gradient(1000px 650px at 92% 18%, hsl(var(--brand-2) / 0.16), transparent 58%),
@@ -245,7 +247,7 @@
     background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%, center;
     background-repeat: no-repeat;
     background-blend-mode: screen, screen, screen, normal, soft-light;
-    filter: saturate(1.05) contrast(1.02);
+    filter: saturate(1.04) contrast(1.02) brightness(1.02);
     animation: pk-ambient-pan 22s ease-in-out infinite alternate;
   }
 
@@ -255,15 +257,14 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    opacity: var(--ambient-image-opacity);
+    opacity: 1;
     background-image:
       radial-gradient(800px 500px at 10% 40%, rgba(255, 255, 255, 0.10), transparent 60%),
       radial-gradient(700px 450px at 85% 55%, rgba(255, 255, 255, 0.08), transparent 62%),
       linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, var(--ambient-sweep-opacity)) 44%, transparent 62%),
-      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 4px);
-    background-size: auto, auto, 240% 100%, auto, auto;
-    background-position: 0% 0%, 0% 0%, 20% 50%, 0% 0%, 0% 0%;
+      radial-gradient(1200px 900px at 50% 35%, hsl(var(--background) / var(--ambient-vignette-opacity)), transparent 58%);
+    background-size: auto, auto, 240% 100%, auto;
+    background-position: 0% 0%, 0% 0%, 20% 50%, 50% 20%;
     mix-blend-mode: overlay;
     animation: pk-ambient-sweep 14s ease-in-out infinite;
   }
