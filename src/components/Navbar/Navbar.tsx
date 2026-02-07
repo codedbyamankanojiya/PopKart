@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Menu, Moon, Search, ShoppingCart, Sun, X } from 'lucide-react';
+import { Heart, Menu, Moon, ShoppingCart, Sun, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { categories } from '../../data/mockProducts';
 import { categorySectionId } from '../../lib/slug';
@@ -99,10 +99,10 @@ export default function Navbar() {
   }, [isMobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
-      <div className="pk-container flex h-16 items-center justify-between gap-4">
-        <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight transition-opacity hover:opacity-80">
-          <span className="text-xl font-bold tracking-tight text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-sky-500 bg-clip-text dark:from-blue-400 dark:via-indigo-400 dark:to-sky-400">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
+      <div className="pk-container flex h-[68px] items-center justify-between gap-4">
+        <Link to="/" onClick={goHomeTop} className="flex items-center gap-2 font-semibold tracking-tight">
+          <span className="text-lg font-semibold tracking-tight text-transparent bg-gradient-to-r from-primary via-sky-500 to-emerald-500 bg-clip-text">
             PopKart
           </span>
         </Link>
@@ -113,8 +113,8 @@ export default function Navbar() {
             onClick={goHomeTop}
             className={({ isActive }) =>
               cn(
-                'pk-btn pk-btn-ghost h-9 px-3 text-sm font-medium text-muted-foreground transition-all hover:bg-accent/50 hover:text-foreground',
-                isActive && 'bg-accent/50 text-foreground font-semibold'
+                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
+                isActive && 'bg-accent/80 text-foreground shadow-sm'
               )
             }
           >
@@ -127,10 +127,7 @@ export default function Navbar() {
               onClick={() => setIsCategoryOpen((v) => !v)}
               aria-haspopup="menu"
               aria-expanded={isCategoryOpen}
-              className={cn(
-                'pk-btn pk-btn-ghost h-9 px-3 text-sm font-medium text-muted-foreground transition-all hover:bg-accent/50 hover:text-foreground',
-                isCategoryOpen && 'bg-accent/50 text-foreground'
-              )}
+              className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             >
               Categories
             </button>
@@ -138,34 +135,32 @@ export default function Navbar() {
             <div
               role="menu"
               className={cn(
-                'absolute left-0 top-full mt-2 w-64 overflow-hidden rounded-2xl border border-border/50 bg-popover/95 p-1 shadow-xl backdrop-blur-xl transition-all',
-                !isCategoryOpen && 'hidden opacity-0 scale-95',
-                isCategoryOpen && 'pk-pop opacity-100 scale-100'
+                'absolute left-0 top-full mt-2 w-56 overflow-hidden rounded-xl border bg-popover p-1 shadow-lg',
+                !isCategoryOpen && 'hidden',
+                isCategoryOpen && 'pk-pop'
               )}
             >
-              <div className="grid grid-cols-1 gap-0.5 p-1">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    type="button"
-                    role="menuitem"
-                    className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    onClick={() => {
-                      setCurrentCategory(category);
-                      setIsCategoryOpen(false);
-                      goToSection(categorySectionId(category));
-                    }}
-                  >
-                    <span>{category}</span>
-                  </button>
-                ))}
-              </div>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  role="menuitem"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-popover-foreground transition hover:bg-accent/80"
+                  onClick={() => {
+                    setCurrentCategory(category);
+                    setIsCategoryOpen(false);
+                    goToSection(categorySectionId(category));
+                  }}
+                >
+                  <span>{category}</span>
+                </button>
+              ))}
             </div>
           </div>
 
           <button
             type="button"
-            className="pk-btn pk-btn-ghost h-9 px-3 text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+            className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             onClick={() => goToSection('shop')}
           >
             Shop
@@ -176,8 +171,8 @@ export default function Navbar() {
             onClick={closeAll}
             className={({ isActive }) =>
               cn(
-                'pk-btn pk-btn-ghost h-9 px-3 text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-foreground',
-                isActive && 'bg-accent/50 text-foreground font-semibold'
+                'pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground',
+                isActive && 'bg-accent/80 text-foreground shadow-sm'
               )
             }
           >
@@ -185,17 +180,16 @@ export default function Navbar() {
           </NavLink>
           <button
             type="button"
-            className="pk-btn pk-btn-ghost h-9 px-3 text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+            className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
             onClick={() => goToSection('contact')}
           >
             Contact
           </button>
         </nav>
 
-        <div className="hidden flex-1 items-center justify-center px-4 md:flex">
-          <div className="w-full max-w-sm transition-all focus-within:max-w-md">
-            <div className="relative flex h-10 items-center gap-2 rounded-xl border border-input/50 bg-muted/50 px-3 shadow-sm transition-all focus-within:border-primary/50 focus-within:bg-background focus-within:ring-2 focus-within:ring-primary/20">
-              <Search className="h-4 w-4 text-muted-foreground" />
+        <div className="hidden flex-1 items-center justify-center px-2 md:flex">
+          <div className="w-full max-w-md">
+            <div className="flex h-11 items-center gap-2 rounded-2xl border bg-card/90 px-3 shadow-sm backdrop-blur pk-glass">
               <input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -203,34 +197,33 @@ export default function Navbar() {
                   if (e.key === 'Enter') submitSearch();
                 }}
                 placeholder="Search products..."
-                className="h-full w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                className="h-full w-full bg-transparent text-sm outline-none"
                 aria-label="Search products"
               />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className="rounded-full p-0.5 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                >
-                  <X className="h-3 w-3 text-muted-foreground" />
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={submitSearch}
+                className="pk-btn pk-btn-primary pk-btn-shine h-7 px-3 text-xs"
+              >
+                Search
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => {
               navigate('/wishlist');
               closeAll();
             }}
-            className="pk-btn pk-btn-ghost relative h-10 w-10 rounded-full hover:bg-accent/50"
+            className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open wishlist"
           >
-            <Heart className="h-5 w-5" />
+            <Heart className="h-4 w-4" />
             {wishlistCount > 0 && (
-              <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm ring-2 ring-background">
+              <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
                 {wishlistCount}
               </span>
             )}
@@ -241,12 +234,12 @@ export default function Navbar() {
             onClick={() => {
               openCart();
             }}
-            className="pk-btn pk-btn-ghost relative h-10 w-10 rounded-full hover:bg-accent/50"
+            className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open cart"
           >
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCart className="h-4 w-4" />
             {cartItemsCount > 0 && (
-              <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-sm ring-2 ring-background">
+              <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
                 {cartItemsCount}
               </span>
             )}
@@ -255,15 +248,15 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="pk-btn pk-btn-ghost h-10 w-10 rounded-full hover:bg-accent/50"
+            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70"
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
           <button
             type="button"
-            className="pk-btn pk-btn-ghost h-10 w-10 rounded-full hover:bg-accent/50 md:hidden"
+            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
             aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileOpen}
             onClick={() => {
@@ -271,68 +264,73 @@ export default function Navbar() {
               setIsCategoryOpen(false);
             }}
           >
-            {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
-      <div className="border-b border-border/40 bg-background/60 backdrop-blur-xl md:hidden">
-        <div className="pk-container py-2">
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <div className="border-b bg-background/90 backdrop-blur md:hidden">
+        <div className="pk-container py-3">
+          <div className="flex flex-col gap-2 rounded-2xl border bg-card/90 p-3 shadow-sm pk-glass">
+            <div className="flex items-center gap-2">
+              <select
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value)}
+                className="h-10 min-w-[96px] rounded-xl border bg-background/80 px-2 text-xs font-semibold outline-none"
+                aria-label="Select category"
+              >
+                <option value="All">All</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
               <input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') submitSearch();
                 }}
-                placeholder="Search..."
-                className="h-10 w-full rounded-2xl border border-input/50 bg-muted/50 pl-9 pr-4 text-sm outline-none focus:border-primary/50 focus:bg-background"
+                placeholder="Search products, brands, deals..."
+                className="h-10 w-full rounded-xl border bg-background/80 px-3 text-sm outline-none"
                 aria-label="Search products"
               />
             </div>
-
-            <select
-              value={currentCategory}
-              onChange={(e) => setCurrentCategory(e.target.value)}
-              className="h-10 w-[35%] max-w-[140px] rounded-2xl border border-input/50 bg-muted/50 px-3 text-xs font-medium outline-none focus:border-primary/50 focus:bg-background"
-              aria-label="Select category"
+            <button
+              type="button"
+              onClick={submitSearch}
+              className="pk-btn pk-btn-primary pk-btn-shine h-10 w-full text-sm"
             >
-              <option value="All">All Items</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+              Search
+            </button>
           </div>
         </div>
       </div>
 
       {isMobileOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-lg pk-fade-in" onClick={() => setIsMobileOpen(false)} />
+          <div className="fixed inset-0 z-40 bg-black/40 pk-fade-in" />
           <div
             ref={mobilePanelRef}
-            className="fixed right-0 top-0 z-50 h-dvh w-[80%] max-w-xs border-l border-border/50 bg-background/95 shadow-2xl backdrop-blur-xl pk-slide-in-right p-6"
+            className="fixed right-0 top-0 z-50 h-dvh w-[88%] max-w-sm border-l bg-background pk-slide-in-right"
           >
-            <div className="flex items-center justify-between mb-8">
-              <span className="text-lg font-bold">Menu</span>
+            <div className="flex items-center justify-between border-b pb-3">
+              <div className="text-sm font-semibold">Menu</div>
               <button
                 type="button"
-                className="pk-btn pk-btn-ghost h-9 w-9 rounded-full"
+                className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70"
                 onClick={() => setIsMobileOpen(false)}
                 aria-label="Close menu"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="space-y-2">
+            <div className="mt-4 grid gap-2">
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-accent"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('categories');
                 }}
@@ -342,26 +340,28 @@ export default function Navbar() {
 
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-accent"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('shop');
                 }}
               >
-                Shop All
+                Shop
               </button>
 
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-accent"
+                className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   navigate('/wishlist');
                   closeAll();
                 }}
               >
-                <Heart className="h-5 w-5" />
-                Wishlist
+                <span className="inline-flex items-center gap-2">
+                  <Heart className="h-4 w-4" />
+                  Wishlist
+                </span>
                 {wishlistCount > 0 && (
-                  <span className="ml-auto flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-primary/10 px-2 text-xs font-bold text-primary">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
                     {wishlistCount}
                   </span>
                 )}
@@ -369,38 +369,47 @@ export default function Navbar() {
 
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-accent"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   navigate('/orders');
                   closeAll();
                 }}
               >
-                My Orders
+                Orders
               </button>
 
               <button
                 type="button"
-                className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition-colors hover:bg-accent"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                 onClick={() => {
                   goToSection('contact');
                 }}
               >
-                Contact Support
+                Contact
               </button>
-            </div>
 
-            <div className="absolute bottom-8 left-6 right-6">
-              <button
-                type="button"
-                className="pk-btn pk-btn-primary pk-btn-shine w-full py-6 text-base"
-                onClick={() => {
-                  openCart();
-                  closeAll();
-                }}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                View Cart ({cartItemsCount})
-              </button>
+              <div className="mt-2 grid gap-2">
+                <button
+                  type="button"
+                  className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
+                  onClick={() => {
+                    openCart();
+                    closeAll();
+                  }}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingCart className="h-4 w-4" />
+                    Cart
+                  </span>
+                  {cartItemsCount > 0 && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              <div className="mt-2 text-xs text-muted-foreground">Tip: tap outside or press Esc to close.</div>
             </div>
           </div>
         </div>

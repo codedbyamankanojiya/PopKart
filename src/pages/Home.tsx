@@ -1,183 +1,600 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { mockProducts } from '../data/mockProducts';
+import { useEffect, useMemo } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { toast } from 'sonner';
+import { categories, categoryImages, mockProducts } from '../data/mockProducts';
+import { formatPriceINR } from '../lib/format';
+import { categorySectionId } from '../lib/slug';
+import { scrollToId } from '../lib/scroll';
 import ProductCard from '../components/products/ProductCard';
-import { cn } from '../lib/utils';
-
-// Amazon-style Hero Carousel Images
-const HERO_SLIDES = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Electronics Sale',
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Fashion Collection',
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Home & Kitchen',
-  },
-];
+import { type SortBy, useCatalogStore } from '../stores/catalogStore';
+import { useCartStore } from '../stores/cartStore';
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Auto-rotate hero
+  const addToCart = useCartStore((s) => s.addToCart);
+  const wishlist = useCartStore((s) => s.wishlist);
+  const toggleWishlist = useCartStore((s) => s.toggleWishlist);
+
+  const currentCategory = useCatalogStore((s) => s.currentCategory);
+  const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
+  const searchTerm = useCatalogStore((s) => s.searchTerm);
+  const setSearchTerm = useCatalogStore((s) => s.setSearchTerm);
+  const sortBy = useCatalogStore((s) => s.sortBy);
+  const setSortBy = useCatalogStore((s) => s.setSortBy);
+
+  const products = mockProducts;
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    const state = location.state as { scrollTo?: string } | null;
+    const target = state?.scrollTo;
+    if (!target) return;
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    let cancelled = false;
 
-  // Group products for horizontal feeds
-  const techProducts = mockProducts.filter(p => (p.category as string) === 'Electronics').slice(0, 6);
-  const fashionProducts = mockProducts.filter(p => (p.category as string) === 'Fashion').slice(0, 6);
+    const waitForElement = async (id: string, timeoutMs: number) => {
+      const started = Date.now();
+      while (!cancelled && Date.now() - started < timeoutMs) {
+        const el = document.getElementById(id);
+        if (el) return el;
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      return null;
+    };
+
+    const doScroll = () => {
+      if (target === '__top__') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        scrollToId(target);
+      }
+    };
+
+    (async () => {
+      requestAnimationFrame(() => {
+        setTimeout(async () => {
+          if (cancelled) return;
+          if (target !== '__top__') {
+            await waitForElement(target, 1200);
+          }
+          if (cancelled) return;
+          doScroll();
+          navigate('.', { replace: true, state: null });
+        }, 0);
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location.state, navigate]);
+
+  const filteredSorted = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    const base = q ? products.filter((p) => p.name.toLowerCase().includes(q)) : products;
+
+    const sorted = [...base].sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        case 'rating':
+          return b.rating - a.rating;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'relevance':
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [products, searchTerm, sortBy]);
+
+  const categorizedProducts = useMemo(() => {
+    const map: Record<string, typeof filteredSorted> = {};
+    for (const p of filteredSorted) {
+      if (!map[p.category]) map[p.category] = [];
+      map[p.category].push(p);
+    }
+    return map;
+  }, [filteredSorted]);
+
+  const visibleCategories = useMemo(() => {
+    return categories.filter((c) => currentCategory === 'All' || c === currentCategory);
+  }, [currentCategory]);
+
+  const hasVisibleProducts = useMemo(() => {
+    for (const c of visibleCategories) {
+      const list = categorizedProducts[c] ?? [];
+      if (list.length > 0) return true;
+    }
+    return false;
+  }, [categorizedProducts, visibleCategories]);
+
+  const isSearching = useMemo(() => searchTerm.trim().length > 0, [searchTerm]);
+
+  const featuredProducts = useMemo(() => {
+    return [...products]
+      .filter((p) => p.inStock)
+      .sort((a, b) => b.rating + b.reviews / 1000 - (a.rating + a.reviews / 1000))
+      .slice(0, 6);
+  }, [products]);
 
   return (
-    <div className="relative flex flex-col min-h-screen bg-[#eaeded]">
-      {/* Hero Section - Full Width Carousel */}
-      <div className="relative w-full max-w-[1500px] mx-auto z-0">
-        <div className="relative h-[250px] sm:h-[350px] md:h-[400px] lg:h-[600px] overflow-hidden">
-          {HERO_SLIDES.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={cn(
-                "absolute inset-0 transition-opacity duration-500 ease-in-out",
-                index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-              )}
+    <div className="pb-16 pk-mesh pk-aurora pk-noise">
+      <section className="relative overflow-hidden border-b pk-hero-bg">
+        <div className="absolute inset-0">
+          <div className="absolute -left-40 -top-20 h-80 w-80 rounded-full bg-primary/15 blur-3xl pk-float" />
+          <div className="absolute -right-32 -top-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl pk-float" />
+          <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl pk-float" />
+        </div>
+
+        <div className="relative pk-container py-12 pk-fade-in">
+          <div className="grid items-center gap-8 md:grid-cols-2">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
+              <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+                Discover tech, fashion & essentials.
+              </h1>
+              <p className="mt-4 max-w-prose text-muted-foreground">
+                Electronics, fashion, gadgets and more. Smooth browsing, clean checkout flow, and a true black
+                dark mode that feels premium.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => scrollToId('shop')}
+                  className="pk-btn pk-btn-primary pk-btn-shine h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Shop now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToId('categories')}
+                  className="pk-btn pk-btn-outline h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Explore categories
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-pop pk-float pk-glass">
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
+                  <div className="text-sm font-semibold">Flash Sale</div>
+                  <div className="mt-1 text-sm text-muted-foreground">Up to 70% OFF</div>
+                </div>
+                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
+                  <div className="text-sm font-semibold">Free Shipping</div>
+                  <div className="mt-1 text-sm text-muted-foreground">On ₹999+</div>
+                </div>
+                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
+                  <div className="text-sm font-semibold">Secure Payments</div>
+                  <div className="mt-1 text-sm text-muted-foreground">UPI / Card</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden border-b">
+        <div className="absolute inset-0">
+          <div className="absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -right-32 top-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
+        </div>
+        <div className="relative pk-container py-12">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
+              <p className="mt-2 text-sm text-muted-foreground">Top rated items loved by customers.</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentCategory('All');
+                scrollToId('shop');
+              }}
+              className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
             >
-              <img
-                src={slide.image}
-                alt={slide.alt}
-                className="w-full h-full object-cover object-top"
-                style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }} // Fade out bottom
-              />
-            </div>
-          ))}
-
-          {/* Hero Controls */}
-          <button
-            type="button"
-            onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 h-60 hover:border-2 hover:border-white focus:outline-none"
-          >
-            <ChevronLeft className="w-10 h-10 text-white drop-shadow-lg" />
-          </button>
-          <button
-            type="button"
-            onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 h-60 hover:border-2 hover:border-white focus:outline-none"
-          >
-            <ChevronRight className="w-10 h-10 text-white drop-shadow-lg" />
-          </button>
-        </div>
-
-        {/* Bento Grid - Overlapping Hero */}
-        <div className="absolute top-[220px] sm:top-[200px] md:top-[250px] lg:top-[300px] w-full px-4 z-30">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-            {/* Card 1 */}
-            <div className="bg-white p-4 z-30 flex flex-col gap-3 shadow-sm h-[320px]">
-              <h2 className="text-xl font-bold text-[#0F1111]">Keep shopping for</h2>
-              <div className="grid grid-cols-2 gap-2 flex-1">
-                <div className="flex flex-col gap-1 cursor-pointer">
-                  <img src={techProducts[0]?.image} className="h-24 object-contain p-1 bg-gray-50 bg-center" alt="" />
-                  <span className="text-xs text-gray-500">Smartphones</span>
-                </div>
-                <div className="flex flex-col gap-1 cursor-pointer">
-                  <img src={techProducts[1]?.image} className="h-24 object-contain p-1 bg-gray-50 bg-center" alt="" />
-                  <span className="text-xs text-gray-500">Laptops</span>
-                </div>
-                <div className="flex flex-col gap-1 cursor-pointer">
-                  <img src={techProducts[2]?.image} className="h-24 object-contain p-1 bg-gray-50 bg-center" alt="" />
-                  <span className="text-xs text-gray-500">Headphones</span>
-                </div>
-                <div className="flex flex-col gap-1 cursor-pointer">
-                  <img src={techProducts[3]?.image} className="h-24 object-contain p-1 bg-gray-50 bg-center" alt="" />
-                  <span className="text-xs text-gray-500">Accessories</span>
-                </div>
-              </div>
-              <Link to="/category/Electronics" className="text-sm text-[#007185] hover:text-[#c7511f] hover:underline">See more</Link>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white p-4 z-30 flex flex-col gap-3 shadow-sm h-[320px]">
-              <h2 className="text-xl font-bold text-[#0F1111]">Pick up where you left off</h2>
-              <div className="grid grid-cols-2 gap-2 flex-1">
-                <div className="col-span-2 h-full flex items-center justify-center bg-gray-50">
-                  <img src={fashionProducts[0]?.image} className="max-h-40 object-contain" alt="" />
-                </div>
-              </div>
-              <Link to="/category/Fashion" className="text-sm text-[#007185] hover:text-[#c7511f] hover:underline">See more</Link>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white p-4 z-30 flex flex-col gap-3 shadow-sm h-[320px]">
-              <h2 className="text-xl font-bold text-[#0F1111]">Shop Deals in Electronics</h2>
-              <div className="flex-1 overflow-hidden relative">
-                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800&auto=format&fit=crop" className="w-full h-full object-cover" alt="Electronics" />
-              </div>
-              <Link to="/category/Electronics" className="text-sm text-[#007185] hover:text-[#c7511f] hover:underline">See all deals</Link>
-            </div>
-
-            {/* Card 4 - SignIn / Ad */}
-            <div className="bg-white p-4 z-30 flex flex-col gap-3 shadow-sm h-[320px]">
-              <h2 className="text-xl font-bold text-[#0F1111]">Sign in for your best experience</h2>
-              <button className="amz-btn amz-btn-primary w-full py-2 !rounded-lg text-sm">Sign in securely</button>
-              <div className="mt-4">
-                <img src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?q=80&w=800&auto=format&fit=crop" className="w-full h-32 object-cover rounded-md" alt="Promo" />
-              </div>
-            </div>
-
+              Browse all
+            </button>
           </div>
-        </div>
-      </div>
 
-      {/* Spacing for Bento Grid overlap */}
-      <div className="mt-[340px] md:mt-[120px] lg:mt-[20px]" />
-
-      {/* Horizontal Scroll Feed 1 */}
-      <div className="max-w-[1500px] mx-auto w-full px-4 mb-6 z-10 relative">
-        <div className="bg-white p-5 shadow-sm">
-          <h2 className="text-xl font-bold mb-4 text-[#0F1111]">Best Sellers in Electronics</h2>
-          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
-            {techProducts.map((product) => (
-              <div key={product.id} className="min-w-[200px] max-w-[200px] flex-none">
-                <ProductCard product={product} />
-              </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Horizontal Scroll Feed 2 */}
-      <div className="max-w-[1500px] mx-auto w-full px-4 mb-6 relative">
-        <div className="bg-white p-5 shadow-sm">
-          <h2 className="text-xl font-bold mb-4 text-[#0F1111]">Top Fashion Picks</h2>
-          <div className="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
-            {fashionProducts.map((product) => (
-              <div key={product.id} className="min-w-[200px] max-w-[200px] flex-none">
-                <ProductCard product={product} />
-              </div>
-            ))}
+      <section id="categories" className="scroll-mt-24 pk-backdrop-fashion">
+        <div className="pk-container py-12">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-tight">Explore categories</h2>
+              <p className="mt-2 text-sm text-muted-foreground">Browse by category and find your next favorite product.</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentCategory('All');
+                scrollToId('shop');
+              }}
+              className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Show all products
+            </button>
+          </div>
+
+          <div className="mt-6 pk-section p-4 sm:p-6">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  className="group relative overflow-hidden rounded-2xl border bg-card/70 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring pk-glass"
+                  onClick={() => {
+                    setCurrentCategory(category);
+                    scrollToId(categorySectionId(category));
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="aspect-[16/9] overflow-hidden bg-muted">
+                    <img
+                      src={categoryImages[category]}
+                      alt={category}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <div className="text-sm font-semibold">{category}</div>
+                    <div className="mt-1 flex items-center justify-between gap-2">
+                      <div className="text-sm text-muted-foreground">Tap to view</div>
+                      <div className="rounded-full border bg-background/80 px-2 py-1 text-[11px] font-semibold text-foreground backdrop-blur">
+                        {(categorizedProducts[category]?.length ?? 0).toString()} items
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Footer Placeholder within Home for now */}
-      <div className="w-full bg-[#131921] h-20 mt-10 flex items-center justify-center text-white text-sm">
-        Amazon-Style Footer (Coming Soon)
-      </div>
+      <section id="shop" className="scroll-mt-24 pk-backdrop-tech">
+        <div className="pk-container pb-4 pt-4">
+          <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+              <div className="min-w-0">
+                <div className="text-sm font-semibold">Shop</div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  {filteredSorted.length} products · Browse by category, then refine by search & sort.
+                </div>
+              </div>
 
+              {(searchTerm.trim() || currentCategory !== 'All') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setCurrentCategory('All');
+                  }}
+                  className="pk-btn pk-btn-outline h-10 px-4 text-sm"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+
+            <div className="mt-4 grid gap-2 lg:grid-cols-[220px_220px]">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortBy)}
+                className="pk-select w-full"
+                aria-label="Sort products"
+              >
+                <option value="relevance">Sort: Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Rating</option>
+                <option value="name">Name</option>
+              </select>
+
+              <select
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value)}
+                className="pk-select w-full"
+                aria-label="Filter by category"
+              >
+                <option value="All">Category: All</option>
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="pk-container pb-12 pt-4">
+          <div className="pk-section p-4 sm:p-6">
+            {!hasVisibleProducts ? (
+              <div className="rounded-3xl border bg-card/70 p-6 text-center pk-glass">
+                <div className="text-base font-semibold">No products found</div>
+                <p className="mt-1 text-sm text-muted-foreground">Try clearing filters or searching with a different keyword.</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setCurrentCategory('All');
+                  }}
+                  className="pk-btn pk-btn-primary pk-btn-shine mt-4 h-10 px-4 text-sm"
+                >
+                  Reset filters
+                </button>
+              </div>
+            ) : (
+              <>
+                {isSearching ? (
+                  <section className="scroll-mt-24">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-semibold tracking-tight">Search results</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{filteredSorted.length} items</p>
+                      </div>
+                    </div>
+
+                    <div className="mt-5 grid gap-3">
+                      {filteredSorted.map((product) => {
+                        const isWishlisted = wishlist.includes(product.id);
+                        return (
+                          <div
+                            key={product.id}
+                            className="rounded-3xl border bg-card/70 p-3 shadow-sm backdrop-blur transition hover:border-primary/30 hover:shadow-md pk-glass"
+                          >
+                            <div className="grid gap-3 sm:grid-cols-[180px_1fr]">
+                              <div className="relative overflow-hidden rounded-2xl border bg-muted">
+                                <Link to={`/product/${product.id}`} className="block" aria-label={`View ${product.name}`}>
+                                  <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    loading="lazy"
+                                    decoding="async"
+                                    onError={(e) => {
+                                      e.currentTarget.src =
+                                        categoryImages[product.category] ??
+                                        'https://via.placeholder.com/800x600/111827/ffffff?text=Product+Image';
+                                    }}
+                                    className="h-full w-full object-cover transition duration-500 hover:scale-[1.03]"
+                                  />
+                                </Link>
+                              </div>
+
+                              <div className="flex min-w-0 flex-col justify-between gap-3">
+                                <div className="min-w-0">
+                                  <div className="flex items-start justify-between gap-3">
+                                    <div className="min-w-0">
+                                      <Link
+                                        to={`/product/${product.id}`}
+                                        className="line-clamp-2 text-sm font-semibold leading-snug hover:underline"
+                                      >
+                                        {product.name}
+                                      </Link>
+                                      <div className="mt-1 text-xs text-muted-foreground">{product.category}</div>
+                                    </div>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        toggleWishlist(product.id);
+                                        toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+                                      }}
+                                      aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                                      className={
+                                        'pk-btn pk-btn-outline h-9 w-9 rounded-full bg-background/70 backdrop-blur ' +
+                                        (isWishlisted ? 'border-primary text-primary' : '')
+                                      }
+                                    >
+                                      <Heart className={(isWishlisted ? 'fill-current ' : '') + 'h-4 w-4'} />
+                                    </button>
+                                  </div>
+
+                                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                                    <div className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
+                                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                      <span className="font-semibold text-foreground">{product.rating.toFixed(1)}</span>
+                                      <span>({product.reviews})</span>
+                                    </div>
+                                    {!product.inStock && (
+                                      <span className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive">
+                                        Out of stock
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                  <div className="text-base font-semibold text-primary">{formatPriceINR(product.price)}</div>
+                                  <button
+                                    type="button"
+                                    disabled={!product.inStock}
+                                    onClick={() => {
+                                      if (!product.inStock) return;
+                                      addToCart(product);
+                                      toast('Added to cart');
+                                    }}
+                                    className="pk-btn pk-btn-primary pk-btn-shine h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+                                  >
+                                    <ShoppingCart className="h-4 w-4" />
+                                    Add to cart
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </section>
+                ) : (
+                  visibleCategories.map((category) => {
+                    const list = categorizedProducts[category] ?? [];
+                    if (list.length === 0) return null;
+                    return (
+                      <section
+                        key={category}
+                        id={categorySectionId(category)}
+                        className="scroll-mt-24 border-b pb-10 pt-10 first:pt-2 last:border-b-0"
+                      >
+                        <div className="flex items-end justify-between gap-4">
+                          <div>
+                            <h3 className="text-xl font-semibold tracking-tight">{category}</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">{list.length} items</p>
+                          </div>
+                          {currentCategory !== 'All' && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCurrentCategory('All');
+                                scrollToId('shop');
+                              }}
+                              className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+                            >
+                              Show all
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="mt-5 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                          {list.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  })
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <footer id="contact" className="border-t">
+        <div className="pk-container py-10">
+          <div className="grid gap-8 md:grid-cols-3">
+            <div>
+              <div className="text-lg font-semibold">About PopKart</div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Your one-stop shop for the latest in tech, fashion, gadgets and more. Built for speed and
+                mobile-first usability.
+              </p>
+            </div>
+            <div>
+              <div className="text-lg font-semibold">Quick Links</div>
+              <div className="mt-2 grid gap-2 text-sm text-muted-foreground">
+                <button type="button" className="w-fit hover:text-foreground" onClick={() => scrollToId('shop')}>
+                  Shop
+                </button>
+                <button
+                  type="button"
+                  className="w-fit hover:text-foreground"
+                  onClick={() => scrollToId('categories')}
+                >
+                  Categories
+                </button>
+                <button type="button" className="w-fit hover:text-foreground" onClick={() => scrollToId('contact')}>
+                  Contact
+                </button>
+              </div>
+            </div>
+            <div>
+              <div className="text-lg font-semibold">Contact</div>
+              <p className="mt-2 text-sm text-muted-foreground">Mumbai, India</p>
+              <p className="mt-1 text-sm text-muted-foreground">support@popkart.com</p>
+            </div>
+          </div>
+          <div className="mt-10 text-xs text-muted-foreground">© {new Date().getFullYear()} PopKart</div>
+        </div>
+      </footer>
+
+      <section className="border-t">
+        <div className="pk-container py-10">
+          <div className="relative overflow-hidden rounded-2xl border bg-card/70 p-6 shadow-sm backdrop-blur pk-glass">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+              <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+            </div>
+
+            <div className="relative grid gap-6 md:grid-cols-[220px_1fr]">
+              <div className="relative">
+                <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted">
+                  <img
+                    src="/AmanKanojiya.png"
+                    alt="Aman Kanojiya"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition duration-500 hover:scale-[1.02]"
+                  />
+                </div>
+              </div>
+
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-primary">About the developer</div>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Front-end developer focused on fast, accessible, and polished web experiences.
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <a
+                    href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://github.com/codedbyamankanojiya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    X
+                  </a>
+                  <a
+                    href="https://www.instagram.com/alw4ys.ammy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Instagram
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
