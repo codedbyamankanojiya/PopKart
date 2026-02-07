@@ -539,112 +539,128 @@ export default function Home() {
         </div>
       </section>
 
-      <footer id="contact" className="border-t">
-        <div className="pk-container py-10">
-          <div className="grid gap-8 md:grid-cols-3">
-            <div>
-              <div className="text-lg font-semibold">About PopKart</div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Your one-stop shop for the latest in tech, fashion, gadgets and more. Built for speed and
-                mobile-first usability.
-              </p>
+      {/* Trust / Stats Section */}
+      <section className="border-y bg-muted/30 py-12">
+        <div className="pk-container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-3xl font-bold text-primary">20k+</div>
+              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Happy Customers</div>
             </div>
-            <div>
-              <div className="text-lg font-semibold">Quick Links</div>
-              <div className="mt-2 grid gap-2 text-sm text-muted-foreground">
-                <button type="button" className="w-fit hover:text-foreground" onClick={() => scrollToId('shop')}>
-                  Shop
-                </button>
-                <button
-                  type="button"
-                  className="w-fit hover:text-foreground"
-                  onClick={() => scrollToId('categories')}
-                >
-                  Categories
-                </button>
-                <button type="button" className="w-fit hover:text-foreground" onClick={() => scrollToId('contact')}>
-                  Contact
-                </button>
-              </div>
+            <div className="space-y-2">
+              <div className="text-3xl font-bold text-primary">Fast</div>
+              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Delivery Pan-India</div>
             </div>
-            <div>
-              <div className="text-lg font-semibold">Contact</div>
-              <p className="mt-2 text-sm text-muted-foreground">Mumbai, India</p>
-              <p className="mt-1 text-sm text-muted-foreground">support@popkart.com</p>
+            <div className="space-y-2">
+              <div className="text-3xl font-bold text-primary">100%</div>
+              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Authentic Products</div>
             </div>
-          </div>
-          <div className="mt-10 text-xs text-muted-foreground">© {new Date().getFullYear()} PopKart</div>
-        </div>
-      </footer>
-
-      <section className="border-t">
-        <div className="pk-container py-10">
-          <div className="relative overflow-hidden rounded-2xl border bg-card/70 p-6 shadow-sm backdrop-blur pk-glass">
-            <div className="pointer-events-none absolute inset-0">
-              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-              <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
-            </div>
-
-            <div className="relative grid gap-8 md:grid-cols-[200px_1fr] items-center">
-              <div className="relative">
-                <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted shadow-inner">
-                  <img
-                    src="https://github.com/codedbyamankanojiya.png"
-                    alt="Aman Kanojiya"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold tracking-tight">Connect with the developer</h3>
-                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-                  Hi, I'm Aman Kanojiya. I build accessible, high-performance web applications with a focus on polished UI/UX.
-                </p>
-
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a
-                    href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-primary hover:text-primary"
-                  >
-                    <span className="font-bold">in</span> LinkedIn
-                  </a>
-                  <a
-                    href="https://github.com/codedbyamankanojiya"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-primary hover:text-primary"
-                  >
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
-                    GitHub
-                  </a>
-                  <a
-                    href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white"
-                  >
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                    X (Twitter)
-                  </a>
-                  <a
-                    href="https://www.instagram.com/alw4ys.ammy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-pink-500 hover:text-pink-500"
-                  >
-                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.48 2h.165zm-1.161 2H11.23c-2.484 0-2.82.01-3.791.056-.913.041-1.408.196-1.739.324-.442.17-.756.376-1.082.702-.326.326-.532.64-.702 1.082-.128.331-.283.826-.324 1.739-.046.97-.056 1.306-.056 3.791v.933c0 2.484.01 2.82.056 3.791.041.913.196 1.408.324 1.739.17.442.376.756.702 1.082.326.326.64.532 1.082.702.331.128.826.283 1.739.324.97.046 1.306.056 3.791.056h.933c2.484 0 2.82-.01 3.791-.056.913-.041 1.408-.196 1.739-.324.442-.17.756-.376 1.082-.702.326-.326.64-.532.702-1.082.128-.331.283-.826.324-1.739.046-.97.056-1.306.056-3.791v-.933c0-2.484-.01-2.82-.056-3.791-.041-.913-.196-1.408-.324-1.739-.17-.442-.376-.756-.702-1.082-.326-.326-.64-.532-1.082-.702-.331-.128-.826-.283-1.739-.324-.97-.046-1.306-.056-3.791-.056zM12.315 7c2.937 0 5.315 2.378 5.315 5.315S15.252 17.63 12.315 17.63 7 15.252 7 12.315 9.378 7 12.315 7zm0 1.8A3.515 3.515 0 1012.315 15.83 3.515 3.515 0 0012.315 8.8zm5.284-2.58a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
-                    Instagram
-                  </a>
-                </div>
-              </div>
+            <div className="space-y-2">
+              <div className="text-3xl font-bold text-primary">24/7</div>
+              <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">Support Available</div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <section className="relative overflow-hidden py-24">
+        <div className="absolute inset-0 bg-primary/5 -skew-y-2 transform origin-top-left scale-110" />
+        <div className="pk-container relative">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Stay in the loop</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Join our newsletter for exclusive drops, early access to sales, and curated tech news.
+              No spam, just vibes.
+            </p>
+            <form className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => { e.preventDefault(); toast('Subscribed successfully!'); }}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 h-12 rounded-full border bg-background px-5 outline-none focus:ring-2 focus:ring-primary transition shadow-sm"
+                required
+              />
+              <button type="submit" className="pk-btn pk-btn-primary pk-btn-shine h-12 px-8 rounded-full shadow-lg shadow-primary/20">
+                Subscribe
+              </button>
+            </form>
+            <p className="mt-4 text-xs text-muted-foreground">
+              By subscribing, you agree to our Privacy Policy and Terms of Service.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t bg-muted/40 backdrop-blur-xl">
+        <div className="pk-container py-12 lg:py-16">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
+                  P
+                </div>
+                <span className="text-xl font-bold tracking-tight">PopKart</span>
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                Redefining the digital shopping experience with speed, aesthetics, and user-centric design.
+              </p>
+              <div className="mt-6 flex gap-3">
+                <a href="https://github.com/codedbyamankanojiya" target="_blank" rel="noreferrer" className="rounded-full bg-background p-2 transition hover:text-primary border hover:border-primary">
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/aman-kanojiya-7386822b0" target="_blank" rel="noreferrer" className="rounded-full bg-background p-2 transition hover:text-primary border hover:border-primary">
+                  <span className="font-bold text-xs">in</span>
+                </a>
+                <a href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08" target="_blank" rel="noreferrer" className="rounded-full bg-background p-2 transition hover:text-primary border hover:border-primary">
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                </a>
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-foreground">Shop</div>
+              <div className="mt-4 flex flex-col gap-2 text-sm text-muted-foreground">
+                <button type="button" className="w-fit hover:text-primary transition-colors" onClick={() => scrollToId('shop')}>
+                  All Products
+                </button>
+                <button type="button" className="w-fit hover:text-primary transition-colors" onClick={() => scrollToId('categories')}>
+                  Categories
+                </button>
+                <button type="button" className="w-fit hover:text-primary transition-colors">
+                  New Arrivals
+                </button>
+                <button type="button" className="w-fit hover:text-primary transition-colors">
+                  Featured
+                </button>
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-foreground">Support</div>
+              <div className="mt-4 flex flex-col gap-2 text-sm text-muted-foreground">
+                <span className="cursor-pointer hover:text-primary transition-colors">Help Center</span>
+                <span className="cursor-pointer hover:text-primary transition-colors">Returns & Refunds</span>
+                <span className="cursor-pointer hover:text-primary transition-colors">Shipping Info</span>
+                <span className="cursor-pointer hover:text-primary transition-colors">Track Order</span>
+              </div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-foreground">Contact</div>
+              <div className="mt-4 text-sm text-muted-foreground space-y-2">
+                <p>Mumbai, India</p>
+                <p className="hover:text-primary transition-colors cursor-pointer">support@popkart.com</p>
+                <p>+91 98765 43210</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 border-t pt-8 text-center text-xs text-muted-foreground">
+            <div className="flex justify-center gap-6 mb-4">
+              <span className="cursor-pointer hover:text-foreground">Privacy Policy</span>
+              <span className="cursor-pointer hover:text-foreground">Terms of Service</span>
+              <span className="cursor-pointer hover:text-foreground">Cookie Policy</span>
+            </div>
+            © {new Date().getFullYear()} PopKart. Designed & Built by Aman Kanojiya.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

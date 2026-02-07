@@ -110,9 +110,9 @@ export default function ProductDetails() {
       </div>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[1.25fr_1fr]">
-        <section className="pk-section overflow-hidden p-4">
-          <div className="grid gap-4 lg:grid-cols-[84px_1fr]">
-            <div className="order-2 flex gap-3 overflow-x-auto pb-1 lg:order-1 lg:flex-col lg:overflow-visible">
+        <section className="pk-section overflow-hidden p-4 lg:p-6">
+          <div className="grid gap-6 lg:grid-cols-[100px_1fr]">
+            <div className="order-2 flex gap-3 overflow-x-auto pb-2 lg:order-1 lg:flex-col lg:overflow-visible lg:pb-0 scrollbar-hide">
               {images.map((src, idx) => (
                 <button
                   key={`${product.id}-thumb-${idx}`}
@@ -122,18 +122,18 @@ export default function ProductDetails() {
                     setIsImgLoaded(false);
                   }}
                   className={cn(
-                    'relative shrink-0 overflow-hidden rounded-2xl border bg-muted shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                    idx === activeImageIdx && 'border-primary'
+                    'relative shrink-0 overflow-hidden rounded-2xl border bg-muted shadow-sm transition-all duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                    idx === activeImageIdx ? 'border-primary ring-2 ring-primary/20' : 'border-transparent opacity-70 hover:opacity-100'
                   )}
                   aria-label={`View image ${idx + 1}`}
                 >
-                  <img src={src} alt="" className="h-16 w-20 object-cover lg:h-16 lg:w-20" loading="lazy" decoding="async" />
+                  <img src={src} alt="" className="h-20 w-20 object-cover lg:h-24 lg:w-24" loading="lazy" decoding="async" />
                 </button>
               ))}
             </div>
 
             <div className="order-1 lg:order-2">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-muted">
+              <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-muted shadow-inner">
                 {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
                 <img
                   src={activeImage}
@@ -142,18 +142,31 @@ export default function ProductDetails() {
                   decoding="async"
                   onError={handleImgError}
                   onLoad={() => setIsImgLoaded(true)}
-                  className={cn('h-full w-full object-cover', !isImgLoaded && 'opacity-0', isImgLoaded && 'opacity-100')}
+                  className={cn(
+                    'h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-110',
+                    !isImgLoaded && 'opacity-0',
+                    isImgLoaded && 'opacity-100'
+                  )}
                 />
+
+                <div className="absolute top-4 right-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-black/50 backdrop-blur-md text-white text-xs px-2 py-1 rounded-full">
+                    Hover to zoom
+                  </div>
+                </div>
               </div>
 
               {details?.highlights?.length ? (
-                <div className="mt-4 rounded-3xl border bg-card/70 p-4 pk-glass">
-                  <div className="text-sm font-semibold">Highlights</div>
-                  <ul className="mt-2 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
+                <div className="mt-6 rounded-3xl border bg-card/40 p-5 backdrop-blur-sm">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                    <Star className="h-4 w-4 fill-primary" />
+                    Highlights
+                  </div>
+                  <ul className="mt-3 grid gap-3 text-sm text-foreground/80 sm:grid-cols-2">
                     {details.highlights.slice(0, 6).map((h) => (
-                      <li key={h} className="flex items-start gap-2">
-                        <span className="mt-1 inline-flex h-2 w-2 shrink-0 rounded-full bg-primary" />
-                        <span>{h}</span>
+                      <li key={h} className="flex items-start gap-2.5">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="leading-relaxed">{h}</span>
                       </li>
                     ))}
                   </ul>
@@ -163,86 +176,130 @@ export default function ProductDetails() {
           </div>
         </section>
 
-        <aside className="pk-section p-5 lg:sticky lg:top-[92px] lg:self-start">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <h1 className="text-xl font-semibold leading-tight tracking-tight sm:text-2xl">{product.name}</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Category: {product.category}</p>
-            </div>
-            <div className="shrink-0 rounded-full bg-primary/10 px-3 py-1.5 text-base font-semibold text-primary">
-              {formatPriceINR(product.price)}
-            </div>
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1.5 text-sm">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              <span className="font-semibold">{ratingSummary.avg.toFixed(1)}</span>
-              <span className="text-muted-foreground">({ratingSummary.total || product.reviews} reviews)</span>
-            </div>
-            {!product.inStock && (
-              <span className="inline-flex items-center rounded-full bg-destructive/10 px-3 py-1.5 text-sm font-semibold text-destructive">
-                Out of stock
-              </span>
-            )}
-          </div>
-
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <button
-              type="button"
-              onClick={() => {
-                toggleWishlist(product.id);
-                toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
-              }}
-              className={cn('pk-btn pk-btn-outline h-11 px-4', isWishlisted && 'border-primary text-primary')}
-            >
-              <Heart className={cn('h-4 w-4', isWishlisted && 'fill-current')} />
-              {isWishlisted ? 'Wishlisted' : 'Add to wishlist'}
-            </button>
-
-            <button
-              type="button"
-              disabled={!product.inStock}
-              onClick={() => {
-                if (!product.inStock) return;
-                addToCart(product);
-                toast('Added to cart');
-              }}
-              className="pk-btn pk-btn-primary pk-btn-shine h-11 px-4 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <ShoppingCart className="h-4 w-4" />
-              Add to cart
-            </button>
-          </div>
-
-          <div className="mt-4 grid gap-3">
-            <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
-              <div className="flex items-start gap-3">
-                <Truck className="mt-0.5 h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-semibold">Delivery</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Fast delivery available on eligible pin codes.</p>
+        <aside className="lg:sticky lg:top-[92px] lg:self-start space-y-6">
+          <div className="pk-section p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                  {product.category}
+                </span>
+                <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl">{product.name}</h1>
+              </div>
+              <div className="shrink-0 text-right">
+                <div className="text-2xl font-bold text-primary">{formatPriceINR(product.price)}</div>
+                <div className="text-xs text-muted-foreground line-through decoration-destructive/50">
+                  {formatPriceINR(product.price * 1.2)}
                 </div>
               </div>
             </div>
-            <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
-              <div className="flex items-start gap-3">
-                <PackageCheck className="mt-0.5 h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-semibold">Returns</div>
-                  <p className="mt-1 text-sm text-muted-foreground">Easy 7-day returns on eligible items.</p>
-                </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-1.5 rounded-full border bg-muted/50 px-3 py-1 text-sm transition hover:bg-muted">
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                <span className="font-bold">{ratingSummary.avg.toFixed(1)}</span>
+                <span className="text-muted-foreground">({ratingSummary.total || product.reviews} reviews)</span>
+              </div>
+              {!product.inStock && (
+                <span className="inline-flex items-center rounded-full bg-destructive/10 px-3 py-1 text-sm font-semibold text-destructive border border-destructive/20">
+                  Out of stock
+                </span>
+              )}
+              {product.inStock && (
+                <span className="inline-flex items-center rounded-full bg-green-500/10 px-3 py-1 text-sm font-semibold text-green-600 border border-green-500/20">
+                  In Stock
+                </span>
+              )}
+            </div>
+
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
+
+            {/* Desktop Actions */}
+            <div className="mt-8 hidden sm:grid gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => {
+                  toggleWishlist(product.id);
+                  toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+                }}
+                className={cn('pk-btn pk-btn-outline h-12 px-6', isWishlisted && 'border-primary bg-primary/5 text-primary')}
+              >
+                <Heart className={cn('h-5 w-5', isWishlisted && 'fill-current')} />
+                {isWishlisted ? 'Wishlisted' : 'Add to wishlist'}
+              </button>
+
+              <button
+                type="button"
+                disabled={!product.inStock}
+                onClick={() => {
+                  if (!product.inStock) return;
+                  addToCart(product);
+                  toast('Added to cart');
+                }}
+                className="pk-btn pk-btn-primary pk-btn-shine h-12 px-6 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                Add to cart
+              </button>
+            </div>
+
+            {/* Mobile Sticky Action Bar */}
+            <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/80 p-4 backdrop-blur-lg sm:hidden pb-[env(safe-area-inset-bottom)]">
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    toggleWishlist(product.id);
+                    toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+                  }}
+                  className={cn('pk-btn pk-btn-outline h-11', isWishlisted && 'border-primary text-primary')}
+                >
+                  <Heart className={cn('h-5 w-5', isWishlisted && 'fill-current')} />
+                  Wishlist
+                </button>
+                <button
+                  type="button"
+                  disabled={!product.inStock}
+                  onClick={() => {
+                    if (!product.inStock) return;
+                    addToCart(product);
+                    toast('Added to cart');
+                  }}
+                  className="pk-btn pk-btn-primary pk-btn-shine h-11"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
-            <div className="rounded-2xl border bg-card/70 p-4 pk-glass">
-              <div className="flex items-start gap-3">
-                <BadgeCheck className="mt-0.5 h-4 w-4 text-primary" />
-                <div>
-                  <div className="text-sm font-semibold">Warranty</div>
-                  <p className="mt-1 text-sm text-muted-foreground">{details?.warranty ?? 'Warranty information available on request.'}</p>
-                </div>
+          </div>
+
+          <div className="grid gap-3 pk-section p-4 bg-muted/30">
+            <div className="flex items-center gap-4 rounded-xl border bg-card p-4 transition hover:shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <Truck className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="font-semibold">Free Delivery</div>
+                <p className="text-xs text-muted-foreground">On orders above ₹999</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-xl border bg-card p-4 transition hover:shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <PackageCheck className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="font-semibold">Easy Returns</div>
+                <p className="text-xs text-muted-foreground">7-day replacement policy</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 rounded-xl border bg-card p-4 transition hover:shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <BadgeCheck className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="font-semibold">Warranty</div>
+                <p className="text-xs text-muted-foreground">{details?.warranty ?? 'Standard manufacturer warranty'}</p>
               </div>
             </div>
           </div>
