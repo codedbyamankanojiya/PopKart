@@ -5,6 +5,7 @@ import WishlistDrawer from '../wishlist/WishlistDrawer';
 import { useUiStore } from '../../stores/uiStore';
 import { Heart, Home, Search, ShoppingCart } from 'lucide-react';
 import { scrollToId } from '../../lib/scroll';
+import { cn } from '../../lib/utils';
 
 export default function AppLayout() {
   const location = useLocation();
@@ -23,15 +24,18 @@ export default function AppLayout() {
         <Outlet />
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/85 px-4 py-2 backdrop-blur md:hidden">
-        <div className="mx-auto grid w-full max-w-[92rem] grid-cols-4 gap-2">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/40 bg-background/80 px-2 py-2 backdrop-blur-xl md:hidden safe-area-bottom">
+        <div className="mx-auto grid w-full max-w-md grid-cols-4 gap-1">
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="pk-btn pk-btn-outline h-11 w-full flex-col gap-1 text-[11px]"
+            className={cn(
+              "pk-btn pk-btn-ghost h-12 w-full flex-col gap-1 rounded-2xl text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground",
+              location.pathname === '/' && "text-primary bg-primary/5"
+            )}
             aria-label="Go to top"
           >
-            <Home className="h-4 w-4" />
+            <Home className="h-5 w-5" />
             Home
           </button>
           <button
@@ -43,28 +47,34 @@ export default function AppLayout() {
               }
               scrollToId('shop');
             }}
-            className="pk-btn pk-btn-outline h-11 w-full flex-col gap-1 text-[11px]"
+            className="pk-btn pk-btn-ghost h-12 w-full flex-col gap-1 rounded-2xl text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground"
             aria-label="Go to shop"
           >
-            <Search className="h-4 w-4" />
+            <Search className="h-5 w-5" />
             Shop
           </button>
           <button
             type="button"
             onClick={() => openCart()}
-            className="pk-btn pk-btn-primary pk-btn-shine h-11 w-full flex-col gap-1 text-[11px]"
+            className="pk-btn pk-btn-ghost h-12 w-full flex-col gap-1 rounded-2xl text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground relative"
             aria-label="Open cart"
           >
-            <ShoppingCart className="h-4 w-4" />
+            <div className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              {/* Cart badge handled in icon logic if needed, or we can add a dot here */}
+            </div>
             Cart
           </button>
           <button
             type="button"
             onClick={() => navigate('/wishlist')}
-            className="pk-btn pk-btn-outline h-11 w-full flex-col gap-1 text-[11px]"
+            className={cn(
+              "pk-btn pk-btn-ghost h-12 w-full flex-col gap-1 rounded-2xl text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground",
+              location.pathname === '/wishlist' && "text-primary bg-primary/5"
+            )}
             aria-label="Open wishlist"
           >
-            <Heart className="h-4 w-4" />
+            <Heart className="h-5 w-5" />
             Wishlist
           </button>
         </div>

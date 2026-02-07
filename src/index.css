@@ -75,26 +75,17 @@
 
 @layer components {
   .pk-btn {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: calc(var(--radius) + 0.1rem);
-    font-weight: 600;
-    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background 180ms ease;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl font-semibold transition-all duration-300;
     transform: translateZ(0);
-    overflow: hidden;
   }
 
   .pk-btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.28);
+    @apply outline-none ring-2 ring-ring/50 ring-offset-2;
   }
 
   .pk-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 18px 30px -20px hsl(var(--primary) / 0.45);
+    transform: translateY(-2px);
+    @apply shadow-lg shadow-primary/20;
   }
 
   .pk-btn:active {
@@ -102,331 +93,98 @@
   }
 
   .pk-btn-primary {
-    color: hsl(var(--primary-foreground));
-    background-image: linear-gradient(130deg, hsl(var(--primary)) 0%, hsl(var(--brand-4)) 100%);
-    box-shadow: 0 14px 28px -22px hsl(var(--primary) / 0.7);
+    @apply bg-primary text-primary-foreground;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--brand-4)) 100%);
   }
 
   .pk-btn-outline {
-    color: hsl(var(--foreground));
-    border: 1px solid hsl(var(--border));
-    background-color: hsl(var(--card) / 0.85);
+    @apply bg-background/50 text-foreground border border-border/50 backdrop-blur-md hover:bg-background/80;
   }
 
   .pk-btn-ghost {
-    color: hsl(var(--muted-foreground));
-    background-color: transparent;
+    @apply bg-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground;
   }
 
   .pk-btn-shine::after {
     content: '';
     position: absolute;
-    inset: -40% 0;
-    background: linear-gradient(115deg, transparent 0%, hsl(var(--primary-foreground) / 0.5) 45%, transparent 70%);
+    inset: -50% 0;
+    background: linear-gradient(115deg, transparent 0%, hsl(var(--primary-foreground) / 0.4) 45%, transparent 70%);
     opacity: 0;
-    transform: translateX(-120%);
+    transform: translateX(-150%) skewX(-15deg);
+    transition: none;
   }
 
   .pk-btn-shine:hover::after {
-    opacity: 0.7;
-    animation: pk-shine 700ms ease-out;
+    opacity: 1;
+    animation: pk-shine 0.85s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .pk-input,
   .pk-select {
-    height: 2.75rem;
-    width: 100%;
-    border-radius: calc(var(--radius) + 0.2rem);
-    border: 1px solid hsl(var(--border));
-    background-color: hsl(var(--background) / 0.7);
-    color: hsl(var(--foreground));
-    font-size: 0.875rem;
-    padding: 0 0.875rem;
-    outline: none;
-    transition: box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
+    @apply h-11 w-full rounded-xl border border-input bg-background/50 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200;
   }
-
-  .pk-input::placeholder {
-    color: hsl(var(--muted-foreground));
-  }
-
-  .pk-input:focus-visible,
-  .pk-select:focus-visible {
-    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.28);
-    border-color: hsl(var(--ring) / 0.65);
-    background-color: hsl(var(--background) / 0.88);
-  }
-
+  
   .pk-select {
     appearance: none;
-    padding-right: 2.25rem;
-    background-image:
-      linear-gradient(45deg, transparent 50%, hsl(var(--muted-foreground)) 50%),
-      linear-gradient(135deg, hsl(var(--muted-foreground)) 50%, transparent 50%);
-    background-position: calc(100% - 16px) calc(50% - 1px), calc(100% - 11px) calc(50% - 1px);
-    background-size: 6px 6px, 6px 6px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
     background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
   }
 }
 
 @layer utilities {
   .pk-container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    max-width: 92rem;
-  }
-
-  @media (min-width: 640px) {
-    .pk-container {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
-    }
-  }
-
-  @media (min-width: 1536px) {
-    .pk-container {
-      max-width: 100rem;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-
-  .pk-backdrop-tech,
-  .pk-backdrop-fashion {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .pk-backdrop-tech::before,
-  .pk-backdrop-fashion::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-size: cover;
-    background-position: center;
-    filter: saturate(1.06) contrast(1.05);
-    opacity: var(--backdrop-image-opacity);
-    transform: translate3d(0, 0, 0);
-  }
-
-  .pk-backdrop-tech::before {
-    background-image:
-      linear-gradient(to bottom, hsl(var(--background) / 0.18), hsl(var(--background) / 0.92)),
-      url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=2400&q=80');
-  }
-
-  .pk-backdrop-fashion::before {
-    background-image:
-      linear-gradient(to bottom, hsl(var(--background) / 0.18), hsl(var(--background) / 0.92)),
-      url('https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=2400&q=80');
-  }
-
-  .pk-ambient {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .pk-ambient::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: var(--ambient-image-opacity);
-    background-image:
-      radial-gradient(1200px 700px at 12% 12%, hsl(var(--brand-4) / 0.18), transparent 60%),
-      radial-gradient(1000px 650px at 92% 18%, hsl(var(--brand-2) / 0.16), transparent 58%),
-      radial-gradient(1100px 800px at 52% 95%, hsl(var(--brand-3) / 0.12), transparent 62%),
-      linear-gradient(to bottom, hsl(var(--background) / 0.2), hsl(var(--background) / 0.92)),
-      url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=2400&q=70');
-    background-size: auto, auto, auto, auto, cover;
-    background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%, center;
-    background-repeat: no-repeat;
-    background-blend-mode: screen, screen, screen, normal, soft-light;
-    filter: saturate(1.04) contrast(1.02) brightness(1.02);
-    animation: pk-ambient-pan 22s ease-in-out infinite alternate;
-  }
-
-  .pk-ambient::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 1;
-    background-image:
-      radial-gradient(800px 500px at 10% 40%, rgba(255, 255, 255, 0.10), transparent 60%),
-      radial-gradient(700px 450px at 85% 55%, rgba(255, 255, 255, 0.08), transparent 62%),
-      linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, var(--ambient-sweep-opacity)) 44%, transparent 62%),
-      radial-gradient(1200px 900px at 50% 35%, hsl(var(--background) / var(--ambient-vignette-opacity)), transparent 58%);
-    background-size: auto, auto, 240% 100%, auto;
-    background-position: 0% 0%, 0% 0%, 20% 50%, 50% 20%;
-    mix-blend-mode: overlay;
-    animation: pk-ambient-sweep 14s ease-in-out infinite;
-  }
-
-  .pk-fade-in {
-    animation: pk-fade-in 240ms ease-out both;
-  }
-
-  .pk-slide-in-right {
-    animation: pk-slide-in-right 260ms ease-out both;
-  }
-
-  .pk-pop {
-    animation: pk-pop 180ms ease-out both;
-  }
-
-  .pk-surface {
-    background-image:
-      radial-gradient(1200px 600px at 10% 0%, hsl(var(--brand-1) / 0.16), transparent 55%),
-      radial-gradient(1200px 600px at 90% 20%, hsl(var(--brand-2) / 0.14), transparent 55%),
-      radial-gradient(900px 500px at 50% 100%, hsl(var(--brand-4) / 0.14), transparent 55%);
-  }
-
-  .pk-mesh {
-    background-image:
-      radial-gradient(900px 500px at 5% 10%, hsl(var(--brand-1) / 0.16), transparent 55%),
-      radial-gradient(1000px 600px at 80% 20%, hsl(var(--brand-3) / 0.14), transparent 55%),
-      radial-gradient(1000px 600px at 60% 90%, hsl(var(--brand-2) / 0.12), transparent 55%);
-  }
-
-  .pk-grid {
-    background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.22) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.22) 1px, transparent 1px);
-    background-size: 96px 96px;
-  }
-
-  .pk-aurora {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .pk-aurora::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.75;
-    background:
-      radial-gradient(900px 600px at 10% 10%, hsl(var(--brand-1) / 0.14), transparent 55%),
-      radial-gradient(900px 600px at 90% 20%, hsl(var(--brand-2) / 0.12), transparent 55%),
-      radial-gradient(900px 600px at 50% 90%, hsl(var(--brand-4) / 0.12), transparent 55%);
-    filter: blur(22px);
-    transform: translate3d(0, 0, 0);
-    animation: pk-aurora 14s ease-in-out infinite alternate;
-  }
-
-  .pk-noise {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .pk-noise::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.045;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 4px);
-    mix-blend-mode: overlay;
-    pointer-events: none;
-  }
-
-  .pk-hero-bg {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .pk-hero-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-image:
-      linear-gradient(to bottom, hsl(var(--background) / 0.08), hsl(var(--background) / 0.72)),
-      url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2400&q=80');
-    background-size: cover;
-    background-position: center;
-    filter: saturate(1.05) contrast(1.02);
-    opacity: 0.22;
-    transform: translate3d(0, 0, 0);
-    animation: pk-hero-drift 18s ease-in-out infinite alternate;
-  }
-
-  .pk-shimmer {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--muted)) 0%,
-      hsl(var(--muted) / 0.55) 50%,
-      hsl(var(--muted)) 100%
-    );
-    background-size: 200% 100%;
-    animation: pk-shimmer 1200ms ease-in-out infinite;
+    @apply mx-auto w-full max-w-[96rem] px-4 sm:px-6 lg:px-8;
   }
 
   .pk-glass {
-    background: linear-gradient(160deg, hsl(var(--card) / 0.92), hsl(var(--card) / 0.68));
-    border: 1px solid hsl(var(--border) / 0.7);
-    box-shadow: 0 24px 60px -48px hsl(var(--foreground) / 0.5);
-    backdrop-filter: blur(18px);
+    @apply bg-card/60 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/5 dark:bg-card/40 dark:border-white/5;
+  }
+  
+  .pk-panel {
+     @apply bg-card/80 backdrop-blur-md border border-border/50 shadow-sm transition-all duration-300;
   }
 
   .pk-section {
-    position: relative;
-    overflow: hidden;
-    border-radius: calc(var(--radius) + 0.4rem);
-    border: 1px solid hsl(var(--border) / 0.7);
-    background: linear-gradient(180deg, hsl(var(--card) / 0.98), hsl(var(--card) / 0.7));
-    box-shadow: 0 34px 80px -64px hsl(var(--foreground) / 0.45);
+    @apply relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-b from-card/80 to-card/40 shadow-2xl shadow-black/5 backdrop-blur-sm;
   }
 
   .pk-bottom-safe {
-    padding-bottom: 5rem;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
   }
-
-  @media (min-width: 768px) {
+  
+  @media (max-width: 768px) {
     .pk-bottom-safe {
-      padding-bottom: 0;
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom, 20px));
     }
   }
 
-  .pk-page {
-    animation: pk-page-in 360ms ease-out both;
+  /* Animations & Visuals */
+  .pk-hero-bg {
+    @apply relative isolate;
+  }
+  
+  .pk-aura {
+    background: radial-gradient(circle at center, hsl(var(--primary) / 0.15), transparent 70%);
   }
 
   .pk-float {
-    animation: pk-float 7s ease-in-out infinite;
+    animation: pk-float 6s ease-in-out infinite;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pk-fade-in,
-    .pk-slide-in-right,
-    .pk-pop,
-    .pk-shimmer,
-    .pk-aurora::before,
-    .pk-ambient::before,
-    .pk-ambient::after,
-    .pk-page,
-    .pk-float {
-      animation: none !important;
-    }
-    .pk-hero-bg::before {
-      animation: none !important;
-    }
-    .pk-btn-shine::after {
-      animation: none !important;
-    }
-    html {
-      scroll-behavior: auto;
-    }
+  
+  .pk-pop {
+     animation: pk-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  
+  .pk-fade-in {
+    animation: pk-fade-in 0.4s ease-out both;
+  }
+  
+  .pk-slide-in-right {
+    animation: pk-slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
 

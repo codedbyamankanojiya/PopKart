@@ -126,55 +126,104 @@ export default function Home() {
 
   return (
     <div className="pb-16 pk-mesh pk-aurora pk-noise">
-      <section className="relative overflow-hidden border-b pk-hero-bg">
-        <div className="absolute inset-0">
-          <div className="absolute -left-40 -top-20 h-80 w-80 rounded-full bg-primary/15 blur-3xl pk-float" />
-          <div className="absolute -right-32 -top-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl pk-float" />
-          <div className="absolute bottom-[-120px] left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl pk-float" />
+      <section className="relative overflow-hidden border-b border-border/40 pk-hero-bg">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -left-40 -top-20 h-96 w-96 rounded-full bg-primary/20 blur-3xl pk-float opacity-50" />
+          <div className="absolute -right-32 top-20 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl pk-float opacity-50" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-0 left-1/2 h-64 w-full -translate-x-1/2 bg-gradient-to-t from-background to-transparent" />
         </div>
 
-        <div className="relative pk-container py-12 pk-fade-in">
-          <div className="grid items-center gap-8 md:grid-cols-2">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
-                Discover tech, fashion & essentials.
+        <div className="relative pk-container py-16 lg:py-24 pk-fade-in">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div className="flex flex-col items-start text-left">
+              <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary backdrop-blur-sm mb-6">
+                <span className="relative flex h-2 w-2 mr-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                New Collection Live
+              </div>
+
+              <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Elevate your <br className="hidden sm:block" />
+                <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-sky-500 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-sky-400">
+                  digital lifestyle.
+                </span>
               </h1>
-              <p className="mt-4 max-w-prose text-muted-foreground">
-                Electronics, fashion, gadgets and more. Smooth browsing, clean checkout flow, and a true black
-                dark mode that feels premium.
+
+              <p className="mt-6 max-w-lg text-lg text-muted-foreground leading-relaxed">
+                Experience a curated collection of premium tech, fashion, and everyday essentials.
+                Designed for those who appreciate quality and aesthetics.
               </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+
+              <div className="mt-8 flex flex-col w-full sm:w-auto sm:flex-row gap-4">
                 <button
                   type="button"
                   onClick={() => scrollToId('shop')}
-                  className="pk-btn pk-btn-primary pk-btn-shine h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="pk-btn pk-btn-primary pk-btn-shine h-12 px-8 text-base shadow-lg shadow-primary/25"
                 >
-                  Shop now
+                  Start Shopping
                 </button>
                 <button
                   type="button"
                   onClick={() => scrollToId('categories')}
-                  className="pk-btn pk-btn-outline h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="pk-btn pk-btn-outline h-12 px-8 text-base bg-background/50 hover:bg-background/80"
                 >
-                  Explore categories
+                  Explore Categories
                 </button>
+              </div>
+
+              <div className="mt-10 flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="h-8 w-8 rounded-full border-2 border-background bg-muted overflow-hidden">
+                      <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" className="h-full w-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />)}
+                  </div>
+                  <span className="font-medium text-foreground">Trusted by 10,000+ shoppers</span>
+                </div>
               </div>
             </div>
 
-            <div className="rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-pop pk-float pk-glass">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
-                  <div className="text-sm font-semibold">Flash Sale</div>
-                  <div className="mt-1 text-sm text-muted-foreground">Up to 70% OFF</div>
+            <div className="relative mx-auto w-full max-w-md lg:max-w-full pk-slide-in-right hidden md:block">
+              <div className="relative aspect-square md:aspect-[4/3] lg:aspect-square max-h-[600px] w-full">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-primary/20 to-indigo-500/20 blur-3xl" />
+                <div className="relative h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-card/30 shadow-2xl backdrop-blur-xl pk-glass">
+                  <img
+                    src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=1000&q=80"
+                    alt="Hero Showcase"
+                    className="h-full w-full object-cover opacity-90 transition-transform duration-700 hover:scale-105"
+                  />
+
+                  <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-medium text-white/80">Featured drop</p>
+                        <p className="text-sm font-bold text-white">Premium Electronics</p>
+                      </div>
+                      <button onClick={() => scrollToId('shop')} className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-black transition hover:bg-white/90">
+                        Shop
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
-                  <div className="text-sm font-semibold">Free Shipping</div>
-                  <div className="mt-1 text-sm text-muted-foreground">On ₹999+</div>
-                </div>
-                <div className="rounded-xl border bg-background/80 p-4 transition hover:bg-background">
-                  <div className="text-sm font-semibold">Secure Payments</div>
-                  <div className="mt-1 text-sm text-muted-foreground">UPI / Card</div>
+
+                {/* Floating Elements */}
+                <div className="absolute -right-6 top-12 rounded-2xl border border-white/10 bg-card/80 p-3 shadow-xl backdrop-blur-md pk-float" style={{ animationDelay: '1.5s' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10 text-green-500">
+                      <ShoppingCart className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground">Sales</p>
+                      <p className="text-sm font-bold">+24%</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -536,57 +585,58 @@ export default function Home() {
               <div className="absolute -right-20 bottom-0 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
             </div>
 
-            <div className="relative grid gap-6 md:grid-cols-[220px_1fr]">
+            <div className="relative grid gap-8 md:grid-cols-[200px_1fr] items-center">
               <div className="relative">
-                <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted">
+                <div className="aspect-square w-full overflow-hidden rounded-2xl border bg-muted shadow-inner">
                   <img
-                    src="/AmanKanojiya.png"
+                    src="https://github.com/codedbyamankanojiya.png"
                     alt="Aman Kanojiya"
                     loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition duration-500 hover:scale-[1.02]"
+                    className="h-full w-full object-cover transition duration-500 hover:scale-105"
                   />
                 </div>
               </div>
 
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-primary">About the developer</div>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Front-end developer focused on fast, accessible, and polished web experiences.
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Connect with the developer</h3>
+                <p className="mt-4 text-base text-muted-foreground leading-relaxed">
+                  Hi, I'm Aman Kanojiya. I build accessible, high-performance web applications with a focus on polished UI/UX.
                 </p>
 
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-8 flex flex-wrap gap-3">
                   <a
                     href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-primary hover:text-primary"
                   >
-                    LinkedIn
+                    <span className="font-bold">in</span> LinkedIn
                   </a>
                   <a
                     href="https://github.com/codedbyamankanojiya"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-primary hover:text-primary"
                   >
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
                     GitHub
                   </a>
                   <a
                     href="https://x.com/AKnj08?t=q_d2a3VqdDRpYaScD9Hclw&s=08"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-black hover:text-black dark:hover:border-white dark:hover:text-white"
                   >
-                    X
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+                    X (Twitter)
                   </a>
                   <a
                     href="https://www.instagram.com/alw4ys.ammy"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pk-btn pk-btn-outline pk-btn-shine h-10 px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pk-btn pk-btn-outline h-10 gap-2 px-4 text-sm transition-colors hover:border-pink-500 hover:text-pink-500"
                   >
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.48 2h.165zm-1.161 2H11.23c-2.484 0-2.82.01-3.791.056-.913.041-1.408.196-1.739.324-.442.17-.756.376-1.082.702-.326.326-.532.64-.702 1.082-.128.331-.283.826-.324 1.739-.046.97-.056 1.306-.056 3.791v.933c0 2.484.01 2.82.056 3.791.041.913.196 1.408.324 1.739.17.442.376.756.702 1.082.326.326.64.532 1.082.702.331.128.826.283 1.739.324.97.046 1.306.056 3.791.056h.933c2.484 0 2.82-.01 3.791-.056.913-.041 1.408-.196 1.739-.324.442-.17.756-.376 1.082-.702.326-.326.64-.532.702-1.082.128-.331.283-.826.324-1.739.046-.97.056-1.306.056-3.791v-.933c0-2.484-.01-2.82-.056-3.791-.041-.913-.196-1.408-.324-1.739-.17-.442-.376-.756-.702-1.082-.326-.326-.64-.532-1.082-.702-.331-.128-.826-.283-1.739-.324-.97-.046-1.306-.056-3.791-.056zM12.315 7c2.937 0 5.315 2.378 5.315 5.315S15.252 17.63 12.315 17.63 7 15.252 7 12.315 9.378 7 12.315 7zm0 1.8A3.515 3.515 0 1012.315 15.83 3.515 3.515 0 0012.315 8.8zm5.284-2.58a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
                     Instagram
                   </a>
                 </div>

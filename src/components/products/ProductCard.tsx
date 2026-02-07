@@ -60,17 +60,17 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-transparent bg-card/80 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/30 active:translate-y-0 focus-within:border-primary/30 pk-glass">
+    <div className="group relative flex flex-col overflow-hidden rounded-3xl border border-transparent bg-card/80 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/10 dark:hover:border-white/10 pk-glass">
       <Link
         to={`/product/${product.id}`}
         aria-label={`View details for ${product.name}`}
-        className="relative block aspect-[4/3] w-full overflow-hidden bg-muted"
+        className="relative block aspect-[4/5] w-full overflow-hidden bg-muted"
       >
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-black/0 opacity-0 transition duration-300 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
         {badge && (
           <div className="absolute left-3 top-3 z-10">
-            <span className={cn('inline-flex items-center rounded-full px-2 py-1 text-[11px] font-semibold', badge.className)}>
+            <span className={cn('inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md', badge.className)}>
               {badge.text}
             </span>
           </div>
@@ -85,7 +85,7 @@ export default function ProductCard({ product }: { product: Product }) {
           onError={handleImgError}
           onLoad={() => setIsImgLoaded(true)}
           className={cn(
-            'h-full w-full object-cover transition duration-500 group-hover:scale-[1.08]',
+            'h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110',
             !isImgLoaded && 'opacity-0',
             isImgLoaded && 'opacity-100'
           )}
@@ -94,62 +94,62 @@ export default function ProductCard({ product }: { product: Product }) {
 
       <button
         type="button"
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           toggleWishlist(product.id);
           toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
         }}
         aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         className={cn(
-          'pk-btn pk-btn-outline pk-btn-shine absolute right-3 top-3 h-9 w-9 rounded-full bg-background/80 backdrop-blur',
-          isWishlisted && 'border-primary text-primary'
+          'pk-btn pk-btn-ghost absolute right-3 top-3 h-10 w-10 rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-black/40 hover:text-white',
+          isWishlisted && 'bg-primary text-primary-foreground hover:bg-primary/90'
         )}
       >
-        <Heart className={cn('h-4 w-4', isWishlisted && 'fill-current')} />
+        <Heart className={cn('h-5 w-5 transition-transform duration-300', isWishlisted && 'fill-current scale-110')} />
       </button>
 
-      <div className="flex flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <Link
               to={`/product/${product.id}`}
-              className="line-clamp-2 text-sm font-semibold leading-snug hover:underline"
+              className="line-clamp-2 text-sm font-semibold leading-relaxed tracking-tight text-foreground transition-colors hover:text-primary"
               aria-label={`Open ${product.name}`}
             >
               {product.name}
             </Link>
-            <div className="mt-1 text-xs text-muted-foreground">{product.category}</div>
+            <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+              <span>{product.category}</span>
+              <span>•</span>
+              <div className="flex items-center gap-1 text-foreground/80">
+                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                <span className="font-medium">{product.rating.toFixed(1)}</span>
+              </div>
+            </div>
           </div>
-          <div className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-sm font-semibold text-primary">
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-2">
+          <div className="text-lg font-bold text-foreground tracking-tight">
             {formatPriceINR(product.price)}
           </div>
-        </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
-            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-            <span className="font-semibold text-foreground">{product.rating.toFixed(1)}</span>
-            <span>({product.reviews})</span>
-          </div>
-          {!product.inStock && (
-            <span className="rounded-full bg-destructive/10 px-2 py-1 text-xs font-semibold text-destructive">Out of stock</span>
-          )}
+          <button
+            type="button"
+            disabled={!product.inStock}
+            onClick={() => {
+              if (!product.inStock) return;
+              addToCart(product);
+              toast.success('Added to cart');
+            }}
+            className={cn(
+              'pk-btn pk-btn-primary pk-btn-shine h-10 px-5 text-sm shadow-md transition-transform active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
+            )}
+          >
+            <ShoppingCart className="h-4 w-4" />
+            Add
+          </button>
         </div>
-
-        <button
-          type="button"
-          disabled={!product.inStock}
-          onClick={() => {
-            if (!product.inStock) return;
-            addToCart(product);
-            toast('Added to cart');
-          }}
-          className={cn(
-            'pk-btn pk-btn-primary pk-btn-shine h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-60',
-          )}
-        >
-          <ShoppingCart className="h-4 w-4" />
-          Add to cart
-        </button>
       </div>
     </div>
   );
