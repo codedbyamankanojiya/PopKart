@@ -6,6 +6,8 @@ import { useUiStore } from '../../stores/uiStore';
 import { Heart, Home, Search, ShoppingCart } from 'lucide-react';
 import { scrollToId } from '../../lib/scroll';
 
+import Footer from './Footer';
+
 export default function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,8 +24,10 @@ export default function AppLayout() {
       <main key={location.pathname} className="pk-page pk-bottom-safe">
         <Outlet />
       </main>
+      <Footer />
 
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background/85 px-4 py-2 backdrop-blur md:hidden">
+
         <div className="mx-auto grid w-full max-w-[92rem] grid-cols-4 gap-2">
           <button
             type="button"
