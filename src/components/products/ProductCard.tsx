@@ -12,10 +12,12 @@ export default function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((s) => s.addToCart);
   const wishlist = useCartStore((s) => s.wishlist);
   const toggleWishlist = useCartStore((s) => s.toggleWishlist);
+  const cartItems = useCartStore((s) => s.items);
 
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
   const isWishlisted = wishlist.includes(product.id);
+  const inCart = cartItems.some((item) => item.id === product.id);
 
   const badge = (() => {
     if (!product.inStock) return { text: 'Out of Stock', className: 'bg-destructive text-destructive-foreground' };
@@ -60,95 +62,99 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-3xl border border-transparent bg-card/80 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/10 dark:hover:border-white/10 pk-glass">
-      <Link
-        to={`/product/${product.id}`}
-        aria-label={`View details for ${product.name}`}
-        className="relative block aspect-[4/5] w-full overflow-hidden bg-muted"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        {!isImgLoaded && <div className="absolute inset-0 pk-shimmer" />}
-        {badge && (
-          <div className="absolute left-3 top-3 z-10">
-            <span className={cn('inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md', badge.className)}>
-              {badge.text}
-            </span>
-          </div>
-        )}
-        <img
-          src={product.image}
-          srcSet={srcSet}
-          sizes={sizes}
-          alt={product.name}
-          loading="lazy"
-          decoding="async"
-          onError={handleImgError}
-          onLoad={() => setIsImgLoaded(true)}
-          className={cn(
-            'h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110',
-            !isImgLoaded && 'opacity-0',
-            isImgLoaded && 'opacity-100'
-          )}
-        />
-      </Link>
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:shadow-lg hover:border-primary/20">
+      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+        <Link
+          to={`/product/${product.id}`}
+          aria-label={`View details for ${product.name}`}
+          className="block h-full w-full"
+        >
+          <img
+            src={product.image}
+            srcSet={srcSet}
+            sizes={sizes}
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            onError={handleImgError}
+            onLoad={() => setIsImgLoaded(true)}
+            className={cn(
+              'h-full w-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105',
+              !isImgLoaded && 'opacity-0',
+              isImgLoaded && 'opacity-100'
+            )}
+          />
 
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          toggleWishlist(product.id);
-          toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
-        }}
-        aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-        className={cn(
-          'pk-btn pk-btn-ghost absolute right-3 top-3 h-10 w-10 rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-black/40 hover:text-white',
-          isWishlisted && 'bg-primary text-primary-foreground hover:bg-primary/90'
-        )}
-      >
-        <Heart className={cn('h-5 w-5 transition-transform duration-300', isWishlisted && 'fill-current scale-110')} />
-      </button>
+          {/* Dark overlay on hover for better contrast if needed, subtle */}
+          <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/5" />
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <Link
-              to={`/product/${product.id}`}
-              className="line-clamp-2 text-sm font-semibold leading-relaxed tracking-tight text-foreground transition-colors hover:text-primary"
-              aria-label={`Open ${product.name}`}
-            >
-              {product.name}
-            </Link>
-            <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-              <span>{product.category}</span>
-              <span>•</span>
-              <div className="flex items-center gap-1 text-foreground/80">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-medium">{product.rating.toFixed(1)}</span>
-              </div>
+          {badge && (
+            <div className="absolute left-3 top-3 z-10">
+              <span className={cn('inline-flex items-center rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-wider shadow-sm', badge.className)}>
+                {badge.text}
+              </span>
             </div>
-          </div>
-        </div>
+          )}
+        </Link>
 
-        <div className="mt-auto flex items-center justify-between gap-3 pt-2">
-          <div className="text-lg font-bold text-foreground tracking-tight">
-            {formatPriceINR(product.price)}
-          </div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleWishlist(product.id);
+            toast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
+          }}
+          className={cn(
+            'absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200',
+            isWishlisted
+              ? 'bg-red-500 text-white'
+              : 'bg-white/80 text-muted-foreground backdrop-blur-sm hover:bg-white hover:text-red-500'
+          )}
+          aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+        >
+          <Heart className={cn('h-4 w-4', isWishlisted && 'fill-current')} />
+        </button>
 
+        {/* Quick Add Button (Desktop) - Simply appears, no flashy animation */}
+        {!inCart && (
           <button
             type="button"
             disabled={!product.inStock}
-            onClick={() => {
-              if (!product.inStock) return;
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!product.inStock) {
+                toast('Out of stock');
+                return;
+              }
               addToCart(product);
-              toast.success('Added to cart');
+              toast('Added to cart');
             }}
-            className={cn(
-              'pk-btn pk-btn-primary pk-btn-shine h-10 px-5 text-sm shadow-md transition-transform active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
-            )}
+            className="absolute bottom-4 right-4 hidden sm:flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md opacity-0 transition-opacity duration-200 group-hover:opacity-100 hover:bg-primary/90"
+            title="Quick Add"
           >
-            <ShoppingCart className="h-4 w-4" />
-            Add
+            <ShoppingCart className="h-5 w-5" />
           </button>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-2 min-h-[2.5rem]">
+          <Link
+            to={`/product/${product.id}`}
+            className="line-clamp-2 text-sm font-medium leading-relaxed text-foreground hover:text-primary hover:underline"
+            aria-label={`Open ${product.name}`}
+          >
+            {product.name}
+          </Link>
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-2">
+          <div className="text-base font-bold text-foreground">{formatPriceINR(product.price)}</div>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+            <span className="font-medium text-foreground">{product.rating}</span>
+            <span>({product.reviews})</span>
+          </div>
         </div>
       </div>
     </div>

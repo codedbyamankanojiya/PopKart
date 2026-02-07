@@ -312,7 +312,7 @@ export default function Navbar() {
 
       {isMobileOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm pk-fade-in" onClick={() => setIsMobileOpen(false)} />
+          <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-lg pk-fade-in" onClick={() => setIsMobileOpen(false)} />
           <div
             ref={mobilePanelRef}
             className="fixed right-0 top-0 z-50 h-dvh w-[80%] max-w-xs border-l border-border/50 bg-background/95 shadow-2xl backdrop-blur-xl pk-slide-in-right p-6"

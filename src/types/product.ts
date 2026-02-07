@@ -20,6 +20,8 @@ export interface Product {
   rating: number;
   reviews: number;
   inStock: boolean;
+  mrp: number;
+  brand: string;
 }
 
 export interface CartItem extends Product {
