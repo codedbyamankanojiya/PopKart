@@ -1,19 +1,14 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
-import CartDrawer from '../cart/CartDrawer';
 import WishlistDrawer from '../wishlist/WishlistDrawer';
 import { useUiStore } from '../../stores/uiStore';
 import { Heart, Home, ShoppingCart } from 'lucide-react';
-import { scrollToId } from '../../lib/scroll';
 
 import Footer from './Footer';
 
 export default function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isCartOpen = useUiStore((s) => s.isCartOpen);
-  const openCart = useUiStore((s) => s.openCart);
-  const closeCart = useUiStore((s) => s.closeCart);
   const isWishlistOpen = useUiStore((s) => s.isWishlistOpen);
   const openWishlist = useUiStore((s) => s.openWishlist);
   const closeWishlist = useUiStore((s) => s.closeWishlist);
@@ -41,9 +36,9 @@ export default function AppLayout() {
 
           <button
             type="button"
-            onClick={() => openCart()}
+            onClick={() => navigate('/cart')}
             className="pk-btn pk-btn-primary pk-btn-shine h-11 w-full flex-col gap-1 text-[11px]"
-            aria-label="Open cart"
+            aria-label="Go to cart"
           >
             <ShoppingCart className="h-4 w-4" />
             Cart
@@ -60,7 +55,6 @@ export default function AppLayout() {
         </div>
       </div>
 
-      <CartDrawer open={isCartOpen} onOpenChange={(open) => (open ? openCart() : closeCart())} />
       <WishlistDrawer open={isWishlistOpen} onOpenChange={(open) => (open ? openWishlist() : closeWishlist())} />
     </div>
   );
