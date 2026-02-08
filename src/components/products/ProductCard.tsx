@@ -116,14 +116,14 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="min-w-0 flex-1">
             <Link
               to={`/product/${product.id}`}
-              className="line-clamp-2 text-sm font-semibold leading-snug transition-colors hover:text-primary"
+              className="line-clamp-2 text-base font-bold leading-tight transition-colors hover:text-primary"
               aria-label={`Open ${product.name}`}
             >
               {product.name}
             </Link>
-            <div className="mt-1.5 text-xs font-medium text-muted-foreground">{product.category}</div>
+            <div className="mt-2 text-sm font-semibold text-foreground/70">{product.category}</div>
           </div>
-          <div className="shrink-0 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 px-3 py-2 text-base font-bold text-primary shadow-sm">
+          <div className="shrink-0 rounded-xl bg-gradient-to-br from-primary/30 to-primary/20 px-4 py-2.5 text-lg font-extrabold text-primary shadow-md">
             {formatPriceINR(product.price)}
           </div>
         </div>

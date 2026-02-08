@@ -188,21 +188,52 @@ export default function Home() {
           <div className="absolute -right-32 top-0 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
         </div>
         <div className="relative pk-container py-12">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
-              <p className="mt-2 text-sm text-muted-foreground">Top rated items loved by customers.</p>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-semibold tracking-tight">Featured picks</h2>
+                <p className="mt-2 text-sm text-muted-foreground">Top rated items loved by customers.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrentCategory('All');
+                  scrollToId('shop');
+                }}
+                className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
+              >
+                Browse all
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                setCurrentCategory('All');
-                scrollToId('shop');
-              }}
-              className="pk-btn pk-btn-outline pk-btn-shine hidden h-9 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:inline-flex"
-            >
-              Browse all
-            </button>
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortBy)}
+                className="pk-select w-full sm:w-[220px]"
+                aria-label="Sort products"
+              >
+                <option value="relevance">Sort: Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Rating</option>
+                <option value="name">Name</option>
+              </select>
+
+              <select
+                value={currentCategory}
+                onChange={(e) => setCurrentCategory(e.target.value)}
+                className="pk-select w-full sm:w-[220px]"
+                aria-label="Filter by category"
+              >
+                <option value="All">Category: All</option>
+                {categories.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
