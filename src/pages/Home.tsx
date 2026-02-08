@@ -301,6 +301,7 @@ export default function Home() {
         </div>
       </section>
 
+
       <section id="shop" className="scroll-mt-24 pk-backdrop-tech">
         <div className="pk-container pb-4 pt-4">
           <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
