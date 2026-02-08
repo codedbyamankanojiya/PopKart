@@ -305,13 +305,6 @@ export default function Home() {
         <div className="pk-container pb-4 pt-4">
           <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-              <div className="min-w-0">
-                <div className="text-sm font-semibold">Shop</div>
-                <div className="mt-1 text-sm text-muted-foreground">
-                  {filteredSorted.length} products · Browse by category, then refine by search & sort.
-                </div>
-              </div>
-
               {(searchTerm.trim() || currentCategory !== 'All') && (
                 <button
                   type="button"
@@ -324,35 +317,6 @@ export default function Home() {
                   Clear filters
                 </button>
               )}
-            </div>
-
-            <div className="mt-4 grid gap-2 lg:grid-cols-[220px_220px]">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortBy)}
-                className="pk-select w-full"
-                aria-label="Sort products"
-              >
-                <option value="relevance">Sort: Relevance</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Rating</option>
-                <option value="name">Name</option>
-              </select>
-
-              <select
-                value={currentCategory}
-                onChange={(e) => setCurrentCategory(e.target.value)}
-                className="pk-select w-full"
-                aria-label="Filter by category"
-              >
-                <option value="All">Category: All</option>
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
         </div>
