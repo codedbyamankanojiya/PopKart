@@ -158,13 +158,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="pk-btn pk-btn-ghost h-9 px-3 text-sm text-muted-foreground hover:bg-accent/80 hover:text-foreground"
-            onClick={() => goToSection('shop')}
-          >
-            Shop
-          </button>
+
 
           <NavLink
             to="/orders"

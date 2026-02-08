@@ -3,7 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import CartDrawer from '../cart/CartDrawer';
 import WishlistDrawer from '../wishlist/WishlistDrawer';
 import { useUiStore } from '../../stores/uiStore';
-import { Heart, Home, Search, ShoppingCart } from 'lucide-react';
+import { Heart, Home, ShoppingCart } from 'lucide-react';
 import { scrollToId } from '../../lib/scroll';
 
 import Footer from './Footer';
@@ -38,21 +38,7 @@ export default function AppLayout() {
             <Home className="h-4 w-4" />
             Home
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (location.pathname !== '/') {
-                navigate('/', { state: { scrollTo: 'shop' } });
-                return;
-              }
-              scrollToId('shop');
-            }}
-            className="pk-btn pk-btn-outline h-11 w-full flex-col gap-1 text-[11px]"
-            aria-label="Go to shop"
-          >
-            <Search className="h-4 w-4" />
-            Shop
-          </button>
+
           <button
             type="button"
             onClick={() => openCart()}
