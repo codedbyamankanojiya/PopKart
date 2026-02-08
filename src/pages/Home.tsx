@@ -304,7 +304,7 @@ export default function Home() {
 
       <section id="shop" className="scroll-mt-24 pk-backdrop-tech">
         <div className="pk-container pb-4 pt-4">
-          <div className="rounded-3xl border bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
+          <div className="rounded-3xl bg-card/70 p-4 shadow-sm backdrop-blur pk-glass">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
               {(searchTerm.trim() || currentCategory !== 'All') && (
                 <button
