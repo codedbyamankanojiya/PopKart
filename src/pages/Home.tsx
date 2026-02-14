@@ -136,19 +136,19 @@ export default function Home() {
         <div className="relative pk-container py-12 pk-fade-in">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+              <p className="pk-slide-up text-xs font-semibold uppercase tracking-[0.2em] text-primary">India’s modern megastore</p>
+              <h1 className="pk-slide-up pk-delay-100 mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
                 Discover tech, fashion & essentials.
               </h1>
-              <p className="mt-4 max-w-prose text-muted-foreground">
+              <p className="pk-slide-up pk-delay-200 mt-4 max-w-prose text-muted-foreground">
                 Electronics, fashion, gadgets and more. Smooth browsing, clean checkout flow, and a true black
                 dark mode that feels premium.
               </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <div className="pk-slide-up pk-delay-300 mt-6 flex flex-col gap-3 sm:flex-row">
                 <button
                   type="button"
                   onClick={() => scrollToId('shop')}
-                  className="pk-btn pk-btn-primary pk-btn-shine h-11 px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="pk-btn pk-btn-primary pk-btn-shine h-11 px-8 text-base shadow-lg hover:shadow-primary/25"
                 >
                   Shop now
                 </button>

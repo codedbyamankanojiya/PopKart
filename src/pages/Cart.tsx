@@ -85,10 +85,11 @@ export default function Cart() {
             <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]">
                 {/* Cart Items */}
                 <div className="space-y-4">
-                    {cartProducts.map((product) => (
+                    {cartProducts.map((product, idx) => (
                         <div
                             key={product.id}
-                            className="group relative overflow-hidden rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur transition hover:shadow-md pk-glass"
+                            style={{ animationDelay: `${idx * 100}ms` }}
+                            className="pk-slide-up group relative overflow-hidden rounded-2xl border bg-card/70 p-4 shadow-sm backdrop-blur transition hover:shadow-md pk-glass"
                         >
                             <div className="flex gap-4">
                                 {/* Product Image */}

@@ -60,7 +60,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/90 shadow-md backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 hover:border-primary/40 active:translate-y-0 focus-within:border-primary/40 pk-glass">
+    <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-card/90 shadow-md backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 hover:border-primary/30 active:translate-y-0 focus-within:border-primary/40 pk-glass">
       <Link
         to={`/product/${product.id}`}
         aria-label={`View details for ${product.name}`}
