@@ -7,7 +7,7 @@ import { useUiStore } from '../../stores/uiStore';
 import Footer from './Footer';
 
 export default function AppLayout() {
-  const location = useLocation();
+
 
   const isWishlistOpen = useUiStore((s) => s.isWishlistOpen);
   const openWishlist = useUiStore((s) => s.openWishlist);
