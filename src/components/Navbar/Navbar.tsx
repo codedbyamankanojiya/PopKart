@@ -25,6 +25,20 @@ export default function Navbar() {
   const cartItems = useCartStore((s) => s.items);
   const wishlistCount = useCartStore((s) => s.wishlist.length);
 
+  const [localSearch, setLocalSearch] = useState(searchTerm);
+
+  // Sync local search when global search changes (e.g. clear filters)
+  useEffect(() => {
+    setLocalSearch(searchTerm);
+  }, [searchTerm]);
+
+  // Debounce updates to global store
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchTerm(localSearch);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [localSearch, setSearchTerm]);
 
   const cartItemsCount = useMemo(() => cartCount(cartItems), [cartItems]);
 
@@ -52,11 +66,13 @@ export default function Navbar() {
   };
 
   const submitSearch = () => {
-    const q = searchTerm.trim();
+    const q = localSearch.trim();
     if (!q) {
       goToSection('shop');
       return;
     }
+    // Ensure store is synced immediately on submit
+    setSearchTerm(localSearch);
     goToSection('shop');
   };
 
@@ -184,8 +200,8 @@ export default function Navbar() {
           <div className="w-full max-w-md">
             <div className="flex h-11 items-center gap-2 rounded-2xl border bg-card/90 px-3 shadow-sm backdrop-blur pk-glass">
               <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={localSearch}
+                onChange={(e) => setLocalSearch(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') submitSearch();
                 }}
@@ -253,8 +269,8 @@ export default function Navbar() {
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   autoFocus
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={localSearch}
+                  onChange={(e) => setLocalSearch(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       submitSearch();

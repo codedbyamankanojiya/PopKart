@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { toast } from 'sonner';
@@ -8,7 +8,7 @@ import { useCartStore } from '../../stores/cartStore';
 import type { Product } from '../../types/product';
 import { categoryImages } from '../../data/mockProducts';
 
-export default function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product }: { product: Product }) {
   const addToCart = useCartStore((s) => s.addToCart);
   const wishlist = useCartStore((s) => s.wishlist);
   const toggleWishlist = useCartStore((s) => s.toggleWishlist);
@@ -160,3 +160,5 @@ export default function ProductCard({ product }: { product: Product }) {
     </div>
   );
 }
+
+export default memo(ProductCard);
