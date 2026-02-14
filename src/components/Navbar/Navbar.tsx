@@ -247,19 +247,42 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
-          <button
-            type="button"
-            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
-            onClick={() => {
-              // Toggle search logic here or navigate to search page if exists
-              // For now, let's just focus the desktop search or open a modal
-              // We'll implement a simple toggle for now involving state
-              setIsMobileOpen(true);
-            }}
-            aria-label="Search"
-          >
-            <Search className="h-4 w-4" />
-          </button>
+          {isMobileOpen ? (
+            <div className="absolute inset-x-0 top-0 z-50 flex h-[68px] items-center bg-background px-4 md:hidden">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  autoFocus
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      submitSearch();
+                      setIsMobileOpen(false);
+                    }
+                  }}
+                  placeholder="Search..."
+                  className="h-10 w-full rounded-full border bg-muted pl-9 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileOpen(false)}
+                className="ml-2 p-2 text-sm font-medium text-primary"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
+              onClick={() => setIsMobileOpen(true)}
+              aria-label="Search"
+            >
+              <Search className="h-4 w-4" />
+            </button>
+          )}
 
           <button
             type="button"
