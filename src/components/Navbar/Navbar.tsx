@@ -8,7 +8,7 @@ import { useTheme } from '../providers/ThemeProvider';
 import { cn } from '../../lib/utils';
 import { useCatalogStore } from '../../stores/catalogStore';
 import { cartCount, useCartStore } from '../../stores/cartStore';
-import { useUiStore } from '../../stores/uiStore';
+
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -25,7 +25,7 @@ export default function Navbar() {
   const setSearchTerm = useCatalogStore((s) => s.setSearchTerm);
   const cartItems = useCartStore((s) => s.items);
   const wishlistCount = useCartStore((s) => s.wishlist.length);
-  const openCart = useUiStore((s) => s.openCart);
+
 
   const cartItemsCount = useMemo(() => cartCount(cartItems), [cartItems]);
 
@@ -226,7 +226,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => {
-              openCart();
+              navigate('/cart');
             }}
             className="pk-btn pk-btn-outline relative h-9 w-9 hover:bg-accent/70"
             aria-label="Open cart"
@@ -387,7 +387,7 @@ export default function Navbar() {
                   type="button"
                   className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
                   onClick={() => {
-                    openCart();
+                    navigate('/cart');
                     closeAll();
                   }}
                 >
