@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Menu, Moon, ShoppingCart, Sun, X } from 'lucide-react';
+import { Heart, Menu, Moon, Search, ShoppingCart, Sun, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { categories } from '../../data/mockProducts';
 import { categorySectionId } from '../../lib/slug';
@@ -19,7 +19,6 @@ export default function Navbar() {
   const categoryRef = useRef<HTMLDivElement | null>(null);
   const mobilePanelRef = useRef<HTMLDivElement | null>(null);
 
-  const currentCategory = useCatalogStore((s) => s.currentCategory);
   const setCurrentCategory = useCatalogStore((s) => s.setCurrentCategory);
   const searchTerm = useCatalogStore((s) => s.searchTerm);
   const setSearchTerm = useCatalogStore((s) => s.setSearchTerm);
@@ -251,6 +250,20 @@ export default function Navbar() {
           <button
             type="button"
             className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
+            onClick={() => {
+              // Toggle search logic here or navigate to search page if exists
+              // For now, let's just focus the desktop search or open a modal
+              // We'll implement a simple toggle for now involving state
+              setIsMobileOpen(true);
+            }}
+            aria-label="Search"
+          >
+            <Search className="h-4 w-4" />
+          </button>
+
+          <button
+            type="button"
+            className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
             aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileOpen}
             onClick={() => {
@@ -263,44 +276,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="border-b bg-background/90 backdrop-blur md:hidden">
-        <div className="pk-container py-3">
-          <div className="flex flex-col gap-2 rounded-2xl border bg-card/90 p-3 shadow-sm pk-glass">
-            <div className="flex items-center gap-2">
-              <select
-                value={currentCategory}
-                onChange={(e) => setCurrentCategory(e.target.value)}
-                className="h-10 min-w-[96px] rounded-xl border bg-background/80 px-2 text-xs font-semibold outline-none"
-                aria-label="Select category"
-              >
-                <option value="All">All</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') submitSearch();
-                }}
-                placeholder="Search products, brands, deals..."
-                className="h-10 w-full rounded-xl border bg-background/80 px-3 text-sm outline-none"
-                aria-label="Search products"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={submitSearch}
-              className="pk-btn pk-btn-primary pk-btn-shine h-10 w-full text-sm"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
+
 
       {isMobileOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
@@ -322,6 +298,16 @@ export default function Navbar() {
             </div>
 
             <div className="mt-4 grid gap-2">
+              <button
+                type="button"
+                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
+                onClick={() => {
+                  goHomeTop();
+                }}
+              >
+                Home
+              </button>
+
               <button
                 type="button"
                 className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
