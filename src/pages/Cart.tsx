@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { mockProducts } from '../data/mockProducts';
 import { formatPriceINR } from '../lib/format';
@@ -6,6 +6,7 @@ import { ShoppingCart, Sparkles, Trash2, Minus, Plus, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Cart() {
+    const navigate = useNavigate();
     const items = useCartStore((s) => s.items);
     const removeFromCart = useCartStore((s) => s.removeFromCart);
     const setQty = useCartStore((s) => s.setQty);
@@ -173,14 +174,16 @@ export default function Cart() {
                             </div>
                             <div className="h-px bg-border" />
                             <div className="flex justify-between text-lg">
-                                <span className="font-bold">Total</span>
+                                <span className="font-bold">Order Total</span>
                                 <span className="font-extrabold text-primary">{formatPriceINR(total)}</span>
                             </div>
                         </div>
 
-                        <button className="pk-btn pk-btn-primary pk-btn-shine mt-6 h-12 w-full text-base font-semibold shadow-xl">
-                            <ShoppingCart className="h-5 w-5" />
-                            Proceed to Checkout
+                        <button
+                            onClick={() => navigate('/checkout')}
+                            className="pk-btn pk-btn-primary pk-btn-shine mt-6 h-12 w-full text-base font-bold shadow-xl bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:from-yellow-500 hover:to-yellow-600 border-yellow-500"
+                        >
+                            Proceed to Buy
                         </button>
 
                         <Link
