@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCartStore } from '../stores/cartStore';
 import { mockProducts } from '../data/mockProducts';
 import { formatPriceINR } from '../lib/format';
-import { CheckCircle2, ChevronRight, CreditCard, MapPin, Truck, ShieldCheck, Lock } from 'lucide-react';
+import { CheckCircle2, ChevronRight, CreditCard, MapPin, ShieldCheck, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Step = 'address' | 'payment' | 'review';
