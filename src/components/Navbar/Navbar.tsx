@@ -14,7 +14,8 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const categoryRef = useRef<HTMLDivElement | null>(null);
   const mobilePanelRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +45,8 @@ export default function Navbar() {
 
   const closeAll = () => {
     setIsCategoryOpen(false);
-    setIsMobileOpen(false);
+    setIsMobileMenuOpen(false);
+    setIsMobileSearchOpen(false);
   };
 
   const goHomeTop = () => {
@@ -86,8 +88,8 @@ export default function Navbar() {
       if (categoryRef.current && !categoryRef.current.contains(target)) {
         setIsCategoryOpen(false);
       }
-      if (isMobileOpen && mobilePanelRef.current && !mobilePanelRef.current.contains(target)) {
-        setIsMobileOpen(false);
+      if (isMobileMenuOpen && mobilePanelRef.current && !mobilePanelRef.current.contains(target)) {
+        setIsMobileMenuOpen(false);
       }
     };
 
@@ -99,10 +101,10 @@ export default function Navbar() {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('touchstart', onPointerDown);
     };
-  }, [isMobileOpen]);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    if (!isMobileOpen) return;
+    if (!isMobileMenuOpen) return;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     requestAnimationFrame(() => {
@@ -111,7 +113,7 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = prevOverflow;
     };
-  }, [isMobileOpen]);
+  }, [isMobileMenuOpen]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
@@ -196,9 +198,10 @@ export default function Navbar() {
           </button>
         </nav>
 
-        <div className="hidden flex-1 items-center justify-center px-2 md:flex">
-          <div className="w-full max-w-md">
-            <div className="flex h-11 items-center gap-2 rounded-2xl border bg-card/90 px-3 shadow-sm backdrop-blur pk-glass">
+        <div className="hidden flex-1 items-center justify-center px-4 md:flex">
+          <div className="w-full max-w-lg">
+            <div className="flex h-10 items-center gap-2 rounded-full border bg-card/90 px-4 shadow-sm backdrop-blur pk-glass transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-primary/20">
+              <Search className="h-4 w-4 text-muted-foreground" />
               <input
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
@@ -206,13 +209,13 @@ export default function Navbar() {
                   if (e.key === 'Enter') submitSearch();
                 }}
                 placeholder="Search products..."
-                className="h-full w-full bg-transparent text-sm outline-none"
+                className="h-full w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
                 aria-label="Search products"
               />
               <button
                 type="button"
                 onClick={submitSearch}
-                className="pk-btn pk-btn-primary pk-btn-shine h-7 px-3 text-xs"
+                className="pk-btn pk-btn-primary pk-btn-shine h-7 px-4 text-xs font-medium"
               >
                 Search
               </button>
@@ -263,8 +266,8 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
 
-          {isMobileOpen ? (
-            <div className="absolute inset-x-0 top-0 z-50 flex h-[68px] items-center bg-background px-4 md:hidden">
+          {isMobileSearchOpen ? (
+            <div className="absolute inset-x-0 top-0 z-50 flex h-[68px] items-center gap-3 bg-background px-4 shadow-md md:hidden">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
@@ -274,17 +277,20 @@ export default function Navbar() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       submitSearch();
-                      setIsMobileOpen(false);
+                      setIsMobileSearchOpen(false);
+                    }
+                    if (e.key === 'Escape') {
+                      setIsMobileSearchOpen(false);
                     }
                   }}
-                  placeholder="Search..."
-                  className="h-10 w-full rounded-full border bg-muted pl-9 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Search products..."
+                  className="h-10 w-full rounded-full border bg-muted/50 pl-10 pr-4 text-sm outline-none transition-all focus:bg-muted focus:ring-2 focus:ring-primary/30"
                 />
               </div>
               <button
                 type="button"
-                onClick={() => setIsMobileOpen(false)}
-                className="ml-2 p-2 text-sm font-medium text-primary"
+                onClick={() => setIsMobileSearchOpen(false)}
+                className="shrink-0 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
               >
                 Cancel
               </button>
@@ -293,7 +299,7 @@ export default function Navbar() {
             <button
               type="button"
               className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
-              onClick={() => setIsMobileOpen(true)}
+              onClick={() => setIsMobileSearchOpen(true)}
               aria-label="Search"
             >
               <Search className="h-4 w-4" />
@@ -303,132 +309,138 @@ export default function Navbar() {
           <button
             type="button"
             className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70 md:hidden"
-            aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isMobileOpen}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
             onClick={() => {
-              setIsMobileOpen((v) => !v);
+              setIsMobileMenuOpen((v) => !v);
               setIsCategoryOpen(false);
             }}
           >
-            {isMobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
 
 
-      {isMobileOpen && (
+      {isMobileMenuOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-40 bg-black/40 pk-fade-in" />
+          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm pk-fade-in" onClick={() => setIsMobileMenuOpen(false)} />
           <div
             ref={mobilePanelRef}
-            className="fixed right-0 top-0 z-50 h-dvh w-[88%] max-w-sm border-l bg-background pk-slide-in-right"
+            className="fixed right-0 top-0 z-50 h-dvh w-[85%] max-w-sm border-l bg-background shadow-2xl pk-slide-in-right"
           >
-            <div className="flex items-center justify-between border-b pb-3">
-              <div className="text-sm font-semibold">Menu</div>
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-9 w-9 hover:bg-accent/70"
-                onClick={() => setIsMobileOpen(false)}
-                aria-label="Close menu"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div className="mt-4 grid gap-2">
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  goHomeTop();
-                }}
-              >
-                Home
-              </button>
-
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  goToSection('categories');
-                }}
-              >
-                Categories
-              </button>
-
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  goToSection('shop');
-                }}
-              >
-                Shop
-              </button>
-
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  navigate('/wishlist');
-                  closeAll();
-                }}
-              >
-                <span className="inline-flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
-                  Wishlist
-                </span>
-                {wishlistCount > 0 && (
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
-                    {wishlistCount}
-                  </span>
-                )}
-              </button>
-
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  navigate('/orders');
-                  closeAll();
-                }}
-              >
-                Orders
-              </button>
-
-              <button
-                type="button"
-                className="pk-btn pk-btn-outline h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                onClick={() => {
-                  goToSection('contact');
-                }}
-              >
-                Contact
-              </button>
-
-              <div className="mt-2 grid gap-2">
+            <div className="flex h-full flex-col">
+              <div className="flex items-center justify-between border-b p-5">
+                <div className="text-lg font-semibold">Menu</div>
                 <button
                   type="button"
-                  className="pk-btn pk-btn-outline relative h-11 w-full justify-start px-4 text-left text-sm shadow-sm"
-                  onClick={() => {
-                    navigate('/cart');
-                    closeAll();
-                  }}
+                  className="pk-btn pk-btn-ghost h-9 w-9 hover:bg-accent/70 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close menu"
                 >
-                  <span className="inline-flex items-center gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Cart
-                  </span>
-                  {cartItemsCount > 0 && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2 py-1 text-[10px] font-bold text-primary-foreground">
-                      {cartItemsCount}
-                    </span>
-                  )}
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="mt-2 text-xs text-muted-foreground">Tip: tap outside or press Esc to close.</div>
+              <div className="flex-1 overflow-y-auto p-5">
+                <nav className="grid gap-2">
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      goHomeTop();
+                    }}
+                  >
+                    Home
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      goToSection('categories');
+                    }}
+                  >
+                    Categories
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      goToSection('shop');
+                    }}
+                  >
+                    Shop
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost relative h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      navigate('/wishlist');
+                      closeAll();
+                    }}
+                  >
+                    <span className="inline-flex items-center gap-3">
+                      <Heart className="h-4 w-4" />
+                      Wishlist
+                    </span>
+                    {wishlistCount > 0 && (
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
+                        {wishlistCount}
+                      </span>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      navigate('/orders');
+                      closeAll();
+                    }}
+                  >
+                    Orders
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      goToSection('contact');
+                    }}
+                  >
+                    Contact
+                  </button>
+
+                  <div className="my-3 border-t" />
+
+                  <button
+                    type="button"
+                    className="pk-btn pk-btn-ghost relative h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
+                    onClick={() => {
+                      navigate('/cart');
+                      closeAll();
+                    }}
+                  >
+                    <span className="inline-flex items-center gap-3">
+                      <ShoppingCart className="h-4 w-4" />
+                      Cart
+                    </span>
+                    {cartItemsCount > 0 && (
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
+                        {cartItemsCount}
+                      </span>
+                    )}
+                  </button>
+                </nav>
+
+                <div className="mt-6 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
+                  💡 Tip: Tap outside or press Esc to close
+                </div>
+              </div>
             </div>
           </div>
         </div>
