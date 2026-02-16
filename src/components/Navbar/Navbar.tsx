@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Menu, Moon, Search, ShoppingCart, Sun, X } from 'lucide-react';
+import { Heart, Menu, Moon, Search, ShoppingCart, Sun, X, Home, Package, Grid3x3, Phone, User } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { categories } from '../../data/mockProducts';
 import { categorySectionId } from '../../lib/slug';
@@ -267,9 +267,11 @@ export default function Navbar() {
           </button>
 
           {isMobileSearchOpen ? (
-            <div className="absolute inset-x-0 top-0 z-50 flex h-[68px] items-center gap-3 bg-background px-4 shadow-md md:hidden">
+            <div className="absolute inset-x-0 top-0 z-50 flex h-[68px] items-center gap-3 bg-gradient-to-r from-background via-background/95 to-background px-4 shadow-lg border-b md:hidden">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                  <Search className="h-4 w-4 text-primary" />
+                </div>
                 <input
                   autoFocus
                   value={localSearch}
@@ -284,13 +286,13 @@ export default function Navbar() {
                     }
                   }}
                   placeholder="Search products..."
-                  className="h-10 w-full rounded-full border bg-muted/50 pl-10 pr-4 text-sm outline-none transition-all focus:bg-muted focus:ring-2 focus:ring-primary/30"
+                  className="h-11 w-full rounded-xl border-2 bg-card/50 pl-14 pr-4 text-sm font-medium outline-none transition-all focus:border-primary/50 focus:bg-card focus:shadow-lg placeholder:text-muted-foreground/60"
                 />
               </div>
               <button
                 type="button"
                 onClick={() => setIsMobileSearchOpen(false)}
-                className="shrink-0 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                className="flex h-11 shrink-0 items-center justify-center rounded-xl bg-muted/80 px-4 text-sm font-semibold transition-all hover:bg-muted active:scale-95"
               >
                 Cancel
               </button>
@@ -325,120 +327,170 @@ export default function Navbar() {
 
       {isMobileMenuOpen && (
         <div className="md:hidden" aria-label="Mobile menu" role="dialog" aria-modal="true">
-          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm pk-fade-in" onClick={() => setIsMobileMenuOpen(false)} />
+          <div
+            className="fixed inset-0 z-40 bg-gradient-to-b from-black/60 via-black/50 to-black/60 backdrop-blur-md pk-fade-in"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
           <div
             ref={mobilePanelRef}
-            className="fixed right-0 top-0 z-50 h-dvh w-[85%] max-w-sm border-l bg-background shadow-2xl pk-slide-in-right"
+            className="fixed right-0 top-0 z-50 h-dvh w-[90%] max-w-sm bg-background shadow-2xl pk-slide-in-right overflow-hidden"
           >
             <div className="flex h-full flex-col">
-              <div className="flex items-center justify-between border-b p-5">
-                <div className="text-lg font-semibold">Menu</div>
-                <button
-                  type="button"
-                  className="pk-btn pk-btn-ghost h-9 w-9 hover:bg-accent/70 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  aria-label="Close menu"
-                >
-                  <X className="h-5 w-5" />
-                </button>
+              {/* Enhanced Header with Gradient */}
+              <div className="relative bg-gradient-to-br from-primary/10 via-sky-500/10 to-emerald-500/10 border-b">
+                <div className="absolute inset-0 bg-grid-white/5" />
+                <div className="relative flex items-center justify-between p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-sky-500 to-emerald-500 shadow-lg">
+                      <User className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-base font-bold tracking-tight">Menu</div>
+                      <div className="text-xs text-muted-foreground">PopKart Shopping</div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="flex h-10 w-10 items-center justify-center rounded-xl bg-background/80 backdrop-blur-sm border hover:bg-accent/80 transition-all duration-200 hover:scale-105 active:scale-95"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    aria-label="Close menu"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-5">
-                <nav className="grid gap-2">
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      goHomeTop();
-                    }}
-                  >
-                    Home
-                  </button>
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {/* Main Navigation */}
+                <div className="mb-4">
+                  <div className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Navigation</div>
+                  <nav className="grid gap-1.5">
+                    <button
+                      type="button"
+                      className="group flex h-14 w-full items-center gap-4 rounded-xl bg-card/50 px-4 text-left transition-all duration-200 hover:bg-accent/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-primary/20"
+                      onClick={() => {
+                        goHomeTop();
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/10 to-blue-600/10 group-hover:from-blue-500/20 group-hover:to-blue-600/20 transition-colors">
+                        <Home className="h-4.5 w-4.5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <span className="text-sm font-medium">Home</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      goToSection('categories');
-                    }}
-                  >
-                    Categories
-                  </button>
+                    <button
+                      type="button"
+                      className="group flex h-14 w-full items-center gap-4 rounded-xl bg-card/50 px-4 text-left transition-all duration-200 hover:bg-accent/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-primary/20"
+                      onClick={() => {
+                        goToSection('categories');
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500/10 to-purple-600/10 group-hover:from-purple-500/20 group-hover:to-purple-600/20 transition-colors">
+                        <Grid3x3 className="h-4.5 w-4.5 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <span className="text-sm font-medium">Categories</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      goToSection('shop');
-                    }}
-                  >
-                    Shop
-                  </button>
+                    <button
+                      type="button"
+                      className="group flex h-14 w-full items-center gap-4 rounded-xl bg-card/50 px-4 text-left transition-all duration-200 hover:bg-accent/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-primary/20"
+                      onClick={() => {
+                        goToSection('shop');
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 group-hover:from-emerald-500/20 group-hover:to-emerald-600/20 transition-colors">
+                        <Package className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <span className="text-sm font-medium">Shop</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost relative h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      navigate('/wishlist');
-                      closeAll();
-                    }}
-                  >
-                    <span className="inline-flex items-center gap-3">
-                      <Heart className="h-4 w-4" />
-                      Wishlist
-                    </span>
-                    {wishlistCount > 0 && (
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
-                        {wishlistCount}
-                      </span>
-                    )}
-                  </button>
+                    <button
+                      type="button"
+                      className="group flex h-14 w-full items-center gap-4 rounded-xl bg-card/50 px-4 text-left transition-all duration-200 hover:bg-accent/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-primary/20"
+                      onClick={() => {
+                        navigate('/orders');
+                        closeAll();
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500/10 to-orange-600/10 group-hover:from-orange-500/20 group-hover:to-orange-600/20 transition-colors">
+                        <Package className="h-4.5 w-4.5 text-orange-600 dark:text-orange-400" />
+                      </div>
+                      <span className="text-sm font-medium">Orders</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      navigate('/orders');
-                      closeAll();
-                    }}
-                  >
-                    Orders
-                  </button>
+                    <button
+                      type="button"
+                      className="group flex h-14 w-full items-center gap-4 rounded-xl bg-card/50 px-4 text-left transition-all duration-200 hover:bg-accent/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-primary/20"
+                      onClick={() => {
+                        goToSection('contact');
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-pink-500/10 to-pink-600/10 group-hover:from-pink-500/20 group-hover:to-pink-600/20 transition-colors">
+                        <Phone className="h-4.5 w-4.5 text-pink-600 dark:text-pink-400" />
+                      </div>
+                      <span className="text-sm font-medium">Contact</span>
+                    </button>
+                  </nav>
+                </div>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      goToSection('contact');
-                    }}
-                  >
-                    Contact
-                  </button>
+                {/* Shopping Section */}
+                <div className="mb-4">
+                  <div className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Shopping</div>
+                  <nav className="grid gap-1.5">
+                    <button
+                      type="button"
+                      className="group relative flex h-14 w-full items-center gap-4 rounded-xl bg-gradient-to-br from-red-500/5 to-pink-500/5 px-4 text-left transition-all duration-200 hover:from-red-500/10 hover:to-pink-500/10 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-red-500/20 hover:border-red-500/40"
+                      onClick={() => {
+                        navigate('/wishlist');
+                        closeAll();
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-red-500/20 to-pink-500/20 group-hover:from-red-500/30 group-hover:to-pink-500/30 transition-colors">
+                        <Heart className="h-4.5 w-4.5 text-red-600 dark:text-red-400" />
+                      </div>
+                      <span className="text-sm font-medium">Wishlist</span>
+                      {wishlistCount > 0 && (
+                        <span className="ml-auto flex h-6 min-w-6 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-pink-500 px-2 text-xs font-bold text-white shadow-lg">
+                          {wishlistCount}
+                        </span>
+                      )}
+                    </button>
 
-                  <div className="my-3 border-t" />
+                    <button
+                      type="button"
+                      className="group relative flex h-14 w-full items-center gap-4 rounded-xl bg-gradient-to-br from-primary/5 to-sky-500/5 px-4 text-left transition-all duration-200 hover:from-primary/10 hover:to-sky-500/10 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] border border-primary/20 hover:border-primary/40"
+                      onClick={() => {
+                        navigate('/cart');
+                        closeAll();
+                      }}
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-sky-500/20 group-hover:from-primary/30 group-hover:to-sky-500/30 transition-colors">
+                        <ShoppingCart className="h-4.5 w-4.5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium">Shopping Cart</span>
+                      {cartItemsCount > 0 && (
+                        <span className="ml-auto flex h-6 min-w-6 items-center justify-center rounded-full bg-gradient-to-br from-primary to-sky-500 px-2 text-xs font-bold text-white shadow-lg">
+                          {cartItemsCount}
+                        </span>
+                      )}
+                    </button>
+                  </nav>
+                </div>
 
-                  <button
-                    type="button"
-                    className="pk-btn pk-btn-ghost relative h-12 w-full justify-start px-4 text-left text-sm font-medium hover:bg-accent/80 transition-colors"
-                    onClick={() => {
-                      navigate('/cart');
-                      closeAll();
-                    }}
-                  >
-                    <span className="inline-flex items-center gap-3">
-                      <ShoppingCart className="h-4 w-4" />
-                      Cart
-                    </span>
-                    {cartItemsCount > 0 && (
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-primary px-2.5 py-0.5 text-xs font-bold text-primary-foreground">
-                        {cartItemsCount}
-                      </span>
-                    )}
-                  </button>
-                </nav>
-
-                <div className="mt-6 rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
-                  💡 Tip: Tap outside or press Esc to close
+                {/* Info Card */}
+                <div className="mt-6 rounded-xl bg-gradient-to-br from-muted/50 to-muted/30 p-4 border">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                      <span className="text-lg">💡</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-xs font-medium text-foreground mb-1">Quick Tip</div>
+                      <div className="text-xs text-muted-foreground leading-relaxed">
+                        Tap outside the menu or press Esc to close. Swipe right to dismiss.
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
