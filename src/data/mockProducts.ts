@@ -32,7 +32,7 @@ const baseProducts: Product[] = [
     price: 159900.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1696446702183-cbd50a6db0b6?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1000&q=80',
     description:
       '6.7-inch Super Retina XDR display with ProMotion technology, A17 Pro chip, titanium design.',
     rating: 4.8,
@@ -45,7 +45,7 @@ const baseProducts: Product[] = [
     price: 124999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1610945264803-c22b62d2a7b3?auto=format&fit=crop&w=1000&q=80',
     description: '6.8-inch Dynamic AMOLED display, S Pen included, 200MP camera, AI features.',
     rating: 4.7,
     reviews: 1834,
@@ -57,7 +57,7 @@ const baseProducts: Product[] = [
     price: 106999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=80',
     description: '6.7-inch LTPO OLED display, Google Tensor G3 chip, advanced AI photography.',
     rating: 4.6,
     reviews: 1245,
@@ -105,7 +105,7 @@ const baseProducts: Product[] = [
     price: 134900.0,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1678652197635-cb1614d2e5d5?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1696446702178-9e0e9c4e55f7?auto=format&fit=crop&w=1000&q=80',
     description: 'A17 Pro chip, titanium design, advanced camera system, Action Button.',
     rating: 4.8,
     reviews: 1234,
@@ -117,7 +117,7 @@ const baseProducts: Product[] = [
     price: 154999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=1000&q=80',
     description: 'Foldable design, big display, multitasking powerhouse, premium build.',
     rating: 4.5,
     reviews: 678,
@@ -142,7 +142,7 @@ const baseProducts: Product[] = [
     price: 164999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80',
     description: 'Ultimate gaming graphics card with 24GB GDDR6X memory, ray tracing, DLSS 3.',
     rating: 4.9,
     reviews: 1567,
@@ -154,7 +154,7 @@ const baseProducts: Product[] = [
     price: 59999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1000&q=80',
     description: '24-core processor with up to 6.0 GHz boost clock, perfect for gaming and creation.',
     rating: 4.8,
     reviews: 892,
@@ -178,7 +178,7 @@ const baseProducts: Product[] = [
     price: 11999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?auto=format&fit=crop&w=1000&q=80',
     description: 'High-speed DDR5 memory for esports and creation, stable XMP profiles, premium heatsink.',
     rating: 4.7,
     reviews: 768,
@@ -227,7 +227,7 @@ const baseProducts: Product[] = [
     price: 299999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1000&q=80',
     description: '16-inch Liquid Retina XDR, M3 Max chip, 32GB RAM, 1TB SSD',
     rating: 4.9,
     reviews: 234,
@@ -239,7 +239,7 @@ const baseProducts: Product[] = [
     price: 89999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=1000&q=80',
     description: '15.6-inch 144Hz, RTX 4060, Ryzen 7, 16GB RAM, 512GB SSD',
     rating: 4.7,
     reviews: 567,
@@ -275,7 +275,7 @@ const baseProducts: Product[] = [
     price: 149999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1000&q=80',
     description: 'Premium ultrabook with edge-to-edge design, sharp display, and a top-tier trackpad feel.',
     rating: 4.6,
     reviews: 520,
@@ -312,7 +312,7 @@ const baseProducts: Product[] = [
     price: 8999.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1000&q=80',
     description: 'Iconic Nike sneakers with premium leather, Air-Sole cushioning, classic white colorway.',
     rating: 4.8,
     reviews: 3421,
@@ -336,7 +336,7 @@ const baseProducts: Product[] = [
     price: 14999.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=80',
     description: 'Premium running shoes with Boost cushioning, Primeknit upper, energy return technology.',
     rating: 4.9,
     reviews: 1876,
@@ -384,7 +384,7 @@ const baseProducts: Product[] = [
     price: 3999.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=1000&q=80',
     description: 'Elegant floral midi dress with V-neckline, flowing silhouette, perfect for occasions.',
     rating: 4.6,
     reviews: 1245,
@@ -408,7 +408,7 @@ const baseProducts: Product[] = [
     price: 18999.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1000&q=80',
     description: 'Luxury leather tote with signature MK logo, spacious interior, gold-tone hardware.',
     rating: 4.8,
     reviews: 567,
@@ -481,7 +481,7 @@ const baseProducts: Product[] = [
     price: 33999.99,
     category: 'Gaming Console',
     image:
-      'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?auto=format&fit=crop&w=1000&q=80',
     description: 'Vibrant OLED screen, portable play, great exclusives. Dock and play on TV instantly.',
     rating: 4.7,
     reviews: 1780,
@@ -531,7 +531,7 @@ const baseProducts: Product[] = [
     price: 8999.99,
     category: 'PC Accessories',
     image:
-      'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=1000&q=80',
     description: 'Ergonomic wireless mouse with MagSpeed scrolling, 8K DPI sensor, multi-device support.',
     rating: 4.8,
     reviews: 2341,
@@ -543,7 +543,7 @@ const baseProducts: Product[] = [
     price: 18999.99,
     category: 'PC Accessories',
     image:
-      'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=1000&q=80',
     description: 'Premium mechanical keyboard with Razer Green switches, RGB Chroma, command dial.',
     rating: 4.9,
     reviews: 1876,
@@ -580,7 +580,7 @@ const baseProducts: Product[] = [
     price: 41900.99,
     category: 'Gadgets',
     image:
-      'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=1000&q=80',
     description: 'Advanced health tracking, always-on Retina display, crash detection, water resistant.',
     rating: 4.9,
     reviews: 4567,
@@ -592,7 +592,7 @@ const baseProducts: Product[] = [
     price: 24900.99,
     category: 'Gadgets',
     image:
-      'https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=1000&q=80',
     description: 'Active Noise Cancellation, Adaptive Transparency, spatial audio, MagSafe charging.',
     rating: 4.8,
     reviews: 5678,
@@ -629,7 +629,7 @@ const baseProducts: Product[] = [
     price: 12999.99,
     category: 'Glasses',
     image:
-      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&w=1000&q=80',
     description: 'Iconic aviator sunglasses with gold frame, green G-15 lenses, 100% UV protection.',
     rating: 4.8,
     reviews: 3456,
