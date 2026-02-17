@@ -63,13 +63,21 @@ export default function Footer() {
                             </div>
 
                             <div className="min-w-0">
-                                <div className="text-sm font-semibold text-primary">About the developer</div>
-                                <h2 className="mt-2 text-2xl font-semibold tracking-tight">Aman Kanojiya</h2>
-                                <p className="mt-2 text-sm text-muted-foreground">
-                                    Front-end developer focused on fast, accessible, and polished web experiences.
+                                <div className="text-sm font-semibold text-primary">About the Developer</div>
+                                <h2 className="mt-2 text-2xl font-semibold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">Aman Kanojiya</h2>
+                                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                                    Full-stack developer specializing in modern e-commerce solutions. This project showcases expertise in <span className="font-medium text-foreground">React</span>, <span className="font-medium text-foreground">TypeScript</span>, and <span className="font-medium text-foreground">Tailwind CSS</span> with a focus on performance, accessibility, and user experience.
                                 </p>
 
-                                <div className="mt-5 flex flex-wrap gap-2">
+                                <div className="mt-6 flex flex-wrap gap-2">
+                                    <a
+                                        href="https://codedbyamankanojiya.vercel.app"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="pk-btn pk-btn-primary pk-btn-shine h-10 px-5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                    >
+                                        🌐 Portfolio
+                                    </a>
                                     <a
                                         href="https://www.linkedin.com/in/aman-kanojiya-7386822b0"
                                         target="_blank"

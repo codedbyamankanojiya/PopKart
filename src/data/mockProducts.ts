@@ -69,7 +69,7 @@ const baseProducts: Product[] = [
     price: 39999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1000&q=80',
     description: '120Hz AMOLED, Snapdragon performance, fast charging, clean feel for daily power users.',
     rating: 4.5,
     reviews: 892,
@@ -81,7 +81,7 @@ const baseProducts: Product[] = [
     price: 44999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1678685888221-cda5f4cda1e5?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1674763973792-761fc5e3b0d7?auto=format&fit=crop&w=1000&q=80',
     description: 'Signature Glyph design, smooth OLED, premium build, clean UI with great battery life.',
     rating: 4.4,
     reviews: 640,
@@ -93,7 +93,7 @@ const baseProducts: Product[] = [
     price: 99999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1623998022290-a74f8cc36563?auto=format&fit=crop&w=1000&q=80',
     description: 'Pro camera system, bright LTPO display, flagship performance for creators and gamers.',
     rating: 4.6,
     reviews: 418,
@@ -129,7 +129,7 @@ const baseProducts: Product[] = [
     price: 40999.99,
     category: 'Smartphone',
     image:
-      'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=1000&q=80',
     description: 'Fast performance, smooth AMOLED, reliable camera for daily use, quick charging.',
     rating: 4.5,
     reviews: 734,
@@ -166,7 +166,7 @@ const baseProducts: Product[] = [
     price: 38999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1612810436541-336b3d0f7657?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1555617981-dac3880eac6e?auto=format&fit=crop&w=1000&q=80',
     description: 'Best-in-class gaming CPU with 3D V-Cache, smooth 1% lows, efficient performance.',
     rating: 4.9,
     reviews: 1443,
@@ -190,7 +190,7 @@ const baseProducts: Product[] = [
     price: 15999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1587202372775-e6a36f82f7f8?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=1000&q=80',
     description: 'Blazing fast PCIe 4.0 storage with top-tier endurance and consistent real-world speeds.',
     rating: 4.8,
     reviews: 932,
@@ -202,7 +202,7 @@ const baseProducts: Product[] = [
     price: 69999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1612810436541-336b3d0f7657?auto=format&fit=crop&w=1000&q=80',
     description: 'Top-tier CPU for gaming and creation with 3D V-Cache for strong performance.',
     rating: 4.7,
     reviews: 654,
@@ -214,7 +214,7 @@ const baseProducts: Product[] = [
     price: 104999.99,
     category: 'Gaming PC Gears',
     image:
-      'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=1000&q=80',
     description: 'High-end graphics card with excellent 1440p/4K performance and modern features.',
     rating: 4.6,
     reviews: 445,
@@ -251,7 +251,7 @@ const baseProducts: Product[] = [
     price: 74999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=80',
     description: 'Compact OLED laptop for study and work: sharp visuals, solid battery, comfortable keyboard.',
     rating: 4.4,
     reviews: 412,
@@ -263,7 +263,7 @@ const baseProducts: Product[] = [
     price: 64999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1000&q=80',
     description: 'Lightweight daily laptop with fast SSD, crisp display, and strong multitasking performance.',
     rating: 4.5,
     reviews: 980,
@@ -287,7 +287,7 @@ const baseProducts: Product[] = [
     price: 134900.0,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1000&q=80',
     description: 'Thin and light laptop with excellent battery life and smooth performance for everyday work.',
     rating: 4.8,
     reviews: 567,
@@ -299,7 +299,7 @@ const baseProducts: Product[] = [
     price: 159999.99,
     category: 'Laptop',
     image:
-      'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=1000&q=80',
     description: 'Business-grade premium laptop with great keyboard, durability, and reliable performance.',
     rating: 4.8,
     reviews: 98,
@@ -324,7 +324,7 @@ const baseProducts: Product[] = [
     price: 4499.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1582418702059-97ebafb35d09?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=1000&q=80',
     description: 'Classic straight-leg jeans with button fly, authentic Levi\'s quality, timeless denim.',
     rating: 4.7,
     reviews: 2156,
@@ -348,7 +348,7 @@ const baseProducts: Product[] = [
     price: 2999.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=1000&q=80',
     description: 'Classic polo shirt with signature flag logo, premium cotton piqué, modern slim fit.',
     rating: 4.5,
     reviews: 892,
@@ -360,7 +360,7 @@ const baseProducts: Product[] = [
     price: 2499.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1000&q=80',
     description: 'Comfortable cotton-blend hoodie with Puma Cat logo, kangaroo pocket, ribbed cuffs.',
     rating: 4.6,
     reviews: 1234,
@@ -372,7 +372,7 @@ const baseProducts: Product[] = [
     price: 5999.99,
     category: "Men's Fashion",
     image:
-      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1000&q=80',
     description: 'Retro-inspired sneakers with soft leather upper, EVA midsole, timeless design.',
     rating: 4.4,
     reviews: 756,
@@ -396,7 +396,7 @@ const baseProducts: Product[] = [
     price: 2999.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1618354691404-16b3fcf1a049?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80',
     description: 'Traditional cotton kurta with palazzo pants, ethnic prints, comfortable festive wear.',
     rating: 4.7,
     reviews: 892,
@@ -420,7 +420,7 @@ const baseProducts: Product[] = [
     price: 4999.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1000&q=80',
     description: 'Elegant crystal earrings with rhodium plating, brilliant sparkle, timeless design.',
     rating: 4.9,
     reviews: 1876,
@@ -432,7 +432,7 @@ const baseProducts: Product[] = [
     price: 1499.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1000&q=80',
     description: 'Sustainable fashion top made from organic cotton, modern fit, eco-friendly.',
     rating: 4.4,
     reviews: 623,
@@ -444,7 +444,7 @@ const baseProducts: Product[] = [
     price: 2999.99,
     category: "Women's Fashion",
     image:
-      'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1000&q=80',
     description: 'Glamorous sequin dress perfect for parties, bodycon fit, eye-catching shimmer.',
     rating: 4.5,
     reviews: 445,
@@ -518,7 +518,7 @@ const baseProducts: Product[] = [
     price: 26999.99,
     category: 'Television',
     image:
-      'https://images.unsplash.com/photo-1593359863503-f598e38a80d1?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=1000&q=80',
     description: 'Budget 4K smart TV with smooth streaming apps, crisp panel, and easy casting support.',
     rating: 4.4,
     reviews: 1320,
@@ -555,7 +555,7 @@ const baseProducts: Product[] = [
     price: 6999.99,
     category: 'PC Accessories',
     image:
-      'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1000&q=80',
     description: '1080p Full HD webcam with autofocus, dual stereo mics, perfect for streaming.',
     rating: 4.7,
     reviews: 3456,
@@ -567,7 +567,7 @@ const baseProducts: Product[] = [
     price: 4999.99,
     category: 'PC Accessories',
     image:
-      'https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1625948515291-69613efd103f?auto=format&fit=crop&w=1000&q=80',
     description: 'Premium USB-C hub with HDMI 4K, USB 3.0, SD/microSD, 100W Power Delivery.',
     rating: 4.6,
     reviews: 1234,
@@ -604,7 +604,7 @@ const baseProducts: Product[] = [
     price: 3999.99,
     category: 'Gadgets',
     image:
-      'https://images.unsplash.com/photo-1601524909162-ae8725290836?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?auto=format&fit=crop&w=1000&q=80',
     description: 'High-capacity portable charger with PowerIQ, dual USB ports, fast charging support.',
     rating: 4.7,
     reviews: 3456,
@@ -616,7 +616,7 @@ const baseProducts: Product[] = [
     price: 4999.99,
     category: 'Gadgets',
     image:
-      'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=1000&q=80',
     description: 'Smart speaker with Alexa, improved audio, temperature sensor, smart home control.',
     rating: 4.6,
     reviews: 6789,
@@ -641,7 +641,7 @@ const baseProducts: Product[] = [
     price: 14999.99,
     category: 'Glasses',
     image:
-      'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=80',
     description: 'Sport-inspired design with Prizm polarized lenses, durable O Matter frame.',
     rating: 4.7,
     reviews: 2134,
