@@ -107,7 +107,7 @@ export default function Checkout() {
 
   if (items.length === 0 && step !== 'review') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-muted/50 via-background to-muted/30 pk-aurora">
+      <div className="flex-1 min-h-[60vh] flex flex-col items-center justify-center p-6 bg-gradient-to-br from-muted/50 via-background to-muted/30 pk-aurora">
         <div className="relative overflow-hidden rounded-3xl border bg-card/90 p-12 text-center shadow-2xl max-w-md pk-glass">
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
           <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
